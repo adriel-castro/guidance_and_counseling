@@ -1,10 +1,16 @@
 <?php
-session_start();
 
 include('includes/gc___header.php');
 include('includes/gc___left-menu-area.php');
 include('includes/gc___top-menu-area.php');
 include('includes/gc___mobile_menu.php');
+
+include_once("../connections/connection.php");
+
+session_start();
+
+    $con = connection();
+
 ?>
 
 <div class="breadcome-area">
@@ -46,16 +52,16 @@ include('includes/gc___mobile_menu.php');
                         </div>
 
                         <?php
-                        $connection = mysqli_connect("localhost", "root", "", "db_web");
+                        // $connection = mysqli_connect("localhost", "root", "", "guidance and counseling");
 
-                        if (isset($_POST['edit_btn'])) {
-                            $id = $_POST['edit_username_id'];
+                        // if (isset($_POST['edit_btn'])) {
+                        //     $id = $_POST['edit_username_id'];
 
-                            $query = " SELECT * FROM user_admin_account_tbl WHERE GC_USER_ID='$id' ";
-                            $query_run = mysqli_query($connection, $query);
+                        //     $query = " SELECT * FROM users WHERE GC_USER_ID='$id' ";
+                        //     $query_run = mysqli_query($con, $query);
 
-                            foreach ($query_run as $row) {
-                        ?>
+                        //     foreach ($query_run as $row) {
+                        // ?>
 
 
                                 <form action="thecode.php" method="POST">
@@ -89,11 +95,7 @@ include('includes/gc___mobile_menu.php');
 
                                 </form>
 
-                        <?php
-                            }
-                        }
-
-                        ?>
+                        
 
 
                     </div>
