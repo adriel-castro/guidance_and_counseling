@@ -7,13 +7,16 @@ include_once("../connections/connection.php");
     $refferal = "SELECT * FROM referrals LEFT JOIN users ON referrals.user_id = users.user_id";
     $get_referral = $con->query($refferal) or die ($con->error);
     $row = $get_referral->fetch_assoc();
-
     
     if (isset($_POST['add_referral'])) {
         
-        $student_id = $_POST['student_id'];
-        $query = "SELECT * from users WHERE id_number LIKE '$student_id'";
-        $find_id = $con->query($query) or die ($con->error);
+        $last_name = $_POST['last_name'];
+        $first_name = $_POST['first_name'];
+        $level = $_POST['level'];
+        $position = "student";
+
+        echo $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level' AND position LIKE '$position' ";
+        $find_id = $con->query($get_student) or die ($con->error);
         $stud_id = $find_id->fetch_assoc();
 
         if ($stud_id > 0) {
@@ -28,13 +31,13 @@ include_once("../connections/connection.php");
         $remarks = $_POST['remarks'];
         $status = "Pending";
         
-        $query = "INSERT INTO `referrals` (`user_id`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
+        $add_query = "INSERT INTO `referrals` (`user_id`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
                 "VALUES ('$s_id','$source','$referred_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
-        $con->query($query) or die ($con->error);
+        $con->query($add_query) or die ($con->error);
         echo header("Location: gc___referral.php");
 
         } else {
-            echo "Student ID is not existing.";
+            echo "Student is not existed.";
         }
 
         
@@ -176,23 +179,23 @@ include_once("../connections/connection.php");
 
                     <form action="" method="POST">
                         <div class="modal-body">
-                            <div class="form-group-inner">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Student ID</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID" />
+                                        <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID" required/>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- <div class="form-group-inner">
+                            </div> -->
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Last Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text"class="form-control" name="last_name" placeholder="Enter Last Name" />
+                                        <input type="text"class="form-control" name="last_name" placeholder="Enter Last Name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -202,10 +205,20 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">First Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text"class="form-control" name="first_name" placeholder="Enter First Name" />
+                                        <input type="text"class="form-control" name="first_name" placeholder="Enter First Name" required/>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Level</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text"class="form-control" name="level" placeholder="Enter Level" required/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
