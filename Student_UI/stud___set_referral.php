@@ -1,4 +1,60 @@
-<?php session_start(); ?>
+<?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+    $con = connection();
+
+    if(isset($_SESSION['UserId'])) {
+        $UserId = $_SESSION['UserId'];
+        $UserEmail = $_SESSION['UserEmail'];
+        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.user = '$UserId'";
+        $get_referral = $con->query($refferal) or die ($con->error);
+        $row = $get_referral->fetch_assoc();
+        
+        $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
+        $get_referred_user = $con->query($referred_user) or die ($con->error);
+        $row_referred_user = $get_referred_user->fetch_assoc();
+    }
+    
+    if (isset($_POST['add_refferal'])) {
+
+        $UserId = $_SESSION['UserId'];
+        $last_name = $_POST['last_name'];
+        $first_name = $_POST['first_name'];
+        $level = $_POST['level'];
+
+        $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level'";
+        $find_id = $con->query($get_student) or die ($con->error);
+        $stud_id = $find_id->fetch_assoc();
+
+        if ($stud_id > 0) {
+        // print_r($result = mysql_query($query));
+        $reffered_user = $stud_id['user_id'];
+        $source = $_POST['source'];
+        $reffered_by = $_POST['reffered_by'];
+        $reffered_date = $_POST['reffered_date'];
+        $nature = $_POST['nature'];
+        $reason = $_POST['reason'];
+        $actions = $_POST['actions'];
+        $remarks = $_POST['remarks'];
+        $status = "Pending";
+        
+        $add_query = "INSERT INTO `refferals` (`reffered_user`,`user`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
+                "VALUES ('$reffered_user','$UserId','$source','$reffered_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
+        echo $con->query($add_query) or die ($con->error);
+        echo header("Location: stud___set_referral.php");
+
+        } else {
+            echo "Student is not existed.";
+        }
+
+        
+    }
+    
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -81,7 +137,6 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    
 </head>
 
 <body>
@@ -98,14 +153,17 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="breadcome-heading">
-
+                                    <form role="search" class="sr-input-func">
+                                        <input type="text" placeholder="Search..." class="search-int form-control">
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <ul class="breadcome-menu">
-                                    <li><a href="stud___dashboard.php">Home</a> <span class="bread-slash">/</span>
+                                    <li><a href="#">Home</a> <span class="bread-slash">/</span>
                                     </li>
-                                    <li><span class="bread-blod">My Referral Table</span>
+                                    <li><span class="bread-blod">Referral Table</span>
                                     </li>
                                 </ul>
                             </div>
@@ -117,28 +175,37 @@
     </div>
     </div>
 
-
-
+    <!-- Add new Referral -->
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div id="ADD_REFERRAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header header-color-modal bg-color-1">
-                        <h4 class="modal-title">Refer a Student or Teacher</h4>
+                        <h4 class="modal-title">Add New Referral</h4>
                         <div class="modal-close-area modal-close-df">
                             <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                         </div>
                     </div>
 
-                    <form>
+                    <form action="" method="POST">
                         <div class="modal-body">
+                            <!-- <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Student ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID" required/>
+                                    </div>
+                                </div>
+                            </div> -->
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Last Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_LNAME" class="form-control" placeholder="Enter the Full Last Name you want to Refer" />
+                                        <input type="text"class="form-control" name="last_name" placeholder="Enter Last Name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -148,63 +215,36 @@
                                         <label class="login2 pull-right">First Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_FNAME" class="form-control" placeholder="Enter the Full First Name you want to Refer" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Level</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_LEVEL"  class="form-control" placeholder="Enter level" />
+                                        <input type="text"class="form-control" name="first_name" placeholder="Enter First Name" required/>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Program</label>
+                                        <label class="login2 pull-right">Level</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_PROGRAM"  class="form-control" placeholder="Enter Program" />
+                                        <input type="text"class="form-control" name="level" placeholder="Enter Level" required/>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- <div class="form-group-inner">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Source</label>
+                                        <label class="login2 pull-right" name="REFF_SOURCE">Source</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_SOURCE"  class="form-control" placeholder="Student / Faculty / Admin / Staff" />
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <!-- <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Referred By</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id="ref_id" type="text" name="STUD_ID" class="form-control" placeholder="Enter your Student ID" />
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <div class="form-group-inner data-custon-pick" id="data_2">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
-                                        <label class="login2 pull-right" style="font-weight: bold;">Date</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group date ">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input type="text" name="REFF_DATE" class="form-control" value="XX/XX/XXXX">
+                                        <div class="form-select-list">
+                                            <select class="form-control custom-select-value" name="source" required>
+                                                <option value="" selected disabled hidden>Select Source</option>
+                                                <option>Guidance Counselor</option>
+                                                <option>Faculty</option>
+                                                <option>Staff</option>
+                                                <option>Classmate/s</option>
+                                                <option>Parent/Guardian</option>
+                                                <option>Others</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -213,11 +253,37 @@
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Nature</label>
+                                        <label class="login2 pull-right">Referred By</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="reffered_by" class="form-control" placeholder="Enter Name" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner data-custon-pick" id="data_2">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
+                                        <label class="login2 pull-right" style="font-weight: bold;">Date</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <div class="input-group ">
+                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input type="date" name="reffered_date" class="form-control" value="<?php echo date('d/m/Y');?>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label name="REFF_REASON" class="login2 pull-right">Nature</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
-                                            <select name="REFF_NATURE" class="form-control custom-select-value" name="account">
+                                            <select class="form-control custom-select-value" name="nature" required>
+                                                <option value="" selected disabled hidden>Select Nature</option>
                                                 <option>Academic</option>
                                                 <option>Career</option>
                                                 <option>Personal</option>
@@ -233,17 +299,17 @@
                                         <label class="login2 pull-right">Reason</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_REASON" class="form-control" placeholder="Enter Reason for Referral" />
+                                        <input type="text" name="reason" class="form-control" placeholder="Enter Reason for Referral" required/>
                                     </div>
                                 </div>
                             </div>
-                           <div class="form-group-inner">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">ACTION/S</label>
+                                        <label class="login2 pull-right">Action/s</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_ACTIONS" class="form-control" placeholder="ACTION/S" />
+                                        <input type="text" name="actions" class="form-control" placeholder="Action/s Taken before Referral" required/>
                                     </div>
                                 </div>
                             </div>
@@ -253,63 +319,22 @@
                                         <label class="login2 pull-right">Remarks</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="REFF_REMARKS" class="form-control" placeholder="Enter Remarks" />
-                                    </div>
-                                </div>
-                            </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                        <form action="codes_fors_referrals" method="POST">
-                                <button type="submit" name="referral_submit" class="btn btn-primary btn-md">Upload</button>
-                        </form>
-                    </div>
-                    </form>
-</div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-------------------------------- FOR THE CANCEL BUTTON ------------------------------------------->
-
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div id="CANCEL_FORM" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header header-color-modal bg-color-1">
-                        <h4 class="modal-title">Why are you Cancelling ?</h4>
-                        <div class="modal-close-area modal-close-df">
-                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                        </div>
-                    </div>
-
-                    <form action="">
-                        <div class="modal-body">
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Reason</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter the Reason for Cancelling" />
+                                        <input type="text" name="remarks" class="form-control" placeholder="Enter Remarks"/>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_refferal" class="btn btn-primary btn-md">Submit</button>
+                        </div>
                     </form>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="cancel_cancellation_form" class="btn btn-primary btn-md">Save</button>
-                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 
 
@@ -321,7 +346,7 @@
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>My Referral<span class="table-project-n"> Table</span> </h1>
+                                <h1>Referral<span class="table-project-n"> Table</span> </h1>
                             </div>
                         </div>
                         <div class="sparkline13-graph">
@@ -329,78 +354,50 @@
                                 <div id="toolbar">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_REFERRAL">
                                         Add New
-                                    </button>
+                                    </button><br>
+  
                                 </div>
-
-                                    <?php
-                                        if (isset($_SESSION['success'])) {
-                                            echo "<h4>" . $_SESSION['success'] . "</h4>";
-                                            unset($_SESSION['success']);
-                                        }
-                                       
-                                        ?>
-
-                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
+                                        
                                         <tr>
-                                            <th data-field="email">Last Name</th>
-                                            <th data-field="emails">First Name</th>
-                                            <th data-field="emailss">Level</th>
-                                            <th data-field="emailss">Program</th>
-                                            <th data-field="task">Date</th>
-                                            <th data-field="date">Nature</th>
-                                            <th data-field="price">Reason</th>
-                                            <th data-field="pric">Action/s</th>
-                                            <th data-field="pri">Remarks</th>
+                                            <th data-field="name" data-editable="false">Student ID</th>
+                                            <th data-field="L_email" data-editable="false">First Name of Student</th>
+                                            <th data-field="F_email" data-editable="false">Last Name of Student</th>
+                                            <th data-field="phone" data-editable="false">Source</th>
+                                            <th data-field="complete" data-editable="false">Referred By</th>
+                                            <th data-field="task" data-editable="false">Date</th>
+                                            <th data-field="date" data-editable="false">Nature</th>
+                                            <th data-field="price" data-editable="false">Reason</th>
+                                            <th data-field="pric" data-editable="false">Action/s</th>
+                                            <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th>Cancel</th>
+                                            <th data-field="edit">Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                            $con = mysqli_connect('localhost', 'root', '', 'content');
 
-                                            $query = "SELECT * FROM referrals_tbl";
-                                            $query_run = mysqli_query($con, $query);
-
-                                            if (mysqli_num_rows($query_run) > 0) {
-                                            foreach ($query_run as $row) {
-                                            ?>
+                                    <?php do { ?>
                                         <tr>
-                                            <td><?= $row['REFF_LNAME'] ?></td>
-                                            <td><?= $row['REFF_FNAME'] ?></td>
-                                            <td><?= $row['REFF_LEVEL'] ?></td>
-                                            <td><?= $row['REFF_PROGRAM'] ?></td>
-                                            <td><?= $row['REFF_SOURCE'] ?></td>
-                                            <td><?= $row['REFF_DATE'] ?></td>
-                                            <td><?= $row['REFF_NATURE'] ?></td>
-                                            <td><?= $row['REFF_REASON'] ?></td>
-                                            <td><?= $row['REFF_ACTIONS'] ?></td>
-                                            <td><?= $row['REFF_REMARKS'] ?></td>
-                                           
+                                            <td><b><?php echo $row['id_number'] ?></b></td>
+                                            <td><?php echo $row['first_name'] ?></td>
+                                            <td><?php echo $row['last_name'] ?></td>
+                                            <td><?php echo $row['source'] ?></td>
+                                            <td><?php echo $row['reffered_by'] ?></td>
+                                            <td><?php echo $row['reffered_date'] ?></td>
+                                            <td><?php echo $row['nature'] ?></td>
+                                            <td><?php echo $row['reason'] ?></td>
+                                            <td><?php echo $row['actions'] ?></td>
+                                            <td><?php echo $row['remarks'] ?></td>
+                                            
                                             <td>
-                                                <button class="btn btn-xs btn-warning">To be Approved</button>
+                                                <button class="btn btn-xs <?php echo ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending" ) ? "btn-warning" : "btn-success" ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
                                             <td>
-                                                <!-- <form action="#" method="post"> -->
-                                                <!-- <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>"> -->
-
-                                                <!-- </form> -->
-                                                <button type="button" name="cancel_referral_form" class="btn btn-danger" data-toggle="modal" data-target="#CANCEL_FORM">Cancel</button>
+                                                <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
-                                        <?php
-
-                                    }
-                                    } else {
-                                    ?>
-                                    <tr>
-                                    <td colspan="4">No Record Found</td>
-                                    </tr>
-
-                                    <?php
-                                    }
-                                    ?>
+                                    <?php } while ($row = $get_referral->fetch_assoc()); ?>
 
                                     </tbody>
                                 </table>
@@ -412,12 +409,11 @@
         </div>
     </div>
     <!-- Static Table End -->
+    <?php include('includes/stud___footer.php')   ?>
     </div>
 
     <!-- jquery
-    
 		============================================ -->
-        <script src="js/form.js"></script>
     <script src="js/vendor/jquery-1.12.4.min.js"></script>
     <!-- bootstrap JS
 		============================================ -->
