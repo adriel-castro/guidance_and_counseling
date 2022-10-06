@@ -34,7 +34,7 @@ include_once("../connections/connection.php");
       echo header("Location: gc___referral.php");
 
     } else {
-      echo "Student ID is not existing.";
+      echo "Student is not existing.";
     }
   }
     
@@ -181,6 +181,26 @@ include_once("../connections/connection.php");
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $stud_id['id_number']; ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Full Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $stud_id['first_name'] ?> <?php echo $stud_id['last_name']; ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Level</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $stud_id['level'] ?></h5>
                                     </div>
                                 </div>
                             </div>
