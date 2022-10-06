@@ -1,47 +1,57 @@
 <?php
 
+session_start();
+
 include_once("../connections/connection.php");
 
     $con = connection();
 
-    $refferal = "SELECT * FROM referrals LEFT JOIN users ON referrals.user_id = users.user_id";
-    $get_referral = $con->query($refferal) or die ($con->error);
-    $row = $get_referral->fetch_assoc();
-    
-    if (isset($_POST['add_referral'])) {
+        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_status = 'Completed'";
+        $get_referral = $con->query($refferal) or die ($con->error);
+        $row = $get_referral->fetch_assoc();
         
-        $last_name = $_POST['last_name'];
-        $first_name = $_POST['first_name'];
-        $level = $_POST['level'];
-        $position = "student";
+    if(isset($_SESSION['UserId'])) {
+        $UserId = $_SESSION['UserId'];
 
-        echo $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level' AND position LIKE '$position' ";
-        $find_id = $con->query($get_student) or die ($con->error);
-        $stud_id = $find_id->fetch_assoc();
-
-        if ($stud_id > 0) {
-        // print_r($result = mysql_query($query));
-        $s_id = $stud_id['user_id'];
-        $source = $_POST['source'];
-        $referred_by = $_POST['referred_by'];
-        $reffered_date = $_POST['reffered_date'];
-        $nature = $_POST['nature'];
-        $reason = $_POST['reason'];
-        $actions = $_POST['actions'];
-        $remarks = $_POST['remarks'];
-        $status = "Pending";
-        
-        $add_query = "INSERT INTO `referrals` (`user_id`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
-                "VALUES ('$s_id','$source','$referred_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
-        $con->query($add_query) or die ($con->error);
-        echo header("Location: gc___referral.php");
-
-        } else {
-            echo "Student is not existed.";
-        }
-
-        
+        // $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
+        // $get_referred_user = $con->query($referred_user) or die ($con->error);
+        // $row_referred_user = $get_referred_user->fetch_assoc();
     }
+    
+    // if (isset($_POST['add_refferal'])) {
+
+    //     $UserId = $_SESSION['UserId'];
+    //     $last_name = $_POST['last_name'];
+    //     $first_name = $_POST['first_name'];
+    //     $level = $_POST['level'];
+
+    //     $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level'";
+    //     $find_id = $con->query($get_student) or die ($con->error);
+    //     $stud_id = $find_id->fetch_assoc();
+
+    //     if ($stud_id > 0) {
+    //     // print_r($result = mysql_query($query));
+    //     $reffered_user = $stud_id['user_id'];
+    //     $source = $_POST['source'];
+    //     $reffered_by = $_POST['reffered_by'];
+    //     $reffered_date = $_POST['reffered_date'];
+    //     $nature = $_POST['nature'];
+    //     $reason = $_POST['reason'];
+    //     $actions = $_POST['actions'];
+    //     $remarks = $_POST['remarks'];
+    //     $status = "Pending";
+        
+    //     $add_query = "INSERT INTO `refferals` (`reffered_user`,`user`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
+    //             "VALUES ('$reffered_user','$UserId','$source','$reffered_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
+    //     echo $con->query($add_query) or die ($con->error);
+    //     echo header("Location: staff___set_referral.php");
+
+    //     } else {
+    //         echo "Student is not existed.";
+    //     }
+
+        
+    // }
     
 ?>
 
@@ -246,7 +256,7 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">Referred By</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="referred_by" class="form-control" placeholder="Enter Name" required/>
+                                        <input type="text" name="reffered_by" class="form-control" placeholder="Enter Name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +328,7 @@ include_once("../connections/connection.php");
                         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                            <button type="submit" name="add_referral" class="btn btn-primary btn-md">Submit</button>
+                            <button type="submit" name="add_refferal" class="btn btn-primary btn-md">Submit</button>
                         </div>
                     </form>
 
@@ -341,12 +351,11 @@ include_once("../connections/connection.php");
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
-                                <div id="toolbar">
+                                <!-- <div id="toolbar">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_REFERRAL">
                                         Add New
                                     </button><br>
-  
-                                </div>
+                                </div> -->
                                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                     <thead>
                                         
@@ -362,7 +371,7 @@ include_once("../connections/connection.php");
                                             <th data-field="pric" data-editable="false">Action/s</th>
                                             <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th data-field="edit">Edit</th>
+                                            <th data-field="edit">Set Appoinment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -381,10 +390,24 @@ include_once("../connections/connection.php");
                                             <td><?php echo $row['remarks'] ?></td>
                                             
                                             <td>
-                                                <button class="btn btn-xs <?php echo ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending" ) ? "btn-warning" : "btn-success" ?>"><?php echo $row['ref_status'] ?></button>
+                                                <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                                    echo "btn-warning";
+                                                } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
+                                                    echo "btn-primary";
+                                                } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
+                                                    echo "btn-danger";
+                                                }else {
+                                                    echo "btn-success";
+                                                } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
+                                            <!-- <td>
+                                                <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
+                                            </td> -->
                                             <td>
-                                                <a href="edit_referral.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
+                                            <!-- <form action="" method="post"> -->
+                                                    <!-- <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>"> -->
+                                                    <a style="text-decoration: underline;" href="gc___all_appointment.php">Approve</a>
+                                            <!-- </form> -->
                                             </td>
                                         </tr>
                                     <?php } while ($row = $get_referral->fetch_assoc()); ?>
