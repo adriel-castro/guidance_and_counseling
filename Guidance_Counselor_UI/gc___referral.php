@@ -5,8 +5,8 @@ session_start();
 include_once("../connections/connection.php");
 
     $con = connection();
-
-        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_status = 'Completed'";
+    // $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_status = 'Completed'";
+    $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id IS NOT NULL";
         $get_referral = $con->query($refferal) or die ($con->error);
         $row = $get_referral->fetch_assoc();
         
