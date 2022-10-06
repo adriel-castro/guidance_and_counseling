@@ -6,17 +6,16 @@ include_once("../connections/connection.php");
 
     $con = connection();
 
-
-        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id IS NOT NULL";
+    if(isset($_SESSION['UserId'])) {
+        $UserId = $_SESSION['UserId'];
+        $UserEmail = $_SESSION['UserEmail'];
+        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.user = '$UserId'";
         $get_referral = $con->query($refferal) or die ($con->error);
         $row = $get_referral->fetch_assoc();
         
-    if(isset($_SESSION['UserId'])) {
-        $UserId = $_SESSION['UserId'];
-
-        // $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
-        // $get_referred_user = $con->query($referred_user) or die ($con->error);
-        // $row_referred_user = $get_referred_user->fetch_assoc();
+        $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
+        $get_referred_user = $con->query($referred_user) or die ($con->error);
+        $row_referred_user = $get_referred_user->fetch_assoc();
     }
     
     if (isset($_POST['add_refferal'])) {
@@ -392,7 +391,7 @@ include_once("../connections/connection.php");
                                             <td><?php echo $row['remarks'] ?></td>
                                             
                                             <td>
-                                                <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
                                                     echo "btn-warning";
                                                 } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
                                                     echo "btn-primary";
