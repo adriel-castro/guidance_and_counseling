@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2022 at 04:43 PM
+-- Generation Time: Oct 06, 2022 at 05:28 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -62,12 +62,12 @@ CREATE TABLE `refferals` (
 INSERT INTO `refferals` (`ref_id`, `reffered_user`, `user`, `source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`, `updated_at`) VALUES
 (1, 6, 3, 'Parent/Guardian', 'Classmate', '2022-10-04', 'Academic', 'Bullying', 'Teachers counseling', 'Need Psychiatry', 'Pending', '2022-10-06 14:03:29'),
 (2, 3, 3, 'Faculty', 'Classmate', '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'Pending', '2022-10-06 13:44:31'),
-(3, 7, 2, 'Faculty', 'Parent/Guardian', '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'Pending', '2022-10-06 13:44:38'),
+(3, 7, 2, 'Faculty', 'Parent/Guardian', '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'For Approval', '2022-10-06 15:27:57'),
 (5, 5, 3, 'Guidance Counselor', 'Parent', '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Completed', '2022-10-06 13:13:41'),
-(6, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Completed', '2022-10-06 13:43:55'),
+(6, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Cancelled', '2022-10-06 15:28:07'),
 (7, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Completed', '2022-10-06 13:44:16'),
 (8, 4, 2, 'Others', 'parent', '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Pending', '2022-10-06 13:41:50'),
-(9, 7, 2, 'Staff', 'Faculty', '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Cancelled', '2022-10-06 14:01:35');
+(9, 7, 2, 'Staff', 'Faculty', '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Pending', '2022-10-06 15:27:52');
 
 -- --------------------------------------------------------
 
