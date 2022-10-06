@@ -173,7 +173,7 @@ include_once("../connections/connection.php");
                         </div>
                         <form action="" method="POST">
                           <div class="modal-body">
-                            <input type="text" name="edit_ref_id" id="ref_id" value="<?php echo $s_id; ?>">
+                            <input type="hidden" name="edit_ref_id" id="ref_id" value="<?php echo $s_id; ?>">
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
