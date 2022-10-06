@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2022 at 04:39 AM
+-- Generation Time: Oct 06, 2022 at 04:43 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -24,12 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `referrals`
+-- Table structure for table `appointment_slots`
 --
 
-CREATE TABLE `referrals` (
+CREATE TABLE `appointment_slots` (
+  `slot_id` int(11) NOT NULL,
+  `slot_date` date NOT NULL,
+  `available_slot` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `refferals`
+--
+
+CREATE TABLE `refferals` (
   `ref_id` int(11) NOT NULL,
-  `user_id` int(20) NOT NULL,
+  `reffered_user` int(20) NOT NULL,
+  `user` int(20) NOT NULL,
   `source` varchar(255) NOT NULL,
   `reffered_by` varchar(255) NOT NULL,
   `reffered_date` date NOT NULL,
@@ -42,18 +56,18 @@ CREATE TABLE `referrals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `referrals`
+-- Dumping data for table `refferals`
 --
 
-INSERT INTO `referrals` (`ref_id`, `user_id`, `source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`, `updated_at`) VALUES
-(1, 3, 'Staff', 'admin 2', '2022-10-04', 'Academic', 'Nahihirapan mag follow sa lesson', 'Kinausap ng teacher', 'remarks', 'Pending', '2022-10-05 17:41:38'),
-(2, 4, 'Parent/Guardian', 'admin 3', '2022-10-03', 'Career', 'Nahihirapan mag follow sa lesson', 'Kinausap ng teacher', 'Remarks', 'Completed', '2022-10-05 17:41:28'),
-(3, 5, 'Parent/Guardian', 'Parent', '2022-09-30', 'Career', 'Madaling mainis', 'Teachers counseling', 'Unhealthy Environment', 'Pending', '2022-10-05 17:31:53'),
-(4, 6, 'Staff', 'staff', '2022-09-29', 'Personal', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Pending', '2022-10-05 17:31:56'),
-(13, 7, 'Classmate/s', 'classmate', '2022-10-05', 'Career', 'Slow learner', 'Teachers counseling', 'Unhealthy Environment', 'Pending', '2022-10-05 12:44:17'),
-(14, 7, 'Parent/Guardian', 'Parent', '2022-10-03', 'Personal', 'Bullying', 'Teachers counseling', 'Need Psychiatry', 'Pending', '2022-10-05 12:49:07'),
-(36, 7, 'Staff', 'staff', '2022-09-28', 'Career', 'Madaling mainis', 'Teachers counseling', 'Unhealthy Environment', 'Pending', '2022-10-05 14:17:37'),
-(37, 4, 'Classmate/s', 'Parent', '2022-09-27', 'Career', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Pending', '2022-10-05 14:19:22');
+INSERT INTO `refferals` (`ref_id`, `reffered_user`, `user`, `source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`, `updated_at`) VALUES
+(1, 6, 3, 'Parent/Guardian', 'Classmate', '2022-10-04', 'Academic', 'Bullying', 'Teachers counseling', 'Need Psychiatry', 'Pending', '2022-10-06 14:03:29'),
+(2, 3, 3, 'Faculty', 'Classmate', '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'Pending', '2022-10-06 13:44:31'),
+(3, 7, 2, 'Faculty', 'Parent/Guardian', '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'Pending', '2022-10-06 13:44:38'),
+(5, 5, 3, 'Guidance Counselor', 'Parent', '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Completed', '2022-10-06 13:13:41'),
+(6, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Completed', '2022-10-06 13:43:55'),
+(7, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Completed', '2022-10-06 13:44:16'),
+(8, 4, 2, 'Others', 'parent', '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Pending', '2022-10-06 13:41:50'),
+(9, 7, 2, 'Staff', 'Faculty', '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Cancelled', '2022-10-06 14:01:35');
 
 -- --------------------------------------------------------
 
@@ -120,11 +134,17 @@ INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_
 --
 
 --
--- Indexes for table `referrals`
+-- Indexes for table `appointment_slots`
 --
-ALTER TABLE `referrals`
+ALTER TABLE `appointment_slots`
+  ADD PRIMARY KEY (`slot_id`);
+
+--
+-- Indexes for table `refferals`
+--
+ALTER TABLE `refferals`
   ADD PRIMARY KEY (`ref_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`reffered_user`);
 
 --
 -- Indexes for table `roles`
@@ -144,10 +164,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `referrals`
+-- AUTO_INCREMENT for table `appointment_slots`
 --
-ALTER TABLE `referrals`
-  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+ALTER TABLE `appointment_slots`
+  MODIFY `slot_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `refferals`
+--
+ALTER TABLE `refferals`
+  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -166,10 +192,10 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `referrals`
+-- Constraints for table `refferals`
 --
-ALTER TABLE `referrals`
-  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `refferals`
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`reffered_user`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
