@@ -1,7 +1,7 @@
 <?php
+include('includes/homepage___header.php');
 
 session_start();
-include('includes/homepage___header.php');
 ?>
 
 
