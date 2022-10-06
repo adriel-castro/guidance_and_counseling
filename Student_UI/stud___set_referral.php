@@ -391,7 +391,15 @@ include_once("../connections/connection.php");
                                             <td><?php echo $row['remarks'] ?></td>
                                             
                                             <td>
-                                                <button class="btn btn-xs <?php echo ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending" ) ? "btn-warning" : "btn-success" ?>"><?php echo $row['ref_status'] ?></button>
+                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                                    echo "btn-warning";
+                                                } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
+                                                    echo "btn-primary";
+                                                } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
+                                                    echo "btn-danger";
+                                                }else {
+                                                    echo "btn-success";
+                                                } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
                                             <td>
                                                 <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
