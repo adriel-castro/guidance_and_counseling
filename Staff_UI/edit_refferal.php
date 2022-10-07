@@ -298,7 +298,7 @@ include_once("../connections/connection.php");
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label name="REFF_STATUS" class="login2 pull-right">Status</label>
@@ -310,12 +310,12 @@ include_once("../connections/connection.php");
                                                 <option <?= ($row['ref_status'] == "Pending") ? "selected" : "" ?>>Pending</option>
                                                 <option <?= ($row['ref_status'] == "For Approval") ? "selected" : "" ?>>For Approval</option>
                                                 <option <?= ($row['ref_status'] == "Cancelled") ? "selected" : "" ?>>Cancelled</option>
-                                                <!-- <option <?= ($row['ref_status'] == "Completed") ? "selected" : "" ?>>Completed</option> -->
+                                                <option <?= ($row['ref_status'] == "Completed") ? "selected" : "" ?>>Completed</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button> -->
