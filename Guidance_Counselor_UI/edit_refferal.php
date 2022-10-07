@@ -6,7 +6,7 @@ include_once("../connections/connection.php");
 
     $ref_id = $_GET['id'];
 
-    $refferal = "SELECT * FROM referrals LEFT JOIN users ON referrals.user_id = users.user_id WHERE ref_id = '$ref_id'";
+    $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id = '$ref_id'";
     $get_referral = $con->query($refferal) or die ($con->error);
     $row = $get_referral->fetch_assoc();
 
@@ -19,17 +19,18 @@ include_once("../connections/connection.php");
   if(isset($_POST['update_referral'])) {
 
     if ($stud_id > 0) {
-      $source = $_POST['source'];
-      $reffered_by = $_POST['referred_by'];
-      $reffered_date = $_POST['reffered_date'];
-      $nature = $_POST['nature'];
-      $reason = $_POST['reason'];
-      $actions = $_POST['actions'];
-      $remarks = $_POST['remarks'];
+      // $source = $_POST['source'];
+      // $reffered_by = $_POST['reffered_by'];
+      // $reffered_date = $_POST['reffered_date'];
+      // $nature = $_POST['nature'];
+      // $reason = $_POST['reason'];
+      // $actions = $_POST['actions'];
+      // $remarks = $_POST['remarks'];
       $status = $_POST['ref_status'];
     
-      $update_query = "UPDATE `referrals` SET `source`='$source',`reffered_by`='$reffered_by',`reffered_date`='$reffered_date', ".
-                "`nature`='$nature',`reason`='$reason',`actions`='$actions',`remarks`='$remarks',`ref_status`='$status' WHERE ref_id = '$ref_id'";
+      // $update_query = "UPDATE `refferals` SET `source`='$source',`reffered_by`='$reffered_by',`reffered_date`='$reffered_date', ".
+      //           "`nature`='$nature',`reason`='$reason',`actions`='$actions',`remarks`='$remarks',`ref_status`='$status' WHERE ref_id = '$ref_id'";
+      $update_query = "UPDATE `refferals` SET `ref_status` = '$status' WHERE ref_id = '$ref_id'";
       $con->query($update_query) or die ($con->error);
       echo header("Location: gc___referral.php");
 
@@ -210,7 +211,10 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right" name="REFF_SOURCE">Source</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="form-select-list">
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['source'] ?></h5>
+                                    </div>
+                                    <!-- <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12"> -->
+                                        <!-- <div class="form-select-list">
                                             <select class="form-control custom-select-value" value="<?php echo $row['source'] ?>" name="source" required>
                                                 <option value="" disabled>Select Source</option>
                                                 <option <?= ($row['source'] == "Guidance Counselor") ? "selected" : "" ?>>Guidance Counselor</option>
@@ -220,8 +224,8 @@ include_once("../connections/connection.php");
                                                 <option <?= ($row['source'] == "Parent/Guardian") ? "selected" : "" ?>>Parent/Guardian</option>
                                                 <option <?= ($row['source'] == "Others") ? "selected" : "" ?>>Others</option>
                                             </select>
-                                        </div>
-                                    </div>
+                                        </div> -->
+                                    <!-- </div> -->
                                 </div>
                             </div>
 
@@ -231,7 +235,8 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">Referred By</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="referred_by" class="form-control" value="<?php echo $row['reffered_by'] ?>" placeholder="Enter Name" required/>
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['reffered_by'] ?></h5>
+                                        <!-- <input type="text" name="reffered_by" class="form-control" value="<?php echo $row['reffered_by'] ?>" placeholder="Enter Name" required/> -->
                                     </div>
                                 </div>
                             </div>
@@ -242,10 +247,11 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right" style="font-weight: bold;">Date</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group ">
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['reffered_date'] ?></h5>
+                                        <!-- <div class="input-group "> -->
                                             <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="date" name="reffered_date" class="form-control" value="<?php echo $row['reffered_date'] ?>" required>
-                                        </div>
+                                            <!-- <input type="date" name="reffered_date" class="form-control" value="<?php echo $row['reffered_date'] ?>" required>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +262,8 @@ include_once("../connections/connection.php");
                                         <label name="REFF_REASON" class="login2 pull-right">Nature</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="form-select-list">
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['nature'] ?></h5>
+                                        <!-- <div class="form-select-list">
                                             <select class="form-control custom-select-value" name="nature" required>
                                                 <option value="" disabled>Select Nature</option>
                                                 <option <?= ($row['nature'] == "Academic") ? "selected" : "" ?>>Academic</option>
@@ -264,7 +271,7 @@ include_once("../connections/connection.php");
                                                 <option <?= ($row['nature'] == "Personal") ? "selected" : "" ?>>Personal</option>
                                                 <option <?= ($row['nature'] == "Crisis") ? "selected" : "" ?>>Crisis</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +281,8 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">Reason</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="reason" class="form-control" value="<?php echo $row['reason'] ?>" placeholder="Enter Reason for Referral" required/>
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['reason'] ?></h5>
+                                        <!-- <input type="text" name="reason" class="form-control" value="<?php echo $row['reason'] ?>" placeholder="Enter Reason for Referral" required/> -->
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +292,8 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">Action/s</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="actions" class="form-control" value="<?php echo $row['actions'] ?>" placeholder="Action/s Taken before Referral" required/>
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['actions'] ?></h5>
+                                        <!-- <input type="text" name="actions" class="form-control" value="<?php echo $row['actions'] ?>" placeholder="Action/s Taken before Referral" required/> -->
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +303,8 @@ include_once("../connections/connection.php");
                                         <label class="login2 pull-right">Remarks</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="remarks" class="form-control" value="<?php echo $row['remarks'] ?>" placeholder="Enter Remarks"/>
+                                      <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['remarks'] ?></h5>
+                                        <!-- <input type="text" name="remarks" class="form-control" value="<?php echo $row['remarks'] ?>" placeholder="Enter Remarks"/> -->
                                     </div>
                                 </div>
                             </div>
@@ -308,6 +318,9 @@ include_once("../connections/connection.php");
                                             <select class="form-control custom-select-value" name="ref_status" required>
                                                 <option value="" disabled>Select Status</option>
                                                 <option <?= ($row['ref_status'] == "Pending") ? "selected" : "" ?>>Pending</option>
+                                                <option <?= ($row['ref_status'] == "For Approval") ? "selected" : "" ?>>For Approval</option>
+                                                <!-- <option <?= ($row['ref_status'] == "Cancelled") ? "selected" : "" ?>>Cancelled</option> -->
+                                                <option <?= ($row['ref_status'] == "Disapproved") ? "selected" : "" ?>>Disapproved</option>
                                                 <option <?= ($row['ref_status'] == "Completed") ? "selected" : "" ?>>Completed</option>
                                             </select>
                                         </div>
