@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2022 at 08:50 AM
+-- Generation Time: Oct 07, 2022 at 12:41 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -60,14 +60,14 @@ CREATE TABLE `refferals` (
 --
 
 INSERT INTO `refferals` (`ref_id`, `reffered_user`, `user`, `source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`, `updated_at`) VALUES
-(1, 6, 3, 'Guidance Counselor', 'Classmate', '2022-10-03', 'Academic', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'For Approval', '2022-10-07 06:47:22'),
-(2, 3, 3, 'Faculty', 'Classmate', '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'Pending', '2022-10-07 06:48:38'),
-(3, 7, 2, 'Faculty', 'Parent/Guardian', '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'Completed', '2022-10-07 06:48:44'),
-(5, 5, 3, 'Guidance Counselor', 'Parent', '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Disapproved', '2022-10-07 06:48:48'),
-(6, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Pending', '2022-10-07 06:49:05'),
-(7, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Disapproved', '2022-10-07 06:49:11'),
-(8, 4, 2, 'Others', 'parent', '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Pending', '2022-10-07 06:49:17'),
-(9, 7, 2, 'Staff', 'Faculty', '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'For Approval', '2022-10-07 06:47:10');
+(1, 6, 3, 'Guidance Counselor', 'Classmate', '2022-10-03', 'Academic', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Pending', '2022-10-07 10:29:13'),
+(2, 3, 4, 'Faculty', 'Classmate', '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'For Approval', '2022-10-07 10:29:16'),
+(3, 7, 2, 'Faculty', 'Parent/Guardian', '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'Completed', '2022-10-07 10:29:21'),
+(5, 5, 3, 'Guidance Counselor', 'Parent', '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Cancelled', '2022-10-07 10:26:15'),
+(6, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'For Approval', '2022-10-07 10:29:26'),
+(7, 4, 2, 'Classmate/s', 'Parent', '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Cancelled', '2022-10-07 10:26:27'),
+(8, 4, 2, 'Others', 'parent', '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Completed', '2022-10-07 10:29:32'),
+(9, 7, 2, 'Staff', 'Faculty', '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Completed', '2022-10-07 10:29:38');
 
 -- --------------------------------------------------------
 
