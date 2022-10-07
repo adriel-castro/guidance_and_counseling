@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <!-- Start Welcome area -->
     <div class="all-content-wrapper">
         <div class="container-fluid">
