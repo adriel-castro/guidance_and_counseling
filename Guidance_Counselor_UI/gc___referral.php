@@ -4,6 +4,12 @@ session_start();
 
 include_once("../connections/connection.php");
 
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
     $con = connection();
     // $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_status = 'Completed'";
     $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id IS NOT NULL";
@@ -511,3 +517,5 @@ include_once("../connections/connection.php");
 </body>
 
 </html>
+
+<?php } ?>

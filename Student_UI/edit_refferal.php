@@ -4,9 +4,14 @@ session_start();
 
 include_once("../connections/connection.php");
 
-    $con = connection();
-    $ref_id = $_GET['id'];
+if(!isset($_SESSION['UserEmail'])){
+        
+  echo "<script>window.open('../homepage___login.php','_self')</script>";
+  
+}else{
 
+      $con = connection();
+      $ref_id = $_GET['id'];
 
       $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id = '$ref_id'";
       $get_referral = $con->query($refferal) or die ($con->error);
@@ -416,3 +421,5 @@ include_once("../connections/connection.php");
 </body>
 
 </html>
+
+<?php } ?>
