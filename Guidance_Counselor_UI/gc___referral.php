@@ -371,7 +371,8 @@ include_once("../connections/connection.php");
                                             <th data-field="pric" data-editable="false">Action/s</th>
                                             <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th data-field="edit">Set Appoinment</th>
+                                            <th data-field="edit">Edit</th>
+                                            <th data-field="appointment">Set Appoinment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -390,19 +391,21 @@ include_once("../connections/connection.php");
                                             <td><?php echo $row['remarks'] ?></td>
                                             
                                             <td>
-                                                <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
                                                     echo "btn-warning";
                                                 } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
                                                     echo "btn-primary";
                                                 } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
                                                     echo "btn-danger";
-                                                }else {
+                                                } elseif($row['ref_status'] == "Disapproved" || $row['ref_status'] == "disapproved") {
+                                                    echo "btn-danger";
+                                                } else {
                                                     echo "btn-success";
                                                 } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
-                                            <!-- <td>
+                                            <td>
                                                 <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
-                                            </td> -->
+                                            </td>
                                             <td>
                                             <!-- <form action="" method="post"> -->
                                                     <!-- <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>"> -->
