@@ -380,7 +380,8 @@ if(!isset($_SESSION['UserEmail'])){
                                                 <div style="display: flex;">
                                                     <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
                                                     <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a>
-                                                    <a class="btn btn-success" style="margin-left: 10px; color: white;" href="gc___all_appointment.php?id=<?= $row['ref_id'] ?>">Approve</a>
+                                                    <a class="btn btn-success" style="margin-left: 10px; color: white;" 
+                                                    href="gc___all_appointment.php?id=<?= $row['ref_id'] ?>&firstName=<?= $row['first_name'] ?>&lastName=<?= $row['last_name'] ?>">Approve</a>
                                                 </div>
                                             </td>
                                         </tr>
