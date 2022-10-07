@@ -33,7 +33,8 @@ if(!isset($_SESSION['UserEmail'])){
       $reason = $_POST['reason'];
       $actions = $_POST['actions'];
       $remarks = $_POST['remarks'];
-      $status = $_POST['ref_status'];
+      // $status = "$_POST['ref_status']";
+      $status = "Pending";
     
       $update_query = "UPDATE `refferals` SET `source`='$source',`reffered_by`='$reffered_by',`reffered_date`='$reffered_date', ".
                 "`nature`='$nature',`reason`='$reason',`actions`='$actions',`remarks`='$remarks',`ref_status`='$status' WHERE ref_id = '$ref_id'";
@@ -305,7 +306,7 @@ if(!isset($_SESSION['UserEmail'])){
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label name="REFF_STATUS" class="login2 pull-right">Status</label>
@@ -320,7 +321,7 @@ if(!isset($_SESSION['UserEmail'])){
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button> -->
