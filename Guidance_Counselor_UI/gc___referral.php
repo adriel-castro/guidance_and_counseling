@@ -11,53 +11,19 @@ if(!isset($_SESSION['UserEmail'])){
 }else{
 
     $con = connection();
-    // $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_status = 'Completed'";
-    $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id IS NOT NULL";
+    $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id IS NOT NULL AND refferals.ref_status NOT LIKE 'Cancelled%'";
         $get_referral = $con->query($refferal) or die ($con->error);
         $row = $get_referral->fetch_assoc();
         
-    if(isset($_SESSION['UserId'])) {
-        $UserId = $_SESSION['UserId'];
 
-        // $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
-        // $get_referred_user = $con->query($referred_user) or die ($con->error);
-        // $row_referred_user = $get_referred_user->fetch_assoc();
+    // For Cancelled button
+    if(isset($_GET['id'])) {
+        $ref_id = $_GET['id'];
+        $status = "Cancelled";
+        $cancel_refferal = "UPDATE `refferals` SET `ref_status`='$status' WHERE ref_id = '$ref_id'";
+        $con->query($cancel_refferal) or die ($con->error);
+        echo header("Location: gc___referral.php");
     }
-    
-    // if (isset($_POST['add_refferal'])) {
-
-    //     $UserId = $_SESSION['UserId'];
-    //     $last_name = $_POST['last_name'];
-    //     $first_name = $_POST['first_name'];
-    //     $level = $_POST['level'];
-
-    //     $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level'";
-    //     $find_id = $con->query($get_student) or die ($con->error);
-    //     $stud_id = $find_id->fetch_assoc();
-
-    //     if ($stud_id > 0) {
-    //     // print_r($result = mysql_query($query));
-    //     $reffered_user = $stud_id['user_id'];
-    //     $source = $_POST['source'];
-    //     $reffered_by = $_POST['reffered_by'];
-    //     $reffered_date = $_POST['reffered_date'];
-    //     $nature = $_POST['nature'];
-    //     $reason = $_POST['reason'];
-    //     $actions = $_POST['actions'];
-    //     $remarks = $_POST['remarks'];
-    //     $status = "Pending";
-        
-    //     $add_query = "INSERT INTO `refferals` (`reffered_user`,`user`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
-    //             "VALUES ('$reffered_user','$UserId','$source','$reffered_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
-    //     echo $con->query($add_query) or die ($con->error);
-    //     echo header("Location: staff___set_referral.php");
-
-    //     } else {
-    //         echo "Student is not existed.";
-    //     }
-
-        
-    // }
     
 ?>
 
@@ -367,23 +333,26 @@ if(!isset($_SESSION['UserEmail'])){
                                         
                                         <tr>
                                             <th data-field="name" data-editable="false">Student ID</th>
-                                            <th data-field="L_email" data-editable="false">First Name of Student</th>
-                                            <th data-field="F_email" data-editable="false">Last Name of Student</th>
+                                            <th data-field="L_email" data-editable="false">First Name</th>
+                                            <th data-field="F_email" data-editable="false">Last Name</th>
                                             <th data-field="phone" data-editable="false">Source</th>
                                             <th data-field="complete" data-editable="false">Referred By</th>
                                             <th data-field="task" data-editable="false">Date</th>
                                             <th data-field="date" data-editable="false">Nature</th>
                                             <th data-field="price" data-editable="false">Reason</th>
-                                            <th data-field="pric" data-editable="false">Action/s</th>
+                                            <th data-field="pric" data-editable="false">Action Taken</th>
                                             <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th data-field="edit">Edit</th>
-                                            <th data-field="appointment">Set Appoinment</th>
+                                            <th data-field="actions">Actions</th>
+                                            <!-- <th data-field="appointment">Set Appoinment</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                    <?php do { ?>
+                                    <!-- If no Data to display display null -->
+                                    <?php if($row == 0) { echo null;
+                                        } else { do { ?>
+
                                         <tr>
                                             <td><b><?php echo $row['id_number'] ?></b></td>
                                             <td><?php echo $row['first_name'] ?></td>
@@ -403,23 +372,19 @@ if(!isset($_SESSION['UserEmail'])){
                                                     echo "btn-primary";
                                                 } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
                                                     echo "btn-danger";
-                                                } elseif($row['ref_status'] == "Disapproved" || $row['ref_status'] == "disapproved") {
-                                                    echo "btn-danger";
                                                 } else {
                                                     echo "btn-success";
                                                 } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
-                                            <td>
-                                                <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
-                                            </td>
-                                            <td>
-                                            <!-- <form action="" method="post"> -->
-                                                    <!-- <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>"> -->
-                                                    <a style="text-decoration: underline;" href="gc___all_appointment.php">Approve</a>
-                                            <!-- </form> -->
+                                            <td >
+                                                <div style="display: flex;">
+                                                    <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a>
+                                                    <a class="btn btn-success" style="margin-left: 10px; color: white;" href="gc___all_appointment.php?id=<?= $row['ref_id'] ?>">Approve</a>
+                                                </div>
                                             </td>
                                         </tr>
-                                    <?php } while ($row = $get_referral->fetch_assoc()); ?>
+                                    <?php } while ($row = $get_referral->fetch_assoc());  } ?>
 
                                     </tbody>
                                 </table>
