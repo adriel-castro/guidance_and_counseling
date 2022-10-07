@@ -397,7 +397,9 @@ include_once("../connections/connection.php");
                                                     echo "btn-primary";
                                                 } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
                                                     echo "btn-danger";
-                                                }else {
+                                                } elseif($row['ref_status'] == "Disapproved" || $row['ref_status'] == "disapproved") {
+                                                    echo "btn-danger";
+                                                } else {
                                                     echo "btn-success";
                                                 } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
