@@ -327,8 +327,6 @@ if(!isset($_SESSION['UserEmail'])){
                                                 <option value="" disabled>Select Status</option>
                                                 <option <?= ($row['ref_status'] == "Pending") ? "selected" : "" ?>>Pending</option>
                                                 <option <?= ($row['ref_status'] == "For Approval") ? "selected" : "" ?>>For Approval</option>
-                                                <!-- <option <?= ($row['ref_status'] == "Cancelled") ? "selected" : "" ?>>Cancelled</option> -->
-                                                <option <?= ($row['ref_status'] == "Disapproved") ? "selected" : "" ?>>Disapproved</option>
                                                 <option <?= ($row['ref_status'] == "Completed") ? "selected" : "" ?>>Completed</option>
                                             </select>
                                         </div>
