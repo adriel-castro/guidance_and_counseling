@@ -15,7 +15,7 @@ if(!isset($_SESSION['UserEmail'])){
     if(isset($_SESSION['UserId'])) {
         $UserId = $_SESSION['UserId'];
         $UserEmail = $_SESSION['UserEmail'];
-        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.user = '$UserId'";
+        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.user = '$UserId' AND refferals.ref_status NOT LIKE 'Cancelled%'";
         $get_referral = $con->query($refferal) or die ($con->error);
         $row = $get_referral->fetch_assoc();
         
@@ -55,8 +55,15 @@ if(!isset($_SESSION['UserEmail'])){
         } else {
             echo "Student is not existed.";
         }
+    }
 
-        
+    // For Cancelled button
+    if(isset($_GET['id'])) {
+        $ref_id = $_GET['id'];
+        $status = "Cancelled";
+        $cancel_refferal = "UPDATE `refferals` SET `ref_status`='$status' WHERE ref_id = '$ref_id'";
+        $con->query($cancel_refferal) or die ($con->error);
+        echo header("Location: staff___set_referral.php");
     }
     
 ?>
@@ -368,22 +375,25 @@ if(!isset($_SESSION['UserEmail'])){
                                         
                                         <tr>
                                             <th data-field="name" data-editable="false">Student ID</th>
-                                            <th data-field="L_email" data-editable="false">First Name of Student</th>
-                                            <th data-field="F_email" data-editable="false">Last Name of Student</th>
+                                            <th data-field="L_email" data-editable="false">First Name</th>
+                                            <th data-field="F_email" data-editable="false">Last Name</th>
                                             <th data-field="phone" data-editable="false">Source</th>
                                             <th data-field="complete" data-editable="false">Referred By</th>
                                             <th data-field="task" data-editable="false">Date</th>
                                             <th data-field="date" data-editable="false">Nature</th>
                                             <th data-field="price" data-editable="false">Reason</th>
-                                            <th data-field="pric" data-editable="false">Action/s</th>
+                                            <th data-field="pric" data-editable="false">Action Taken</th>
                                             <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th data-field="edit">Edit</th>
+                                            <th data-field="cancel">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                    <?php do { ?>
+                                    <!-- If no Data to display display null -->
+                                    <?php if($row == 0) { echo null;
+                                        } else { do { ?>
+
                                         <tr>
                                             <td><b><?php echo $row['id_number'] ?></b></td>
                                             <td><?php echo $row['first_name'] ?></td>
@@ -409,11 +419,14 @@ if(!isset($_SESSION['UserEmail'])){
                                                     echo "btn-success";
                                                 } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
-                                            <td>
-                                                <a href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
+                                            <td >
+                                                <div style="display: flex;">
+                                                    <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="staff___set_referral.php?id=<?= $row['ref_id'] ?>">Cancel</a>
+                                                </div>
                                             </td>
                                         </tr>
-                                    <?php } while ($row = $get_referral->fetch_assoc()); ?>
+                                    <?php } while ($row = $get_referral->fetch_assoc());  } ?>
 
                                     </tbody>
                                 </table>
