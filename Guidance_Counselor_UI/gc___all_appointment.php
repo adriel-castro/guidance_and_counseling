@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -317,6 +331,12 @@
                                 <h1>All Appointment<span class="table-project-n"> Schedule</span> Table</h1>
                             </div>
 
+                        <!-- <?php
+                            if(isset($_GET['id'])) {
+                                echo $ref_id = $_GET['id'];
+                            }
+                        ?> -->
+
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
@@ -534,3 +554,5 @@
 </body>
 
 </html>
+
+<?php } ?>
