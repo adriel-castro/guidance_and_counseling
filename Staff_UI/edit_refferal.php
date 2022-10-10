@@ -13,7 +13,6 @@ if(!isset($_SESSION['UserEmail'])){
     $con = connection();
     $ref_id = $_GET['id'];
 
-
       $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.ref_id = '$ref_id'";
       $get_referral = $con->query($refferal) or die ($con->error);
       $row = $get_referral->fetch_assoc();
