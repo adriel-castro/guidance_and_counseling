@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- logo angeles_sti
         ============================================ -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/sti_angeles_logo.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
   <!-- Google Fonts
 		============================================ -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -100,7 +100,7 @@
                 <ul class="breadcome-menu">
                   <li><a href="gc___dashboard.php">Home</a> <span class="bread-slash">/</span>
                   </li>
-                  <li><span class="bread-blod">All Staff Table</span>
+                  <li><span class="bread-blod">All Staff</span>
                   </li>
                 </ul>
               </div>
@@ -113,7 +113,7 @@
 
   </div>
 
-  <!----------------------------------------- THIS IS THE MODAL FORM OF ADDING STUDENT MANUALLY ---------------------------------------------->
+  <!----------------------------------------- THIS IS THE MODAL FORM OF ADDING STAFF MANUALLY ---------------------------------------------->
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <div id="ADD_STAFF_MANUAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
       <div class="modal-dialog">
@@ -125,7 +125,7 @@
             </div>
           </div>
 
-          <form action="thecodestud.php" method="POST">
+          <form action="thecodestaff.php" method="POST">
             <div class="modal-body">
               <div class="form-group-inner">
                 <div class="row">
@@ -133,7 +133,7 @@
                     <label class="login2 pull-right">Staff ID</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="staff_id" class="form-control" placeholder="Enter Student ID" />
+                    <input type="text" name="staff_id" class="form-control" placeholder="Enter Staff ID" />
                   </div>
                 </div>
               </div>
@@ -204,15 +204,55 @@
                 </div>
               </div>
               <!----------------- input type as student for login validation --------------------->
-              <input type="hidden" name="usertype" value="staff">
+              <input type="hidden" name="usertype" value="Staff">
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="register_staff-btn" class="btn btn-primary btn-md">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!----------------------------------------- THIS IS THE MODAL FORM OF ADDING STAFF USING EXCEL FILE ---------------------------------------------->
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div id="ADD_STAFF_EXCEL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header header-color-modal bg-color-1">
+            <h4 class="modal-title"> Import Excel File to Add Staff </h4>
+            <div class="modal-close-area modal-close-df">
+              <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+            </div>
+          </div>
+
+          <form action="excelupload-staff.php" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+
+              <div class="form-group-inner">
+                <div class="row">
+
+                  <div class="col-lg-12 col-md-9 col-sm-9 col-xs-12">
+                    <input type="file" name="import_file" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+              <button type="submit" name="save_excel_data_staff" class="btn btn-primary btn-md">Upload</button>
 
             </div>
           </form>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="register_staff-btn" class="btn btn-primary btn-md">Save</button>
-          </div>
         </div>
       </div>
     </div>
@@ -241,6 +281,8 @@
                   <div class="card-header py-3">
                     <h5 class="m-0 font-weight-bold text-primary">
 
+                      <button type="button" class="btn btn-custon-four btn-primary btn-md" data-toggle="modal" data-target="#ADD_STAFF_EXCEL">Import File</button>
+
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_STAFF_MANUAL">
                         Add New
                       </button>
@@ -259,8 +301,6 @@
                       <th>Address</th>
                       <th>Contact Number</th>
                       <th>Position</th>
-                      <!-- <th>Edit</th>
-                      <th>Delete</th> -->
                       <th>Profile</th>
                     </tr>
                   </thead>
@@ -268,10 +308,10 @@
                   <tbody>
 
                     <?php
-                    $con = mysqli_connect('localhost', 'root', '', 'content');
+                    $connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
 
                     $query = "SELECT * FROM staff_tbl";
-                    $query_run = mysqli_query($con, $query);
+                    $query_run = mysqli_query($connection, $query);
 
                     if (mysqli_num_rows($query_run) > 0) {
                       foreach ($query_run as $row) {
@@ -288,7 +328,7 @@
 
                           <td>
                             <a href="gc___staff_profile.php">
-                              <button type="submit" class="btn btn-primary" href="gc___staff_profile.php">View</button>
+                              <button type="button" name="view_profile_btn" class="btn btn-primary" href="gc___staff_profile.php">View</button>
                             </a>
                           </td>
                         </tr>
@@ -320,38 +360,10 @@
 
 
 
-  <!-- jquery
-		============================================ -->
-  <script src="js/vendor/jquery-1.12.4.min.js"></script>
-  <!-- bootstrap JS
-		============================================ -->
-  <script src="js/bootstrap.min.js"></script>
-  <!-- wow JS
-		============================================ -->
-  <script src="js/wow.min.js"></script>
-  <!-- price-slider JS
-		============================================ -->
-  <script src="js/jquery-price-slider.js"></script>
-  <!-- meanmenu JS
-		============================================ -->
-  <script src="js/jquery.meanmenu.js"></script>
-  <!-- owl.carousel JS
-		============================================ -->
-  <script src="js/owl.carousel.min.js"></script>
-  <!-- sticky JS
-		============================================ -->
-  <script src="js/jquery.sticky.js"></script>
-  <!-- scrollUp JS
-		============================================ -->
-  <script src="js/jquery.scrollUp.min.js"></script>
-  <!-- mCustomScrollbar JS
-		============================================ -->
-  <script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="js/scrollbar/mCustomScrollbar-active.js"></script>
-  <!-- metisMenu JS
-		============================================ -->
-  <script src="js/metisMenu/metisMenu.min.js"></script>
-  <script src="js/metisMenu/metisMenu-active.js"></script>
+  <?php
+  include('includes/gc___scripts.php');
+  ?>
+
   <!-- data table JS
 		============================================ -->
   <script src="js/data-table/bootstrap-table.js"></script>
@@ -379,24 +391,8 @@
 		============================================ -->
   <script src="js/icheck/icheck.min.js"></script>
   <script src="js/icheck/icheck-active.js"></script>
-  <!-- tab JS
-		============================================ -->
-  <script src="js/tab.js"></script>
-  <!-- plugins JS
-		============================================ -->
-  <script src="js/plugins.js"></script>
-  <!-- main JS
-		============================================ -->
-  <script src="js/main.js"></script>
-  <!-- tawk chat JS
-		============================================ -->
-  <script src="js/tawk-chat.js"></script>
 
-
-  <!-- <?php include('includes/gc___footer.php') ?> -->
 
 </body>
-
-
 
 </html>

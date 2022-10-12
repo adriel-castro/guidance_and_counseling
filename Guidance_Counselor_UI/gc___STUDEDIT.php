@@ -46,7 +46,7 @@ include('includes/gc___mobile_menu.php');
                         </div>
 
                         <?php
-                        $connection = mysqli_connect("localhost", "root", "", "db_web");
+                        $connection = mysqli_connect("localhost", "root", "", "db_guidancems");
 
                         if (isset($_POST['edit_stud_btn'])) {
                             $stud_id = $_POST['edit_stud_id'];

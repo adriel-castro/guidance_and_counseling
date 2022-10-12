@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- logo angeles_sti
         ============================================ -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/sti_angeles_logo.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
   <!-- Google Fonts
 		============================================ -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -83,7 +83,6 @@
   <?php include('includes/gc___left-menu-area.php') ?>
   <?php include('includes/gc___top-menu-area.php') ?>
   <?php include('includes/gc___mobile_menu.php')  ?>
-
 
   <div class="breadcome-area">
     <div class="container-fluid">
@@ -214,39 +213,16 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group-inner">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <label class="login2 pull-right">EMAIL</label>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_email" class="form-control" placeholder="Set Email" />
-                  </div>
-                </div>
-              </div>
-              <div class="form-group-inner">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <label class="login2 pull-right">Password</label>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_pass" class="form-control" placeholder="set password" />
-                  </div>
-                </div>
-              </div>
 
               <!----------------- input type as student for login validation --------------------->
               <input type="hidden" name="usertype" value="Student">
 
-            
-          
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="register_student-btn" class="btn btn-primary btn-md">Save</button>
-          </div>
-        </div>  
-        </form>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="register_student-btn" class="btn btn-primary btn-md">Save</button>
+              </div>
+            </div>
+          </form>
 
         </div>
       </div>
@@ -274,7 +250,7 @@
 
               <div class="form-group-inner">
                 <div class="row">
-              
+
                   <div class="col-lg-12 col-md-9 col-sm-9 col-xs-12">
                     <input type="file" name="import_file" class="form-control">
                   </div>
@@ -282,95 +258,18 @@
               </div>
 
             </div>
-          </form>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="save_excel_data" class="btn btn-primary btn-md">Upload</button>
-          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+              <button type="submit" name="save_excel_data" class="btn btn-primary btn-md">Upload</button>
+
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
   </div>
-
-
-  
-
-  <div class="modal fade" id="addstudentprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Student Data</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="thecodestud.php" method="POST">
-
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label> Student ID </label>
-              <input type="text" name="stud_id" class="form-control" placeholder="Enter Student ID">
-            </div>
-
-            <div class="form-group">
-              <label> First Name </label>
-              <input type="text" name="stud_fname" class="form-control" placeholder="Enter First Name">
-            </div>
-            <div class="form-group">
-              <label> Middle Name </label>
-              <input type="text" name="stud_mname" class="form-control" placeholder="Enter Middle Name">
-            </div>
-            <div class="form-group">
-              <label> Last Name </label>
-              <input type="text" name="stud_lname" class="form-control" placeholder="Enter Last Name">
-            </div>
-            <div class="form-group">
-              <label> Address </label>
-              <input type="text" name="stud_address" class="form-control" placeholder="Enter Address">
-            </div>
-            <div class="form-group">
-              <label> Contact Number </label>
-              <input type="text" name="stud_contact" class="form-control" placeholder="Enter Contact Number">
-            </div>
-            <div class="form-group">
-              <label> Program </label>
-              <input type="text" name="stud_program" class="form-control" placeholder="Enter Program">
-            </div>
-            <div class="form-group">
-              <label> Level </label>
-              <input type="text" name="stud_level" class="form-control" placeholder="Enter Level">
-            </div> -->
-
-    <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" class="form-control checking_email" placeholder="Enter Email">
-              <small class="error_email" style="color: red;"></small>
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" name="password" class="form-control" placeholder="Enter Password">
-            </div>
-            <div class="form-group">
-              <label>Confirm Password</label>
-              <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password">
-            </div> -->
-    <input type="hidden" name="usertype" value="student">
-
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name="register_student-btn" class="btn btn-primary">Save</button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div> -->]
-
 
   <!-- Static Table Start -->
 
@@ -394,11 +293,11 @@
 
                       <!-- <form action="excelupload.php" method="POST" enctype="multipart/form-data"> -->
 
-                        <!-- <input type="file" name="import_file"><br> -->
-                        <button type="button" class="btn btn-custon-four btn-primary btn-md" data-toggle="modal" data-target="#ADD_STUDENT_EXCEL">Import File</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_STUDENT_MANUAL">
-                          Add New
-                        </button>
+                      <!-- <input type="file" name="import_file"><br> -->
+                      <button type="button" class="btn btn-custon-four btn-primary btn-md" data-toggle="modal" data-target="#ADD_STUDENT_EXCEL">Import File</button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_STUDENT_MANUAL">
+                        Add New
+                      </button>
                       <!-- </form> -->
 
                     </h5>
@@ -424,10 +323,10 @@
                   <tbody>
 
                     <?php
-                    $con = mysqli_connect('localhost', 'root', '', 'db_web');
+                    $connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
 
                     $query = "SELECT * FROM student_tbl";
-                    $query_run = mysqli_query($con, $query);
+                    $query_run = mysqli_query($connection, $query);
 
                     if (mysqli_num_rows($query_run) > 0) {
                       foreach ($query_run as $row) {
@@ -444,7 +343,7 @@
                           <td><?= $row['STUD_LEVEL'] ?></td>
                           <td>
                             <a href="gc___student_profile.php">
-                              <button type="submit" name="view_profile_btn" class="btn btn-primary">View</button>
+                              <button type="button" class="btn btn-primary">View</button>
                             </a>
                           </td>
                         </tr>
@@ -475,39 +374,11 @@
   <!-- Static Table End -->
 
 
-
-  <!-- jquery
-		============================================ -->
-  <script src="js/vendor/jquery-1.12.4.min.js"></script>
-  <!-- bootstrap JS
-		============================================ -->
-  <script src="js/bootstrap.min.js"></script>
-  <!-- wow JS
-		============================================ -->
-  <script src="js/wow.min.js"></script>
-  <!-- price-slider JS
-		============================================ -->
-  <script src="js/jquery-price-slider.js"></script>
-  <!-- meanmenu JS
-		============================================ -->
-  <script src="js/jquery.meanmenu.js"></script>
-  <!-- owl.carousel JS
-		============================================ -->
-  <script src="js/owl.carousel.min.js"></script>
-  <!-- sticky JS
-		============================================ -->
-  <script src="js/jquery.sticky.js"></script>
-  <!-- scrollUp JS
-		============================================ -->
-  <script src="js/jquery.scrollUp.min.js"></script>
-  <!-- mCustomScrollbar JS
-		============================================ -->
-  <script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="js/scrollbar/mCustomScrollbar-active.js"></script>
-  <!-- metisMenu JS
-		============================================ -->
-  <script src="js/metisMenu/metisMenu.min.js"></script>
-  <script src="js/metisMenu/metisMenu-active.js"></script>
+  
+<?php 
+  include('includes/gc___scripts.php');
+?>
+ 
   <!-- data table JS
 		============================================ -->
   <script src="js/data-table/bootstrap-table.js"></script>
@@ -535,24 +406,8 @@
 		============================================ -->
   <script src="js/icheck/icheck.min.js"></script>
   <script src="js/icheck/icheck-active.js"></script>
-  <!-- tab JS
-		============================================ -->
-  <script src="js/tab.js"></script>
-  <!-- plugins JS
-		============================================ -->
-  <script src="js/plugins.js"></script>
-  <!-- main JS
-		============================================ -->
-  <script src="js/main.js"></script>
-  <!-- tawk chat JS
-		============================================ -->
-  <script src="js/tawk-chat.js"></script>
-
-
-  <?php include('includes/gc___footer.php') ?>
+ 
 
 </body>
-
-
 
 </html>

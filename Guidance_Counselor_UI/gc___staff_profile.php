@@ -1,5 +1,4 @@
 <?php
-session_start();
     include('includes/gc___header.php');
     include('includes/gc___left-menu-area.php');
     include('includes/gc___top-menu-area.php');

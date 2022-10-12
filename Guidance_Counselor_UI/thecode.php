@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$connection = mysqli_connect("localhost", "root", "", "db_web");
+$connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
 
 //this is for registering the admin profile in the database
 if (isset($_POST['register_admin-btn'])) {
@@ -12,24 +12,28 @@ if (isset($_POST['register_admin-btn'])) {
     $usertype = $_POST['usertype'];
 
     if ($password === $cpassword) {
-        $query = "INSERT INTO user_admin_account_tbl (GC_USERNAME, GC_EMAIL, GC_PASSWORD, GC_USERTYPE ) VALUES ('$username','$email','$password', '$usertype')";
+        $query = "INSERT INTO user_admin_account_tbl (GC_USERNAME, GC_EMAIL, GC_PASSWORD, GC_USERTYPE ) 
+        VALUES ('$username','$email','$password', '$usertype')";
         $query_run = mysqli_query($connection, $query);
 
         if ($query_run) {
             // echo "Saved";
-            $_SESSION['success'] = "Admin Profile Added";
+            $_SESSION['status'] = "Admin Profile Added";
+            $_SESSION['status_code'] = "success";
             header('Location: gc___all-gc.php');
         } else {
             // echo "Not saved";
             $_SESSION['status'] = "Admin Profile Not Added";
+            $_SESSION['status_code'] = "error";
             header('Location: gc___all-gc.php');
         }
     } else {
         $_SESSION['status'] = "Password and Confirm Password Does Not Match";
+        $_SESSION['status_code'] = "warning";
         header('Location: gc___all-gc.php');
     }
+    
 }
-
 
 // this is for updating the admin profiles on register edit page
 
@@ -45,17 +49,14 @@ if (isset($_POST['updatebtn'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Your Data is updated successfully";
+        $_SESSION['status_code'] = "success";
         header('Location: gc___all-gc.php');
     } else {
         $_SESSION['status'] = "Your Data is NOT updated";
+         $_SESSION['status_code'] = "error";
         header('Location: gc___all-gc.php');
     }
 }
-
-
-
-
-
 
 // this is for the deleteing the admin profiles on register page
 
@@ -67,15 +68,14 @@ if (isset($_POST['delete_btn'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Your data deleted successfully";
+        $_SESSION['status_code'] = "success";
         header('Location: gc___all-gc.php');
     } else {
         $_SESSION['status'] = "Your data not deleted";
+        $_SESSION['status_code'] = "error";
         header('Location: gc___all-gc.php');
     }
 }
-
-
-
 
 
 // if(isset($_POST['login_btn']))
@@ -96,10 +96,6 @@ if (isset($_POST['delete_btn'])) {
 //         header('Location: homepage___index.php');
 //     }
 // }
-
-
-
-
 
 
 
@@ -167,34 +163,3 @@ if (isset($_POST['delete_btn'])) {
 //         header('Location: gc___all-students.php');
 //     }
 // }
-
-        if(isset($_POST['save_excel_data']))    
-    {
-        $reff_lname = $_POST['REFF_LNAME'];
-        $reff_fname = $_POST['REFF_FNAME'];
-        $reff_level = $_POST['REFF_LEVEL'];
-        $reff_program = $_POST['REFF_PROGRAM'];
-        $reff_source = $_POST['REFF_SOURCE'];
-        $reff_date = $_POST['REFF_DATE'];
-        $reff_nature = $_POST['REFF_NATURE'];
-        $reff_reason = $_POST['REFF_REASON'];
-        $reff_actions = $_POST['REFF_ACTIONS'];
-        $reff_remarks = $_POST['REFF_REMARKS']; 
-
-        $query = "INSERT INTO referrals_tbl(REFF_LNAME, REFF_FNAME, REFF_LEVEL, REFF_PROGRAM , REFF_SOURCE,REFF_DATE, REFF_NATURE, REFF_REASON, REFF_ACTIONS, REFF_REMARKS) 
-        VALUES('$reff_lname','$reff_fname','$reff_level', '$reff_program','$reff_source', '$reff_date','$reff_nature','$reff_reason','$reff_actions','$reff_remarks')";
-        $query_run = mysqli_query($con, $query);
-
-        if ($query_run) {
-            $_SESSION['success'] = "added";
-            header('Location: gc___referral.php');  
-        }
-         else{
-            $_SESSION['status'] = "failed";
-            header('Location: gc___referral.php');
-         }
-
-    }
-
-
-?>

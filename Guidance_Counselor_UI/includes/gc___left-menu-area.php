@@ -2,8 +2,8 @@
 <div class="left-sidebar-pro">
     <nav id="sidebar" class="">
         <div class="sidebar-header">
-            <a href="gc___dashboard.php"><img class="main-logo" src="img/sti_angeles_logo.png" width="100px" height="120px" /></a>
-            <strong><a href="gc___dashboard.php"><img src="img/sti_angeles_logo.png" alt="" /></a></strong>
+            <a href="gc___dashboard.php"><img class="main-logo" src="img/sti_logo.png" width="100px" height="120px" /></a>
+            <strong><a href="gc___dashboard.php"><img src="img/sti_logo.png" alt="" /></a></strong>
         </div>
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
@@ -24,8 +24,13 @@
                     <!-- <li>
                         <a title="Landing Page" href="gc___calendar.php" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Calendar</span></a>
                     </li> -->
+
+                    <!-- <li>
+                        <a title="Landing Page" href="gc___all-gc.php" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Account</span></a>
+                    </li> -->
+
                     <li>
-                        <a title="Landing Page" href="gc___all-gc.php" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Counselor</span></a>
+                        <a title="Landing Page" href="gc___main-all-gc.php" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Counselor</span></a>
                     </li>
                     <!-- <li>
                         <a class="has-arrow" href="gc___all-staff.php" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Counselor</span></a>
@@ -67,7 +72,7 @@
                         <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-library icon-wrap"></span> <span class="mini-click-non">Appointment</span></a>
                         <ul class="submenu-angle" aria-expanded="false">
                             <li><a title="All Library" href="gc___all_appointment.php"><span class="mini-sub-pro">View all appointment</span></a></li>
-                            <li><a title="Add Library" href="gc___appointment_sched.php"><span class="mini-sub-pro">Set Appointment Schedule</span></a></li>
+                            <!-- <li><a title="Add Library" href="gc___appointment_sched.php"><span class="mini-sub-pro">Set Appointment Schedule</span></a></li> -->
                             <li><a title="Edit Library" href="gc___calendar.php"><span class="mini-sub-pro">Calendar</span></a></li>
                         </ul>
                     </li>
@@ -76,9 +81,9 @@
 
                         <!-- <a title="has-arrow" href="departments.html" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Reports</span></a> -->
                         <ul class="submenu-angle" aria-expanded="false">
-                            <li><a title="All Library" href="library-assets.html"><span class="mini-sub-pro">List of Students Enrolled</span></a></li>
-                            <li><a title="Add Library" href="add-library-assets.html"><span class="mini-sub-pro">List of Students with Offense</span></a></li>
-                            <li><a title="Edit Library" href="edit-library-assets.html"><span class="mini-sub-pro">Accomplishment Report</span></a></li>
+                            <li><a title="Edit Library" href="gc___shs-reports.php"><span class="mini-sub-pro">SHS Reports</span></a></li>
+                            <li><a title="Edit Library" href="gc___tertiary-reports.php"><span class="mini-sub-pro">Tertiary Reports</span></a></li>
+                            <!-- <li><a title="Add Library" href="add-library-assets.html"><span class="mini-sub-pro">List of Students with Offense</span></a></li> -->
                         </ul>
                     </li>
 
@@ -89,8 +94,8 @@
                     <li>
                         <a class="has-arrow" href="#" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap"></span> <span class="mini-click-non">Utilities</span></a>
                         <ul class="submenu-angle interface-mini-nb-dp" aria-expanded="false">
-                            <li><a title="Google Map" href="#"><span class="mini-sub-pro">Audit Trail</span></a></li>
-                            <li><a title="Data Maps" href="#"><span class="mini-sub-pro">Back-up and Restore</span></a></li>
+                            <li><a title="Audit Trail" href="gc___audit-trail.php"><span class="mini-sub-pro">Audit Trail</span></a></li>
+                            <li><a title="Backup and Restore" href="gc___backup-restore.php"><span class="mini-sub-pro">Back-up and Restore</span></a></li>
                         </ul>
                     </li>
 

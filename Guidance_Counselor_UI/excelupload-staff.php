@@ -1,13 +1,13 @@
 <?php
 session_start();
-$con = mysqli_connect('localhost', 'root','', 'db_web');
-
+$con = mysqli_connect('localhost', 'root','', 'db_guidancems');
+ 
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-if(isset($_POST['save_excel_data']))
+if(isset($_POST['save_excel_data_staff']))
 {
     $fileName = $_FILES['import_file']['name'];
     $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -23,11 +23,11 @@ if(isset($_POST['save_excel_data']))
         $data = $spreadsheet->getActiveSheet()->toArray();
 
         
-        $count = "0";
+        // $count = "0";
         foreach($data as $row)
         {
-            if($count > 0)
-            {
+            // if($count > 0)
+            // {
                 $Staff_ID = $row[0];
                 $Last_Name = $row[1];
                 $First_Name = $row[2];
@@ -35,50 +35,40 @@ if(isset($_POST['save_excel_data']))
                 $Address = $row[4];
                 $Contant_No = $row[5];
                 $Position = $row[6];
-                $Email = $row[7];
-                // $Gender = $row[9];
-                // $Image = $row[10];
-                $Status =$row[11];
-            }
-            else 
-            {
-                $count = "1";
-            }
+                
+            // }
+            // else 
+            // {
+            //     $count = "1";
+            // }
 
-           $studentQuery = "INSERT INTO staff_tbl
-           (STAFF_ID, STAFF_LNAME, STAFF_FNAME, STAFF_MNAME, STAFF_ADDRESS, STAFF_CONTACT, STAFF_POSITION, STAFF_EMAIL, STAFF_STATUS)
-            VALUES ('$Staff_ID', '$Last_Name', '$First_Name', '$Middle_Name', '$Address', '$Contant_No', '$Position', '$Email', '$Status')";
+           $staffQuery = "INSERT INTO staff_tbl
+           (STAFF_ID, STAFF_LNAME, STAFF_FNAME, STAFF_MNAME, STAFF_ADDRESS, STAFF_CONTACT, STAFF_POSITION)
+            VALUES ('$Staff_ID', '$Last_Name', '$First_Name', '$Middle_Name', '$Address', '$Contant_No', '$Position')";
 
-            $result = mysqli_query($con, $studentQuery);
-            $msg = true;
+            $result = mysqli_query($con, $staffQuery);
+            // $msg = true;
         }
 
         if(isset($msg))
         {
             $_SESSION['message'] = "Successfully imported";
             header('Location: gc___all-staff.php');
-            exit(0);
+            // exit(0);
         }
         else
         {
             $_SESSION['message'] = "Not imported";
             header('Location: gc___all-staff.php');
-            exit(0);
+            // exit(0);
         }
     }
     else
     {
         $_SESSION['message'] = "Invalid File";
         header('Location: gc___all-staff.php');
-        exit(0);
+        // exit(0);
     }
-
-
-
-
-
-    //this is for the staff table to manipulate edit and delete profiles
-
 
 
 }

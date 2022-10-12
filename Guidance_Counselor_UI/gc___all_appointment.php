@@ -1,17 +1,4 @@
-<?php
-
-session_start();
-
-include_once("../connections/connection.php");
-
-if(!isset($_SESSION['UserEmail'])){
-        
-    echo "<script>window.open('../homepage___login.php','_self')</script>";
-    
-}else{
-
-?>
-
+<?php session_start(); ?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -24,7 +11,7 @@ if(!isset($_SESSION['UserEmail'])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- logo angeles_sti
         ============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/sti_angeles_logo.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
     <!-- Google Fonts
 		============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -137,7 +124,7 @@ if(!isset($_SESSION['UserEmail'])){
     </div>
 
     <!----------------------------------------- THIS IS THE MODAL FORM FOR ADDING APPOINTMENT  ---------------------------------------------->
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div id="ADD_APPOINTMENT" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -148,25 +135,132 @@ if(!isset($_SESSION['UserEmail'])){
                         </div>
                     </div>
 
-                    <form action="">
+                    <form action="thecode.php">
                         <div class="modal-body">
+
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Student ID</label>
+                                        <label class="login2 pull-right">User Type</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter Student ID" />
+                                        <div class="form-select-list">
+                                            <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
+                                                <option value="student">Student</option>
+                                                <option value="staff">Staff</option>
+                                                <option value="faculty">Faculty</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner">
+                            <div class="form-group-inner" id="STUD_ID">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="login2 pull-right pull-right-pro">Student ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search Student">
+                                            <div class="input-group-btn">
+                                                <button tabindex="-1" class="btn btn-primary btn-md" type="button" data-toggle="modal" data-target="#SEARCH_STUDENT">Search</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_NAME">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Student Name</label>
                                     </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
+                                        <input type="text" disabled class="form-control" placeholder="Enter Student Name" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_PROGRAM">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Program</label>
+                                    </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter Student Name" />
+                                        <input type="text" disabled class="form-control" placeholder="Student Program" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_LEVEL">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Level</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" disabled class="form-control" placeholder="Student Level" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group-inner" id="STAFF_ID" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Staff ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Enter Staff ID" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STAFF_NAME" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Staff Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" disabled class="form-control" placeholder="Enter Staff Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STAFF_POSITION" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Position</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" disabled class="form-control" placeholder="Staff Position" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner" id="FACULTY_ID" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Faculty ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Enter Faculty ID" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="FACULTY_NAME" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Faculty Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" disabled class="form-control" placeholder="Faculty Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="FACULTY_POSITION" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Position</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" disabled class="form-control" placeholder="Faculty Position" />
                                     </div>
                                 </div>
                             </div>
@@ -177,20 +271,6 @@ if(!isset($_SESSION['UserEmail'])){
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <input type="text" class="form-control" placeholder="Enter Appointment Subject" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Concern</label>
-                                    </div>
-                                    <div class="col-lg-4 col-md-9 col-sm-9 col-xs-9">
-                                        <div class="bt-df-checkbox">
-                                            <label>
-                                                <input class="pull-left radio-checked" type="checkbox"> Urgent
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -209,38 +289,38 @@ if(!isset($_SESSION['UserEmail'])){
                                 </div>
                             </div>
 
-                                <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <label class="login2 pull-right pull-right-pro"><span class="basic-ds-n">Type</span></label>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
-                                            <div class=" bt-df-checkbox">
-                                                <label for="APPOINT_OP1" style="margin-right: 15px;">
-                                                    <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="appoint1">
-                                                    Walk-In
-                                                </label>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label class="login2 pull-right pull-right-pro"><span class="basic-ds-n">Type</span></label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
+                                        <div class=" bt-df-checkbox">
+                                            <label for="APPOINT_OP1" style="margin-right: 15px;">
+                                                <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="appoint1">
+                                                Walk-In
+                                            </label>
 
-                                                <label for="APPOINT_OP2">
-                                                    <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="appoint2">
-                                                    Online
-                                                </label>
-                                            </div>
+                                            <label for="APPOINT_OP2">
+                                                <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="appoint2">
+                                                Online
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Information</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="Enter Appointment Information" />
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Information</label>
+                                    </div>
+                                    <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <textarea name="description" placeholder="Description of Appointment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </form>
 
                     <div class="modal-footer">
@@ -251,74 +331,7 @@ if(!isset($_SESSION['UserEmail'])){
             </div>
         </div>
 
-    </div>
-
-
-    <!-- <div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Appointment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="thecode.php" method="POST">
-
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            <label> Student Name </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Student Name/s">
-                        </div>
-                        <div class="form-group">
-                            <label> Appointment Reason </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Appointment Reason">
-                        </div>
-                        <div class="form-group">
-                            <label> Referral Reason </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Referral Reason">
-                        </div>
-                        <div class="form-group">
-                            <label> Concern </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Concern">
-                        </div>
-                        <div class="form-group">
-                            <label> Date </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Date">
-                        </div>
-                        <div class="form-group">
-                            <label> Time </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Time">
-                        </div>
-                        <div class="form-group">
-                            <label> Type of Appointment </label>
-                            <input type="text" name="username" class="form-control" placeholder="Enter type of appointment">
-                        </div>
-                        <div class="form-group">
-                            <label> Meeting Link </label>
-                            <input type="text" name="username" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label> Status </label>
-                            <input type="text" name="username" class="form-control">
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" name="registerbtn" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-
-            </div>
-
-
-        </div>
     </div> -->
-
-
-
 
     <!-- Static Table Start -->
     <div class="data-table-area mg-b-15">
@@ -328,7 +341,7 @@ if(!isset($_SESSION['UserEmail'])){
                     <div class="sparkline13-list">
                         <div class="sparkline13-hd">
                             <div class="main-sparkline13-hd">
-                                <h1>All Appointment<span class="table-project-n"> Schedule</span> Table</h1>
+                                <h1> Appointment<span class="table-project-n"> Schedule</span> Table</h1>
                             </div>
 
                         </div>
@@ -344,9 +357,9 @@ if(!isset($_SESSION['UserEmail'])){
                                     <div class="card-header py-3">
                                         <h5 class="m-0 font-weight-bold text-primary">
                                             <!-- Guidance Counselor -->
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_APPOINTMENT">
+                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_APPOINTMENT">
                                                 Add New Appointment
-                                            </button>
+                                            </button> -->
 
                                         </h5>
                                     </div>
@@ -363,8 +376,8 @@ if(!isset($_SESSION['UserEmail'])){
                                             <th data-field="appoint_type">Type</th>
                                             <th data-field="appoint_link">Meeting Link</th>
                                             <th data-field="appoint_status">Status</th>
-                                            <th data-field="appoint_edit">Edit</th>
-                                            <th data-field="appoint_delete">Cancel</th>
+                                            <!-- <th data-field="appoint_edit">Edit</th> -->
+                                            <th data-field="appoint_cancel">Cancel</th>
 
 
                                         </tr>
@@ -384,16 +397,16 @@ if(!isset($_SESSION['UserEmail'])){
                                                 <button class="pd-setting " style="background-color: green; color:white;">Approved</button>
                                             </td>
 
-                                            <td>
+                                            <!-- <td>
                                                 <form action="gc___EDIT.php" method="post">
                                                     <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
                                                     <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
                                                 </form>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <form action="thecode.php" method="post">
                                                     <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
+                                                    <button type="submit" name="cancel_btn" class="btn btn-danger">Cancel</button>
                                                 </form>
                                             </td>
 
@@ -413,12 +426,12 @@ if(!isset($_SESSION['UserEmail'])){
                                                 <button class="pd-setting " style="background-color: red; color:white;">Cancelled</button>
                                             </td>
 
-                                            <td>
+                                            <!-- <td>
                                                 <form action="gc___EDIT.php" method="post">
                                                     <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
                                                     <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
                                                 </form>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <form action="thecode.php" method="post">
                                                     <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
@@ -440,14 +453,28 @@ if(!isset($_SESSION['UserEmail'])){
                                             <td></td>
                                             <td>
                                                 <button class="pd-setting " style="background-color: blue; color:white;">Pending</button>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+
+                                                        <!-- <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
+                                                                    <option value="student">Ongoing</option>
+                                                                    <option value="staff">Staff</option>
+                                                                    <option value="faculty">Faculty</option>
+                                                                </select>
+                                                            </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
                                             </td>
 
-                                            <td>
+                                            <!-- <td>
                                                 <form action="gc___EDIT.php" method="post">
                                                     <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
                                                     <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
                                                 </form>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 <form action="thecode.php" method="post">
                                                     <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
@@ -470,42 +497,67 @@ if(!isset($_SESSION['UserEmail'])){
 
     </div>
 
-    <!-- jquery
-		============================================ -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-		============================================ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- wow JS
-		============================================ -->
-    <script src="js/wow.min.js"></script>
-    <!-- price-slider JS
-		============================================ -->
-    <script src="js/jquery-price-slider.js"></script>
-    <!-- meanmenu JS
-		============================================ -->
-    <script src="js/jquery.meanmenu.js"></script>
-    <!-- owl.carousel JS
-		============================================ -->
-    <script src="js/owl.carousel.min.js"></script>
-    <!-- sticky JS
-		============================================ -->
-    <script src="js/jquery.sticky.js"></script>
-    <!-- scrollUp JS
-		============================================ -->
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <!-- mCustomScrollbar JS
-		============================================ -->
-    <script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/scrollbar/mCustomScrollbar-active.js"></script>
-    <!-- metisMenu JS
-		============================================ -->
-    <script src="js/metisMenu/metisMenu.min.js"></script>
-    <script src="js/metisMenu/metisMenu-active.js"></script>
-    <!-- datapicker JS
-		============================================ -->
-    <script src="js/datapicker/bootstrap-datepicker.js"></script>
-    <script src="js/datapicker/datepicker-active.js"></script>
+    <?php
+    include('includes/gc___scripts.php');
+    ?>
+
+    <script>
+        function changeDropdown() {
+            var state = document.getElementById("mySelect").value;
+            // alert(state);
+            if (state == "student") {
+                document.getElementById("STUD_ID").style.display = "block";
+                document.getElementById("STUD_NAME").style.display = "block";
+                document.getElementById("STUD_PROGRAM").style.display = "block";
+                document.getElementById("STUD_LEVEL").style.display = "block";
+
+                document.getElementById("STAFF_ID").style.display = "none";
+                document.getElementById("STAFF_NAME").style.display = "none";
+
+                document.getElementById("FACULTY_ID").style.display = "none";
+                document.getElementById("FACULTY_NAME").style.display = "none";
+
+            } else if (state == "staff") {
+                document.getElementById("STUD_ID").style.display = "none";
+                document.getElementById("STUD_NAME").style.display = "none";
+                document.getElementById("STUD_PROGRAM").style.display = "none";
+                document.getElementById("STUD_LEVEL").style.display = "none";
+
+                document.getElementById("STAFF_ID").style.display = "block";
+                document.getElementById("STAFF_NAME").style.display = "block";
+
+                document.getElementById("FACULTY_ID").style.display = "none";
+                document.getElementById("FACULTY_NAME").style.display = "none";
+
+            } else if (state == "faculty") {
+                document.getElementById("STUD_ID").style.display = "none";
+                document.getElementById("STUD_NAME").style.display = "none";
+                document.getElementById("STUD_PROGRAM").style.display = "none";
+                document.getElementById("STUD_LEVEL").style.display = "none";
+
+                document.getElementById("STAFF_ID").style.display = "none";
+                document.getElementById("STAFF_NAME").style.display = "none";
+
+                document.getElementById("FACULTY_ID").style.display = "block";
+                document.getElementById("FACULTY_NAME").style.display = "block";
+
+            } else {
+                document.getElementById("STUD_ID").style.display = "none";
+                document.getElementById("STUD_NAME").style.display = "none";
+                document.getElementById("STUD_PROGRAM").style.display = "none";
+                document.getElementById("STUD_LEVEL").style.display = "none";
+
+                document.getElementById("STAFF_ID").style.display = "none";
+                document.getElementById("STAFF_NAME").style.display = "none";
+
+                document.getElementById("FACULTY_ID").style.display = "none";
+                document.getElementById("FACULTY_NAME").style.display = "none";
+
+
+            }
+        }
+    </script>
+   
     <!-- data table JS
 		============================================ -->
     <script src="js/data-table/bootstrap-table.js"></script>
@@ -529,24 +581,12 @@ if(!isset($_SESSION['UserEmail'])){
 		============================================ -->
     <script src="js/chart/jquery.peity.min.js"></script>
     <script src="js/peity/peity-active.js"></script>
-    <!-- tab JS
-		============================================ -->
-    <script src="js/tab.js"></script>
     <!-- icheck JS
 		============================================ -->
     <script src="js/icheck/icheck.min.js"></script>
     <script src="js/icheck/icheck-active.js"></script>
-    <!-- plugins JS
-		============================================ -->
-    <script src="js/plugins.js"></script>
-    <!-- main JS
-		============================================ -->
-    <script src="js/main.js"></script>
-    <!-- tawk chat JS
-		============================================ -->
-    <script src="js/tawk-chat.js"></script>
+
+
 </body>
 
 </html>
-
-<?php } ?>

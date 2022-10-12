@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- logo angeles_sti
         ============================================ -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/sti_angeles_logo.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
   <!-- Google Fonts
 		============================================ -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -134,7 +134,7 @@
                     <label class="login2 pull-right pull-right-pro">Username</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Username" />
+                    <input type="text" name="username" class="form-control" placeholder="Enter Username" />
                   </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@
                     <label class="login2 pull-right pull-right-pro">Email</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="email" class="form-control" placeholder="Enter Email" />
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email" />
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@
                     <label class="login2 pull-right pull-right-pro">Password</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="password" class="form-control" placeholder="Enter Password" />
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password" />
                   </div>
                 </div>
               </div>
@@ -164,78 +164,26 @@
                     <label class="login2 pull-right pull-right-pro">Confirm Pass</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="password" class="form-control" placeholder="Please Confirm Password" />
+                    <input type="password" name="confirmpassword" class="form-control" placeholder="Please Confirm Password" />
                   </div>
                 </div>
               </div>
 
               <!----------------- input type as guidance for login validation --------------------->
-              <input type="hidden" name="usertype" value="guidance">
+              <input type="hidden" name="usertype" value="Guidance">
 
             </div>
           </form>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="register_student-btn" class="btn btn-primary btn-md">Save</button>
+            <button type="submit" name="register_admin-btn" class="btn btn-primary btn-md">Save</button>
           </div>
         </div>
       </div>
     </div>
 
   </div>
-
-
-
-
-
-
-  <!-- <div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Admin Data</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="thecode.php" method="POST">
-
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label> Username </label>
-              <input type="text" name="username" class="form-control" placeholder="Enter Username">
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" class="form-control checking_email" placeholder="Enter Email">
-              <small class="error_email" style="color: red;"></small>
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" name="password" class="form-control" placeholder="Enter Password">
-            </div>
-            <div class="form-group">
-              <label>Confirm Password</label>
-              <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password">
-            </div>
-            <input type="hidden" name="usertype" value="guidance">
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name="registerbtn" class="btn btn-primary">Save</button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div> -->
-
-
-
-
 
   </div>
 
@@ -250,29 +198,13 @@
 
               </div>
 
-              <!-- <?php
-                    if (isset($_SESSION['message'])) {
-                      echo "<h4>" . $_SESSION['message'] . "</h4>";
-                      unset($_SESSION['message']);
-                    }
-
-                    ?> -->
-
             </div>
             <div class="sparkline13-graph">
 
-              <?php
-              // this is for registering the admin profile to the databse if success, not success and if password are matched in confirmpass
-              if (isset($_SESSION['success']) && $_SESSION['success'] != '') {
-                echo '<h2> ' . $_SESSION['success'] . ' </h2>';
-                unset($_SESSION['success']);
-              }
 
-              if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
-                echo '<h2>' . $_SESSION['status'] . '</h2>';
-                unset($_SESSION['status']);
-              }
-              ?>
+
+
+
 
               <div class="datatable-dashv1-list custom-datatable-overright">
 
@@ -288,7 +220,7 @@
                 </div>
 
                 <?php
-                $connection = mysqli_connect("localhost", "root", "", "content");
+                require 'db_config.php';
 
                 // this is for fetching the registered admin profiles to the databse to display in the tables
                 $query = "SELECT * FROM user_admin_account_tbl";
@@ -306,18 +238,9 @@
                       <th>Username</th>
                       <th>Email</th>
                       <th>Password</th>
-                      <!-- <th>Status</th> -->
-                      <!-- <th>User Type</th> -->
                       <th>Edit</th>
                       <th>Delete</th>
                       <th> Profile</th>
-                      <!-- <th>Address</th>
-                                        <th>Contact Number</th>
-                                        <th>Position</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th> -->
                     </tr>
                   </thead>
 
@@ -335,7 +258,7 @@
                           <td><?php echo $row['GC_USERNAME']; ?></td>
                           <td><?php echo $row['GC_EMAIL']; ?></td>
                           <td><?php echo $row['GC_PASSWORD']; ?></td>
-                          <!-- <td><?php echo $row['GC_USERTYPE']; ?></td> -->
+
 
                           <td>
                             <!-- now this is for the editing button on the displayed data in the table -->

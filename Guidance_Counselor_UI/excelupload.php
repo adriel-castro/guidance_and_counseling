@@ -1,6 +1,6 @@
 <?php
 session_start();
-$con = mysqli_connect('localhost', 'root','', 'db_web');
+$con = mysqli_connect('localhost', 'root','', 'db_guidancems');
 
 require 'vendor/autoload.php';
 
@@ -22,12 +22,11 @@ if(isset($_POST['save_excel_data']))
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
         $data = $spreadsheet->getActiveSheet()->toArray();
 
-        
-        $count = "0";
+        // $count = "0";
         foreach($data as $row)
         {
-            if($count > 0)
-            {
+            // if($count > 0)
+            // {
                 $Student_ID = $row[0];
                 $Last_Name = $row[1];
                 $First_Name = $row[2];
@@ -36,39 +35,41 @@ if(isset($_POST['save_excel_data']))
                 $Contant_No = $row[5];
                 $Program = $row[6];
                 $Level = $row[7];
-                $Status =$row[8];
-            }
-            else 
-            {
-                $count = "1";
-            }
+            // }
+            // else 
+            // {
+            //     $count = "1";
+            // }
 
            $studentQuery = "INSERT INTO student_tbl
-           (STUD_ID, STUD_LNAME, STUD_FNAME, STUD_MNAME, STUD_ADDRESS, STUD_CONTACT, STUD_PROGRAM, STUD_LEVEL, STUD_STATUS)
-            VALUES ('$Student_ID', '$Last_Name', '$First_Name', '$Middle_Name', '$Address', '$Contant_No', '$Program', '$Level', '$Status')";
+           (STUD_ID, STUD_LNAME, STUD_FNAME, STUD_MNAME, STUD_ADDRESS, STUD_CONTACT, STUD_PROGRAM, STUD_LEVEL)
+            VALUES ('$Student_ID', '$Last_Name', '$First_Name', '$Middle_Name', '$Address', '$Contant_No', '$Program', '$Level')";
 
             $result = mysqli_query($con, $studentQuery);
-            $msg = true;
+            // $msg = true;
         }
 
         if(isset($msg))
         {
             $_SESSION['message'] = "Successfully imported";
+            $_SESSION['status_code'] = "success";
             header('Location: gc___all-students.php');
-            exit(0);
+            // exit(0);
         }
         else
         {
             $_SESSION['message'] = "Not imported";
+            $_SESSION['status_code'] = "error";
             header('Location: gc___all-students.php');
-            exit(0);
+            // exit(0);
         }
     }
     else
     {
         $_SESSION['message'] = "Invalid File";
+        $_SESSION['status_code'] = "warning";
         header('Location: gc___all-students.php');
-        exit(0);
+        // exit(0);
     }
 }
 

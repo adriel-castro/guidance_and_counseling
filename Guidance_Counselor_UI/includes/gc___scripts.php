@@ -1,5 +1,3 @@
-   
-
    <!-- Logout Modal-->
    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
        <div class="modal-dialog" role="document">
@@ -26,7 +24,7 @@
    <script src="js/vendor/jquery-1.12.4.min.js"></script>
    <!-- bootstrap JS
         ============================================ -->
-   <script src="js/bootstrap.min.js"></script>  
+   <script src="js/bootstrap.min.js"></script>
    <!-- wow JS
         ============================================ -->
    <script src="js/wow.min.js"></script>
@@ -101,6 +99,7 @@
    <script src="js/dropzone/dropzone.js"></script>
    <!-- tab JS
 		============================================ -->
+   <script src="js/tab.js"></script>
    <!-- plugins JS
         ============================================ -->
    <script src="js/plugins.js"></script>
@@ -111,6 +110,9 @@
         ============================================ -->
    <script src="js/tawk-chat.js"></script>
 
+
+
+
    <!-- for the modal -->
 
    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
@@ -118,89 +120,119 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script> -->
 
    <script>
-        // Ignore this in your implementation
-        window.isMbscDemo = true;
-    </script>
+       // Ignore this in your implementation
+       window.isMbscDemo = true;
+   </script>
 
-    <!-- Mobiscroll JS and CSS Includes -->
-    <link rel="stylesheet" href="css/mobiscroll.javascript.min.css">
-    <script src="js/mobiscroll.javascript.min.js"></script>
+   <!-- Mobiscroll JS and CSS Includes -->
+   <link rel="stylesheet" href="css/mobiscroll.javascript.min.css">
+   <script src="js/mobiscroll.javascript.min.js"></script>
 
-    <style type="text/css">
-    body {
-        margin: 0;
-        padding: 0;
-    }
 
-    body,
-    html {
-        height: 100%;
-    }
+   <!-- SWEET ALERT NOTIF JS
+        ============================================ -->
+   <script src="js/sweetalert.min.js"></script>
 
-    .event-color-c {
-        display: flex;
-        margin: 16px;
-        align-items: center;
-        cursor: pointer;
-    }
-    
-    .event-color-label {
-        flex: 1 0 auto;
-    }
-    
-    .event-color {
-        width: 30px;
-        height: 30px;
-        border-radius: 15px;
-        margin-right: 10px;
-        margin-left: 240px;
-        background: #5ac8fa;
-    }
-    
-    .crud-color-row {
-        display: flex;
-        justify-content: center;
-        margin: 5px;
-    }
-    
-    .crud-color-c {
-        padding: 3px;
-        margin: 2px;
-    }
-    
-    .crud-color {
-        position: relative;
-        min-width: 46px;
-        min-height: 46px;
-        margin: 2px;
-        cursor: pointer;
-        border-radius: 23px;
-        background: #5ac8fa;
-    }
-    
-    .crud-color-c.selected,
-    .crud-color-c:hover {
-        box-shadow: inset 0 0 0 3px #007bff;
-        border-radius: 48px;
-    }
-    
-    .crud-color:before {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -10px;
-        margin-left: -10px;
-        color: #f7f7f7;
-        font-size: 20px;
-        text-shadow: 0 0 3px #000;
-        display: none;
-    }
-    
-    .crud-color-c.selected .crud-color:before {
-        display: block;
-    }
-    </style>
+    <?php
+        // this is for registering the admin profile to the databse if success, not success and if password are matched in confirmpass
+        if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
 
-   </body>
+        ?>
+       <script>
+           swal({
+               title: "<?php echo $_SESSION['status']; ?>",
+               //    text: "You clicked the button!",
+               icon: "<?php echo $_SESSION['status_code']; ?>",
+               button: "Close",
+           });
+       </script>
+   <?php
+            unset($_SESSION['status']);
+        }
+    ?>
 
-   </html>
+   <!-- <script>
+       swal({
+           title: "Good job!",
+           text: "You clicked the button!",
+           icon: "success",
+           button: "Aww yiss!",
+       })
+   </script> -->
+
+
+   <!-- <style type="text/css">
+       body {
+           margin: 0;
+           padding: 0;
+       }
+
+       body,
+       html {
+           height: 100%;
+       }
+
+       .event-color-c {
+           display: flex;
+           margin: 16px;
+           align-items: center;
+           cursor: pointer;
+       }
+
+       .event-color-label {
+           flex: 1 0 auto;
+       }
+
+       .event-color {
+           width: 30px;
+           height: 30px;
+           border-radius: 15px;
+           margin-right: 10px;
+           margin-left: 240px;
+           background: #5ac8fa;
+       }
+
+       .crud-color-row {
+           display: flex;
+           justify-content: center;
+           margin: 5px;
+       }
+
+       .crud-color-c {
+           padding: 3px;
+           margin: 2px;
+       }
+
+       .crud-color {
+           position: relative;
+           min-width: 46px;
+           min-height: 46px;
+           margin: 2px;
+           cursor: pointer;
+           border-radius: 23px;
+           background: #5ac8fa;
+       }
+
+       .crud-color-c.selected,
+       .crud-color-c:hover {
+           box-shadow: inset 0 0 0 3px #007bff;
+           border-radius: 48px;
+       }
+
+       .crud-color:before {
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           margin-top: -10px;
+           margin-left: -10px;
+           color: #f7f7f7;
+           font-size: 20px;
+           text-shadow: 0 0 3px #000;
+           display: none;
+       }
+
+       .crud-color-c.selected .crud-color:before {
+           display: block;
+       }
+   </style> -->
+

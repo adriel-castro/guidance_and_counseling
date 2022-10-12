@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- logo angeles_sti
         ============================================ -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/sti_angeles_logo.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
   <!-- Google Fonts
 		============================================ -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
@@ -87,7 +87,6 @@
   <?php include('includes/gc___top-menu-area.php') ?>
   <?php include('includes/gc___mobile_menu.php')  ?>
 
-
   <div class="breadcome-area">
     <div class="container-fluid">
       <div class="row">
@@ -96,10 +95,7 @@
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="breadcome-heading">
-                  <form role="search" class="sr-input-func">
-                    <input type="text" placeholder="Search..." class="search-int form-control">
-                    <a href="#"><i class="fa fa-search"></i></a>
-                  </form>
+
                 </div>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -117,8 +113,6 @@
     </div>
   </div>
   </div>
-
-
 
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <div id="Add_New_Offense" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
@@ -218,24 +212,24 @@
                   </div>
                 </div>
               </div>
-                <div class="form-group-inner">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                      <label class="login2 pull-right pull-right-pro">Status</label>
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <div class="form-select-list">
-                        <select class="form-control custom-select-value" name="account">
-                          <option>Active</option>
-                          <option>Completed</option>
-                          <option>Cancelled</option>
-                          <option>Paused</option>
-                        </select>
-                      </div>
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right pull-right-pro">Status</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <div class="form-select-list">
+                      <select class="form-control custom-select-value" name="account">
+                        <option>Active</option>
+                        <option>Completed</option>
+                        <option>Cancelled</option>
+                        <option>Paused</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
           </form>
 
           <div class="modal-footer">
@@ -270,13 +264,13 @@
                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                   <thead>
                     <tr>
-                      <th data-field="name" data-editable="true">Student ID</th>
-                      <th data-field="email" data-editable="true">Name of Student</th>
-                      <th data-field="phone" data-editable="true">Offense</th>
+                      <th data-field="name" >Student ID</th>
+                      <th data-field="email">Name of Student</th>
+                      <th data-field="phone" >Offense</th>
                       <th data-field="complete">Offense Description</th>
-                      <th data-field="task" data-editable="true">Date</th>
-                      <th data-field="date" data-editable="true">Sanction</th>
-                      <th data-field="price" data-editable="true">Sanction Info</th>
+                      <th data-field="task" >Date</th>
+                      <th data-field="date" >Sanction</th>
+                      <th data-field="price" >Sanction Info</th>
                       <th data-field="status">Status</th>
                     </tr>
                   </thead>
@@ -328,7 +322,7 @@
     </div>
   </div>
   <!-- Static Table End -->
-  <?php include('includes/gc___footer.php')   ?>
+
   </div>
 
   <!-- jquery

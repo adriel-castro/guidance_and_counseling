@@ -3,8 +3,6 @@ include('includes/gc___header.php');
 include('includes/gc___left-menu-area.php');
 include('includes/gc___top-menu-area.php');
 include('includes/gc___mobile_menu.php');
-
-session_start();
 ?>
 
 
@@ -102,8 +100,8 @@ session_start();
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="chat-message">
+
                                                 <div class="message">
                                                     <a class="message-author" href="#"> Bullying </a>
                                                     <span class="message-date"> Mon / Jan 26 2015 - 12:00pm </span>
@@ -113,10 +111,11 @@ session_start();
                                                     <a class="btn btn-s btn-danger"><i></i> Sanction: 15hrs left </a>
                                                     <div class="m-t-md mg-t-10">
                                                         <a class="btn btn-s btn-success"><i></i> Set Counseling </a>
+
+                                                        <!-- <a class="btn btn-s btn-danger"><i></i> Sanction: 15hrs left </a> -->
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <!-- <div class="chat-message">
 
                                                 <div class="message">
