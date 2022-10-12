@@ -171,10 +171,13 @@
                                                         <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Settings</a>
                                                         </li>
                                                         <li>
-                                                            <!-- <a href="#"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a> -->
-                                                            <a class="dropdown-item" href="../homepage___index.php" data-toggle="modal" >
-                                                            Logout
-                                                            </a>
+
+                                                            <?php if(isset($_SESSION['UserEmail'])) { ?>
+                                                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" >
+                                                                    Logout
+                                                                </a>
+                                                            <?php } ?>
+
                                                         </li>
                                                     </ul>
                                                 </li>
