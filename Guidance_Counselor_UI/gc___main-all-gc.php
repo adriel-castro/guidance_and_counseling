@@ -11,6 +11,37 @@ if(!isset($_SESSION['UserEmail'])){
 
     $con = connection();
 
+    if(isset($_POST['add_gc'])) {
+
+        $staff_id = $_POST['staff_id'];
+        $last_name = $_POST['last_name'];
+        $first_name = $_POST['first_name'];
+        $middle_name = $_POST['middle_name'];
+        $address = $_POST['address'];
+        $contact = $_POST['contact'];
+        $gender = $_POST['gender'];
+        $department = $_POST['department'];
+        $program = $_POST['program'];
+        $level = $_POST['level'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $position = "Guidance";
+        $status = "Active";
+        $role = "1";
+    
+        $image = $_FILES['image']['name'];
+        $temp_name = $_FILES['image']['tmp_name'];
+        move_uploaded_file($temp_name,"img/student/$image");
+    
+        $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, ".
+                    "`gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`) ".
+                    "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$department', ".
+                    "'$program','$level','$position','$status','$image','$email','$password','$role')";
+        $con->query( $add_staff) or die ($con->error);
+        header("Location: gc___main-all-gc.php");
+    
+    }
+
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -138,92 +169,173 @@ if(!isset($_SESSION['UserEmail'])){
                         </div>
                     </div>
 
-                    <form action="thecodestaff.php" method="POST">
+                    <form action="" method="POST">
                         <div class="modal-body">
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">GC ID</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_id" class="form-control" placeholder="Enter Staff ID" />
-                                    </div>
-                                </div>
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Staff ID</label>
                             </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">First Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_fname" class="form-control" placeholder="Enter First Name" />
-                                    </div>
-                                </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="staff_id" class="form-control" placeholder="Enter Staff ID" required/>
                             </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Middle Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_mname" class="form-control" placeholder="Enter Middle Name" />
-                                    </div>
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Last Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_lname" class="form-control" placeholder="Enter Last Name" />
-                                    </div>
-                                </div>
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Last Name</label>
                             </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Address</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_address" class="form-control" placeholder="Enter Address" />
-                                    </div>
-                                </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="last_name" class="form-control" placeholder="Enter Last Name" required/>
                             </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Contact No.</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_contact" class="form-control" placeholder="Enter Contact Number" />
-                                    </div>
-                                </div>
                             </div>
+                        </div>
 
-                            <!-- <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Position</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="gc_position" class="form-control" placeholder="Enter Position" />
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!----------------- input type as student for login validation --------------------->
-                            
-                            <!-- <input type="hidden" name="usertype" value="gc_staff"> -->
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                                <button type="submit" name="register_gc_staff-btn" class="btn btn-primary btn-md">Save</button>
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">First Name</label>
                             </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" required/>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Middle Name</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="middle_name" class="form-control" placeholder="Enter Middle Name" required/>
+                            </div>
+                            </div>
+                        </div>              
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Address</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="address" class="form-control" placeholder="Enter Address" required/>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Contact No.</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="number" name="contact" class="form-control" placeholder="Enter Contact Number" required/>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Gender</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <select class="form-control custom-select-value" name="gender" required>
+                                    <option value="" selected disabled hidden>Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Department</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="department" class="form-control" placeholder="Enter your department" />
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Program</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="program" class="form-control" placeholder="Enter Program" />
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Level</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="level" class="form-control" placeholder="Enter Level" />
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Position</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" name="position" class="form-control" placeholder="Enter your Position" />
+                            </div>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Email</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="email" name="email" class="form-control" placeholder="Enter your email" required/>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Password</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="password" name="password" class="form-control" placeholder="Enter your password" required/>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Image</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" name="image" class="form-control" />
+                            </div>
+                            </div>
+                        </div>
+
+                        <!----------------- input type as student for login validation --------------------->
+                        <input type="hidden" name="usertype" value="Staff">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_gc" class="btn btn-primary btn-md">Save</button>
+                        </div>
                         </div>
                     </form>
                 </div>

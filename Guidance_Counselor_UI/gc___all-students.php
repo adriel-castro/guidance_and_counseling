@@ -11,6 +11,37 @@ if(!isset($_SESSION['UserEmail'])){
 
   $con = connection();
 
+  if(isset($_POST['add_student'])) {
+
+    $stud_id = $_POST['stud_id'];
+    $last_name = $_POST['last_name'];
+    $first_name = $_POST['first_name'];
+    $middle_name = $_POST['middle_name'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $gender = $_POST['gender'];
+    $department = $_POST['department'];
+    $program = $_POST['program'];
+    $level = $_POST['level'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $position = "Student";
+    $status = "Active";
+    $role = "3";
+
+    $image = $_FILES['image']['name'];
+    $temp_name = $_FILES['image']['tmp_name'];
+    move_uploaded_file($temp_name,"img/student/$image");
+
+    $add_student = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, ".
+                "`gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`) ".
+                "VALUES ('$stud_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$department', ".
+                "'$program','$level','$position','$status','$image','$email','$password','$role')";
+    $con->query( $add_student) or die ($con->error);
+    header("Location: gc___all-students.php");
+
+  }
+
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -127,7 +158,7 @@ if(!isset($_SESSION['UserEmail'])){
 
   <!----------------------------------------- THIS IS THE MODAL FORM OF ADDING STUDENT MANUALLY ---------------------------------------------->
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div id="ADD_STUDENT_MANUAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+    <div id="ADD_STUDENT" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header header-color-modal bg-color-1">
@@ -137,7 +168,7 @@ if(!isset($_SESSION['UserEmail'])){
             </div>
           </div>
 
-          <form action="thecodestud.php" method="POST">
+          <form action="" method="POST">
             <div class="modal-body">
               <div class="form-group-inner">
                 <div class="row">
@@ -145,29 +176,7 @@ if(!isset($_SESSION['UserEmail'])){
                     <label class="login2 pull-right">Student ID</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_id" class="form-control" placeholder="Enter Student ID" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group-inner">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <label class="login2 pull-right">First Name</label>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_fname" class="form-control" placeholder="Enter First Name" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group-inner">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <label class="login2 pull-right">Middle Name</label>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_mname" class="form-control" placeholder="Enter Middle Name" />
+                    <input type="text" name="stud_id" class="form-control" placeholder="Enter Student ID" required />
                   </div>
                 </div>
               </div>
@@ -178,7 +187,7 @@ if(!isset($_SESSION['UserEmail'])){
                     <label class="login2 pull-right">Last Name</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_lname" class="form-control" placeholder="Enter Last Name" />
+                    <input type="text" name="last_name" class="form-control" placeholder="Enter Last Name" required />
                   </div>
                 </div>
               </div>
@@ -186,10 +195,32 @@ if(!isset($_SESSION['UserEmail'])){
               <div class="form-group-inner">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">First Name</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Middle Name</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="middle_name" class="form-control" placeholder="Enter Middle Name" required/>
+                  </div>
+                </div>
+              </div>              
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <label class="login2 pull-right">Address</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_address" class="form-control" placeholder="Enter Address" />
+                    <input type="text" name="address" class="form-control" placeholder="Enter Address" required/>
                   </div>
                 </div>
               </div>
@@ -200,7 +231,33 @@ if(!isset($_SESSION['UserEmail'])){
                     <label class="login2 pull-right">Contact No.</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_contact" class="form-control" placeholder="Enter Contact Number" />
+                    <input type="number" name="contact" class="form-control" placeholder="Enter Contact Number" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Gender</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <select class="form-control custom-select-value" name="gender" required>
+                        <option value="" selected disabled hidden>Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Department</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="department" class="form-control" placeholder="Enter your department" />
                   </div>
                 </div>
               </div>
@@ -211,7 +268,7 @@ if(!isset($_SESSION['UserEmail'])){
                     <label class="login2 pull-right">Program</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_program" class="form-control" placeholder="Enter Program" />
+                    <input type="text" name="program" class="form-control" placeholder="Enter Program" />
                   </div>
                 </div>
               </div>
@@ -222,7 +279,40 @@ if(!isset($_SESSION['UserEmail'])){
                     <label class="login2 pull-right">Level</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" name="stud_level" class="form-control" placeholder="Enter Level" />
+                    <input type="text" name="level" class="form-control" placeholder="Enter Level" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Email</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Password</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="password" name="password" class="form-control" placeholder="Enter your password" required/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">Image</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="file" name="image" class="form-control" />
                   </div>
                 </div>
               </div>
@@ -232,7 +322,7 @@ if(!isset($_SESSION['UserEmail'])){
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                <button type="submit" name="register_student-btn" class="btn btn-primary btn-md">Save</button>
+                <button type="submit" name="add_student" class="btn btn-primary btn-md">Save</button>
               </div>
             </div>
           </form>
@@ -308,7 +398,7 @@ if(!isset($_SESSION['UserEmail'])){
 
                       <!-- <input type="file" name="import_file"><br> -->
                       <button type="button" class="btn btn-custon-four btn-primary btn-md" data-toggle="modal" data-target="#ADD_STUDENT_EXCEL">Import File</button>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_STUDENT_MANUAL">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_STUDENT">
                         Add New
                       </button>
                       <!-- </form> -->
