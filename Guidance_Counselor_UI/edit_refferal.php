@@ -216,6 +216,16 @@ if(!isset($_SESSION['UserEmail'])){
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Program</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['program'] ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right" name="REFF_SOURCE">Source</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">

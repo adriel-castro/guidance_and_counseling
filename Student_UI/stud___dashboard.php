@@ -1,4 +1,16 @@
 <?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
+
 include('includes/stud___header.php');
 include('includes/stud___left-menu-area.php');
 include('includes/stud___top-menu-area.php');
@@ -82,3 +94,5 @@ include('includes/stud___mobile_menu.php');
 <?php
 include('includes/stud___scripts.php');
 ?>
+
+<?php } ?>

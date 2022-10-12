@@ -15,47 +15,47 @@ if(!isset($_SESSION['UserEmail'])){
     if(isset($_SESSION['UserId'])) {
         $UserId = $_SESSION['UserId'];
         $UserEmail = $_SESSION['UserEmail'];
-        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.user = '$UserId' AND refferals.ref_status NOT LIKE 'Cancelled%'";
+        $refferal = "SELECT * FROM users LEFT JOIN refferals ON refferals.reffered_user = users.user_id WHERE refferals.reffered_by = '$UserId' AND refferals.ref_status NOT LIKE 'Cancelled%'";
         $get_referral = $con->query($refferal) or die ($con->error);
         $row = $get_referral->fetch_assoc();
         
-        $referred_user = "SELECT * from refferals WHERE user = '$UserId'";
+        $referred_user = "SELECT * from refferals WHERE reffered_by = '$UserId'";
         $get_referred_user = $con->query($referred_user) or die ($con->error);
         $row_referred_user = $get_referred_user->fetch_assoc();
     }
     
-    if (isset($_POST['add_refferal'])) {
+    // if (isset($_POST['add_refferal'])) {
 
-        $UserId = $_SESSION['UserId'];
-        $last_name = $_POST['last_name'];
-        $first_name = $_POST['first_name'];
-        $level = $_POST['level'];
+    //     $UserId = $_SESSION['UserId'];
+    //     $last_name = $_POST['last_name'];
+    //     $first_name = $_POST['first_name'];
+    //     $level = $_POST['level'];
 
-        $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level'";
-        $find_id = $con->query($get_student) or die ($con->error);
-        $stud_id = $find_id->fetch_assoc();
+    //     $get_student = "SELECT * from users WHERE last_name LIKE '$last_name' AND first_name LIKE '$first_name' AND level LIKE '$level'";
+    //     $find_id = $con->query($get_student) or die ($con->error);
+    //     $stud_id = $find_id->fetch_assoc();
 
-        if ($stud_id > 0) {
-        // print_r($result = mysql_query($query));
-        $reffered_user = $stud_id['user_id'];
-        $source = $_POST['source'];
-        $reffered_by = $_POST['reffered_by'];
-        $reffered_date = $_POST['reffered_date'];
-        $nature = $_POST['nature'];
-        $reason = $_POST['reason'];
-        $actions = $_POST['actions'];
-        $remarks = $_POST['remarks'];
-        $status = "Pending";
+    //     if ($stud_id > 0) {
+    //     // print_r($result = mysql_query($query));
+    //     $reffered_user = $stud_id['user_id'];
+    //     $source = $_POST['source'];
+    //     $reffered_by = $_POST['reffered_by'];
+    //     $reffered_date = $_POST['reffered_date'];
+    //     $nature = $_POST['nature'];
+    //     $reason = $_POST['reason'];
+    //     $actions = $_POST['actions'];
+    //     $remarks = $_POST['remarks'];
+    //     $status = "Pending";
         
-        $add_query = "INSERT INTO `refferals` (`reffered_user`,`user`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
-                "VALUES ('$reffered_user','$UserId','$source','$reffered_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
-        echo $con->query($add_query) or die ($con->error);
-        echo header("Location: staff___set_referral.php");
+    //     $add_query = "INSERT INTO `refferals` (`reffered_user`,`user`,`source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`) ".
+    //             "VALUES ('$reffered_user','$UserId','$source','$reffered_by','$reffered_date','$nature','$reason','$actions','$remarks','$status')";
+    //     echo $con->query($add_query) or die ($con->error);
+    //     echo header("Location: staff___set_referral.php");
 
-        } else {
-            echo "Student is not existed.";
-        }
-    }
+    //     } else {
+    //         echo "Student is not existed.";
+    //     }
+    // }
 
     // For Cancelled button
     if(isset($_GET['id'])) {
@@ -188,7 +188,7 @@ if(!isset($_SESSION['UserEmail'])){
     </div>
     </div>
 
-    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div id="ADD_REFERRAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -199,16 +199,15 @@ if(!isset($_SESSION['UserEmail'])){
                         </div>
                     </div>
 
-                    <form action="staff_referral_code.php" method = "POST">
+                    <form action="add_referral.php" method="POST">
                         <div class="modal-body">
-
                             <div class="form-group-inner">
                                 <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Last Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="stud_lname" class="form-control" placeholder="Enter the Full Last Name you want to Refer" />
+                                        <input id= "LastName" type="text" name="last_name" class="form-control" placeholder="Enter the Full Last Name you want to Refer" />
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +217,7 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right">First Name</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="stud_fname" class="form-control" placeholder="Enter the Full First Name you want to Refer" />
+                                        <input id= "FirstName" type="text" name="first_name" class="form-control" placeholder="Enter the Full First Name you want to Refer" />
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +228,7 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right pull-right-pro">Level</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="stud_level"  class="form-control" placeholder="Enter level" />
+                                        <input id="STUD_LEVEL" type="text" name="level"  class="form-control" placeholder="Enter level" />
                                     </div>
                                 </div>
                             </div>
@@ -239,14 +238,42 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right pull-right-pro">Program</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="stud_program"  class="form-control" placeholder="Enter Program" />
+                                        <input id="" type="text" name="program"  class="form-control" placeholder="Enter Program" />
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right" name="source">Source</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <div class="form-select-list">
+                                            <select class="form-control custom-select-value" name="source" required>
+                                                <option value="" selected disabled hidden>Select Source</option>
+                                                <option>Guidance Counselor</option>
+                                                <option>Faculty</option>
+                                                <option>Staff</option>
+                                                <option>Classmate/s</option>
+                                                <option>Parent/Guardian</option>
+                                                <option>Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <input type="hidden" name="ref_source"  class="form-control" value="Staff">
-
+                            <!-- <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right pull-right-pro">Referred By</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input id="ref_id" type="text" name="reffered_by" class="form-control" placeholder="Enter your Student ID" />
+                                    </div>
+                                </div>
+                            </div> -->
 
                             <div class="form-group-inner data-custon-pick" id="data_2">
                                 <div class="row">
@@ -254,9 +281,9 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right" style="font-weight: bold;">Date</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group date ">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input type="text" name="ref_date" class="form-control" value="XX/XX/XXXX">
+                                        <div class="input-group ">
+                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
+                                            <input type="date" name="reffered_date" class="form-control" value="<?= date('d/m/Y') ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -269,7 +296,7 @@ if(!isset($_SESSION['UserEmail'])){
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
-                                            <select id= "nature" name="ref_nature" class="form-control custom-select-value" name="account">
+                                            <select id= "nature" name="nature" class="form-control custom-select-value" name="account">
                                                 <option>Academic</option>
                                                 <option>Career</option>
                                                 <option>Personal</option>
@@ -285,17 +312,17 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right">Reason</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input name="ref_reason" type="text" class="form-control" placeholder="Enter Reason for Referral" />
+                                        <input id= "reason" name="reason" type="text" class="form-control" placeholder="Enter Reason for Referral" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">ACTION/S</label>
+                                        <label class="login2 pull-right">Action/s</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input name="ref_act" type="text" class="form-control" placeholder="ACTION/S" />
+                                        <input type="text" name="actions" class="form-control" placeholder="Action/s Taken before Referral" required/>
                                     </div>
                                 </div>
                             </div>
@@ -305,27 +332,24 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right">Remarks</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="ref_remark" class="form-control" placeholder="Enter Remarks" />
+                                        <input type="text" name="remarks" class="form-control" placeholder="Enter Remarks"/>
                                     </div>
                                 </div>
                             </div>
-                    
-
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="submit_staff_referral" class="btn btn-primary btn-md">Upload</button>
+                        <button id= "submit" type="submit" name="add_refferal" class="btn btn-primary btn-md">Upload</button>
                     </div>
                     </form>
                 </div>
                 </div>
             </div>
         </div>
-
-    </div> -->
+    </div>
 
     <!-- Add new Referral -->
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div id="ADD_REFERRAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -338,16 +362,6 @@ if(!isset($_SESSION['UserEmail'])){
 
                     <form action="" method="POST">
                         <div class="modal-body">
-                            <!-- <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Student ID</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="student_id" class="form-control" placeholder="Enter Student ID" required/>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -416,9 +430,9 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right" style="font-weight: bold;">Date</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group ">
+                                        <div class="input-group "> -->
                                             <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="date" name="reffered_date" class="form-control" value="<?php echo date('d/m/Y');?>" required>
+                                            <!-- <input type="date" name="reffered_date" class="form-control" value="<?php echo date('d/m/Y');?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -484,7 +498,7 @@ if(!isset($_SESSION['UserEmail'])){
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- Static Table Start -->

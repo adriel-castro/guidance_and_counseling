@@ -27,7 +27,7 @@ if(!isset($_SESSION['UserEmail'])){
 
     if ($row_referred_user > 0) {
       $source = $_POST['source'];
-      $reffered_by = $_POST['referred_by'];
+      // $reffered_by = $_POST['referred_by'];
       $reffered_date = $_POST['reffered_date'];
       $nature = $_POST['nature'];
       $reason = $_POST['reason'];
@@ -36,10 +36,10 @@ if(!isset($_SESSION['UserEmail'])){
       // $status = "$_POST['ref_status']";
       $status = "Pending";
     
-      $update_query = "UPDATE `refferals` SET `source`='$source',`reffered_by`='$reffered_by',`reffered_date`='$reffered_date', ".
+      $update_query = "UPDATE `refferals` SET `source`='$source',`reffered_date`='$reffered_date', ".
                 "`nature`='$nature',`reason`='$reason',`actions`='$actions',`remarks`='$remarks',`ref_status`='$status' WHERE ref_id = '$ref_id'";
       $con->query($update_query) or die ($con->error);
-      echo header("Location: stud___set_referral.php");
+      header("Location: stud___set_referral.php");
 
     } else {
       echo "Student is not existing.";
@@ -215,6 +215,16 @@ if(!isset($_SESSION['UserEmail'])){
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Program</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px;"><?php echo $row['program'] ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right" name="REFF_SOURCE">Source</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
@@ -233,7 +243,7 @@ if(!isset($_SESSION['UserEmail'])){
                                 </div>
                             </div>
 
-                            <div class="form-group-inner">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Referred By</label>
@@ -242,7 +252,7 @@ if(!isset($_SESSION['UserEmail'])){
                                         <input type="text" name="referred_by" class="form-control" value="<?php echo $row['reffered_by'] ?>" placeholder="Enter Name" required/>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="form-group-inner data-custon-pick" id="data_2">
                                 <div class="row">
