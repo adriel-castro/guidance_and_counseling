@@ -1,4 +1,17 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
+  $con = connection();
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -323,24 +336,24 @@
                   <tbody>
 
                     <?php
-                    $connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
+                    // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
-                    $query = "SELECT * FROM student_tbl";
-                    $query_run = mysqli_query($connection, $query);
+                    $query = "SELECT * FROM users WHERE position = 'student' || 'Student'";
+                    $query_run = mysqli_query($con, $query);
 
                     if (mysqli_num_rows($query_run) > 0) {
                       foreach ($query_run as $row) {
                     ?>
 
                         <tr>
-                          <td><?= $row['STUD_ID'] ?></td>
-                          <td><?= $row['STUD_LNAME'] ?></td>
-                          <td><?= $row['STUD_FNAME'] ?></td>
-                          <td><?= $row['STUD_MNAME'] ?></td>
-                          <td><?= $row['STUD_ADDRESS'] ?></td>
-                          <td><?= $row['STUD_CONTACT'] ?></td>
-                          <td><?= $row['STUD_PROGRAM'] ?></td>
-                          <td><?= $row['STUD_LEVEL'] ?></td>
+                          <td><?= $row['id_number'] ?></td>
+                          <td><?= $row['last_name'] ?></td>
+                          <td><?= $row['first_name'] ?></td>
+                          <td><?= $row['middle_name'] ?></td>
+                          <td><?= $row['address'] ?></td>
+                          <td><?= $row['contact'] ?></td>
+                          <td><?= $row['program'] ?></td>
+                          <td><?= $row['level'] ?></td>
                           <td>
                             <a href="gc___student_profile.php">
                               <button type="button" class="btn btn-primary">View</button>
@@ -406,8 +419,10 @@
 		============================================ -->
   <script src="js/icheck/icheck.min.js"></script>
   <script src="js/icheck/icheck-active.js"></script>
- 
+
 
 </body>
 
 </html>
+
+<?php } ?>
