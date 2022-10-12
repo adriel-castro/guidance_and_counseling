@@ -188,6 +188,142 @@ if(!isset($_SESSION['UserEmail'])){
     </div>
     </div>
 
+    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div id="ADD_REFERRAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header header-color-modal bg-color-1">
+                        <h4 class="modal-title">Refer a Student or Teacher</h4>
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+                    </div>
+
+                    <form action="staff_referral_code.php" method = "POST">
+                        <div class="modal-body">
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Last Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="stud_lname" class="form-control" placeholder="Enter the Full Last Name you want to Refer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">First Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="stud_fname" class="form-control" placeholder="Enter the Full First Name you want to Refer" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right pull-right-pro">Level</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="stud_level"  class="form-control" placeholder="Enter level" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right pull-right-pro">Program</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="stud_program"  class="form-control" placeholder="Enter Program" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <input type="hidden" name="ref_source"  class="form-control" value="Staff">
+
+
+                            <div class="form-group-inner data-custon-pick" id="data_2">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
+                                        <label class="login2 pull-right" style="font-weight: bold;">Date</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <div class="input-group date ">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input type="text" name="ref_date" class="form-control" value="XX/XX/XXXX">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Nature</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <div class="form-select-list">
+                                            <select id= "nature" name="ref_nature" class="form-control custom-select-value" name="account">
+                                                <option>Academic</option>
+                                                <option>Career</option>
+                                                <option>Personal</option>
+                                                <option>Crisis</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Reason</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input name="ref_reason" type="text" class="form-control" placeholder="Enter Reason for Referral" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">ACTION/S</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input name="ref_act" type="text" class="form-control" placeholder="ACTION/S" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Remarks</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="ref_remark" class="form-control" placeholder="Enter Remarks" />
+                                    </div>
+                                </div>
+                            </div>
+                    
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                        <button type="submit" name="submit_staff_referral" class="btn btn-primary btn-md">Upload</button>
+                    </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div> -->
+
     <!-- Add new Referral -->
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div id="ADD_REFERRAL" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
