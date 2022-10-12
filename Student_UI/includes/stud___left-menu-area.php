@@ -11,8 +11,8 @@
                     <li>
                         <a title="Landing Page" href="stud___dashboard.php" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Dashboard</span></a>
                     </li>
-                    <li>
-                                            <!-- <li class="active"> -->
+                    <!-- <li>
+                                           
                         <a class="has-arrow" href="index.html">
                             <span class="educate-icon educate-home icon-wrap"></span>
                             <span class="mini-click-non">Counseling</span>
@@ -21,7 +21,7 @@
                             <li><a title="Dashboard v.1" href="#"><span class="mini-sub-pro">2022-2023(1st Sem)</span></a></li>
                             <li><a title="Dashboard v.2" href="#"><span class="mini-sub-pro">2022-2023(2nd Sem)</span></a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
                     <li>
                         <a title="Landing Page" href="stud___set_referral.php" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Referral</span></a>
