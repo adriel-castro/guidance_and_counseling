@@ -1,6 +1,6 @@
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "db_web");
+$conn = mysqli_connect("localhost", "root", "", "content");
 
 if($conn){
     echo "Connection Successfull";

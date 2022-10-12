@@ -1,4 +1,5 @@
-<!doctype html>
+<?php session_start();?>
+  <!doctype html>
 <html class="no-js" lang="en">
 
 <head>
@@ -134,7 +135,7 @@
             </div>
           </div>
 
-          <form action="">
+          <form action="staff_appointment_code.php" method = "POST"">
             <div class="modal-body">
 
               <div class="form-group-inner">
@@ -144,7 +145,7 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="form-select-list">
-                      <select class="form-control custom-select-value" name="account">
+                      <select id= "subject" name= "app_subj" class="form-control custom-select-value" name="account">
                         <option>Counseling</option>
                         <option>Academic</option>
                         <option>Personal</option>
@@ -160,7 +161,7 @@
                     <label class="login2 pull-right">Reason</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Appointment Subject" />
+                    <input  type="text" name ="app_setting" placeholder="Enter Appointment Subject" />
                   </div>
                 </div>
               </div>
@@ -187,7 +188,7 @@
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="input-group date ">
                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                      <input type="text" class="form-control" value="XX/XX/XXXX">
+                      <input type="text" name="app_date" class= "form-control"value="XX/XX/XXXX">
                     </div>
                   </div>
                 </div>
@@ -219,7 +220,7 @@
                     <label class="login2 pull-right">Information</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Appointment Information" />
+                    <input id="Information" type="text" name="APP_INFO" placeholder="Enter Appointment Information" />
                   </div>
                 </div>
               </div>
@@ -229,7 +230,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="save_excel_data" class="btn btn-primary btn-md">Add</button>
+            <button  type="submit" name="submit_staff_appointment" class="btn btn-primary btn-md">Add</button>
           </div>
         </div>
       </div>
@@ -254,22 +255,17 @@
             <div class="sparkline13-graph">
               <div class="datatable-dashv1-list custom-datatable-overright">
                 <div id="toolbar">
-                  <!-- <select class="form-control dt-tb">
-                                        <option value="">Export Basic</option>
-                                        <option value="all">Export All</option>
-                                        <option value="selected">Export Selected</option>
-                                    </select> -->
-
-                  <div class="card-header py-3">
-                    <h5 class="m-0 font-weight-bold text-primary">
-                      <!-- Guidance Counselor -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_APPOINTMENT">
-                        Add New Appointment
-                      </button>
-
-                    </h5>
-                  </div>
-                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_APPOINTMENT">
+                                        Add New Appointment
+                                    </button><br>  
+                                    <?php
+                                        if(isset($_SESSION['success']) && $_SESSION['success'] !='')
+                                        {
+                                            echo $_SESSION['success'];
+                                            unset($_SESSION['success']);
+                                        }
+                                     ?>
+                                </div>
                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                   <thead>
                     <tr>
@@ -281,73 +277,48 @@
                       <th data-field="appoint_type">Type</th>
                       <th data-field="appoint_link">Meeting Link</th>
                       <th data-field="appoint_status">Status</th>
-                      <th data-field="appoint_delete">Cancel</th>
+                      <th>Cancel</th>
 
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Others</td>
-                      <td>Need Information About...</td>
-                      <td>Urgent</td>
-                      <td>September 5, 2022</td>
-                      <td>5:00pm</td>
-                      <td>Walk-in</td>
-                      <td></td>
-                      <td>
-                        <button class="btn btn-xs btn-success">Approved</button>
-                      </td>
+                  <?php
+                    $connection = mysqli_connect('localhost', 'root', '', 'content');
 
-                      <td>
-                        <form action="thecode.php" method="post">
-                          <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                          <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                        </form>
-                      </td>
+                    $query = "SELECT * FROM appointment_tbl";
+                    $query_run = mysqli_query($connection, $query);
 
-                    </tr>
+                    if (mysqli_num_rows($query_run) > 0) {
+                      foreach ($query_run as $row) {
+                    ?>
 
                     <tr>
-                      <td>Counseling</td>
-                      <td>Bullying</td>
-                      <td>Urgent</td>
-                      <td>September 5, 2022</td>
-                      <td>5:00pm</td>
-                      <td>Online-Meeting</td>
-                      <td>https://meetinglink101.com</td>
+                      <td><?= $row['APP_SUBJ']?></td>
+                      <td><?= $row['APP_REASON']?></td>
+                      <td><?= $row['APP_CONCERN']?></td>
+                      <td><?= $row['APP_DATE']?></td>
+                      <td><?= $row['APP_TIME']?></td>
+                      <td><?= $row['APP_TYPE']?></td>
+                      <td><?= $row['APP_LINK']?></td>
+                      <td><?= $row['APP_STATUS']?></td>
                       <td>
-                        <button class="btn btn-xs btn-success">Approved</button>
-                      </td>
+                        <a href= "gc___staff_profile.php">
+                      <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
+                      </a>
+                     </td>
+                     </tr>
+                     <?php
+                      }
+                    }else{
+                      ?>
+                      <tr>
+                        <td colspan="4">No Record Found</td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
 
-                      <td>
-                        <form action="thecode.php" method="post">
-                          <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                          <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                        </form>
-                      </td>
-
-                    </tr>
-
-                    <tr>
-                      <td>Academic</td>
-                      <td>Bullying</td>
-                      <td></td>
-                      <td>September 5, 2022</td>
-                      <td>5:00pm</td>
-                      <td>Walk-in</td>
-                      <td></td>
-                      <td>
-                        <button class="btn btn-xs btn-warning">To be Approved</button>
-                      </td>
-
-                      <td>
-                        <form action="thecode.php" method="post">
-                          <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                          <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                        </form>
-                      </td>
-
-                    </tr>
+                     
 
                   </tbody>
                 </table>

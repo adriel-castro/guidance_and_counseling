@@ -32,40 +32,20 @@ include('includes/staff___mobile_menu.php');
 </div>
 </div>
 
+           <div class="product-sales-area mg-tb-30">
+           <div class="container-fluid">
+            <div class="row">
 
-
-
-<div class="product-sales-area mg-tb-30">
-    <div class="container-fluid">
-        <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-sales-chart">
                     <div class="portlet-title">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="caption pro-sl-hd">
-                                    <span class="caption-subject"><b>University Earnings</b></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="actions graph-rp graph-rp-dl">
-                                    <p>All Earnings are in million $</p>
-                                </div>
+                            <div class="col-lg-12">
+                            <div id='calendar'></div>
+                                            
                             </div>
                         </div>
                     </div>
-                    <ul class="list-inline cus-product-sl-rp">
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #006DF0;"></i>CSE</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #933EC5;"></i>Accounting</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #65b12d;"></i>Electrical</h5>
-                        </li>
-                    </ul>
-                    <div id="extra-area-chart" style="height: 356px;"></div>
                 </div>
             </div>
 

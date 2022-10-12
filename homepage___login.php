@@ -1,7 +1,7 @@
 <?php
-include('includes/homepage___header.php');
 
 session_start();
+include('includes/homepage___header.php');
 ?>
 
 
@@ -21,7 +21,7 @@ session_start();
                         <div class="col-lg-12">
 
                             <div class="p-5" >
-                                <div class="col-lg-10 offset-lg-1" style="background-color: yellow;">
+                                <div class="col-lg-10 offset-lg-1">
                                     <center><img src="images/STI4.png" /></center>
                                 </div>
                                 <br>
@@ -29,12 +29,12 @@ session_start();
 
                                     <h1 class="h4 text-gray-900 mb-4" style="font-weight:bold">Login</h1>
 
-                                    <?php
+                                    <!-- <?php
                                     if (isset($_SESSION['status']) && $_SESSION['status'] != '') {
                                         echo '<h2 class="bg-danger text-white">' . $_SESSION['status'] . '</h2>';
                                         unset($_SESSION['status']);
                                     }
-                                    ?>
+                                    ?> -->
 
 
                                 </div>
@@ -71,14 +71,6 @@ session_start();
     </div>
 
 </div>
-
-
-
-
-
-
-
-
 
 <?php
 include('includes/homepage___scripts.php');
