@@ -1,4 +1,18 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
+  $con = connection();
+
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -308,23 +322,23 @@
                   <tbody>
 
                     <?php
-                    $connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
+                    // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
-                    $query = "SELECT * FROM staff_tbl";
-                    $query_run = mysqli_query($connection, $query);
+                    $query = "SELECT * FROM users WHERE position = 'staff' || 'Staff'";
+                    $query_run = mysqli_query($con, $query);
 
                     if (mysqli_num_rows($query_run) > 0) {
                       foreach ($query_run as $row) {
                     ?>
 
                         <tr>
-                          <td><?= $row['STAFF_ID'] ?></td>
-                          <td><?= $row['STAFF_LNAME'] ?></td>
-                          <td><?= $row['STAFF_FNAME'] ?></td>
-                          <td><?= $row['STAFF_MNAME'] ?></td>
-                          <td><?= $row['STAFF_ADDRESS'] ?></td>
-                          <td><?= $row['STAFF_CONTACT'] ?></td>
-                          <td><?= $row['STAFF_POSITION'] ?></td>
+                        <td><?= $row['id_number'] ?></td>
+                          <td><?= $row['last_name'] ?></td>
+                          <td><?= $row['first_name'] ?></td>
+                          <td><?= $row['middle_name'] ?></td>
+                          <td><?= $row['address'] ?></td>
+                          <td><?= $row['contact'] ?></td>
+                          <td><?= $row['position'] ?></td>
 
                           <td>
                             <a href="gc___staff_profile.php">
@@ -396,3 +410,5 @@
 </body>
 
 </html>
+
+<?php } ?>
