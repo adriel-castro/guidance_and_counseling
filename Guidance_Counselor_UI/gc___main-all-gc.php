@@ -1,4 +1,17 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
+    $con = connection();
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -266,22 +279,22 @@
                                     <tbody>
 
                                         <?php
-                                        $connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
+                                        // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
-                                        $query = "SELECT * FROM gc_tbl";
-                                        $query_run = mysqli_query($connection, $query);
+                                        $query = "SELECT * FROM users WHERE position = 'guidance' || 'Guidance'";
+                                        $query_run = mysqli_query($con, $query);
 
                                         if (mysqli_num_rows($query_run) > 0) {
                                             foreach ($query_run as $row) {
                                         ?>
 
-                                                <tr>
-                                                    <td><?= $row['GC_ID'] ?></td>
-                                                    <td><?= $row['GC_LNAME'] ?></td>
-                                                    <td><?= $row['GC_FNAME'] ?></td>
-                                                    <td><?= $row['GC_MNAME'] ?></td>
-                                                    <td><?= $row['GC_ADDRESS'] ?></td>
-                                                    <td><?= $row['GC_CONTACT'] ?></td>
+                                            <tr>
+                                                <td><?= $row['id_number'] ?></td>
+                                                <td><?= $row['last_name'] ?></td>
+                                                <td><?= $row['first_name'] ?></td>
+                                                <td><?= $row['middle_name'] ?></td>
+                                                <td><?= $row['address'] ?></td>
+                                                <td><?= $row['contact'] ?></td>
                                                     <!-- <td><?= $row['STAFF_POSITION'] ?></td> -->
 
                                                     <td>
@@ -354,3 +367,5 @@
 </body>
 
 </html>
+
+<?php } ?>
