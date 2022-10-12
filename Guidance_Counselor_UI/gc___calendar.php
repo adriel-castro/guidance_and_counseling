@@ -103,7 +103,7 @@ function build_calendar($month, $year)
             $totalbookings = checkSlot($mysqli, $date);
             // yung 12 dito is yung total timeslots sa isang date
             if ($totalbookings == 18) {
-                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>All Booked</a>";
+                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>Fully Booked</a>";
             } else {
                 $availableslots = 18 - $totalbookings;
                 $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
