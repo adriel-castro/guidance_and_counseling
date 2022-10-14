@@ -1,8 +1,20 @@
 <?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+        
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+    
+}else{
+
 function build_calendar($month, $year)
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'db_guidancems');
-    // $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
+    // $con = new mysqli('localhost', 'root', '', 'db_guidancems');
+    $con = connection();
+    // $stmt = $con->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
     // $stmt->bind_param('ss', $month, $year);
     // $bookings = array();
     // if ($stmt->execute()) {
@@ -100,13 +112,17 @@ function build_calendar($month, $year)
         else {
 
             // this is where in calendar mared na yung date if nakuha na lahat ng appointment timeslots
-            $totalbookings = checkSlot($mysqli, $date);
+            $totalbookings = checkSlot($con, $date);
             // yung 12 dito is yung total timeslots sa isang date
             if ($totalbookings == 18) {
                 $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>Fully Booked</a>";
             } else {
                 $availableslots = 18 - $totalbookings;
-                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                if(!isset($_GET['ref_id'])) {
+                    $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                } else {
+                    $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "&ref_id=" . $_GET['ref_id'] . "&firstName=" . $_GET['firstName'] . "&lastName=" . $_GET['lastName'] . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                }
             }
         }
 
@@ -131,9 +147,9 @@ function build_calendar($month, $year)
 }
 
 
-function checkSlot($mysqli, $date)
+function checkSlot($con, $date)
 {
-    $stmt = $mysqli->prepare("select * from new_booking_tbl where date=?");
+    $stmt = $con->prepare("select * from appointments where date=?");
     $stmt->bind_param('s', $date);
     $totalbookings = 0;
     if ($stmt->execute()) {
@@ -150,7 +166,7 @@ function checkSlot($mysqli, $date)
 }
 
 ?>
-<?php session_start() ?>
+<!-- <?php session_start() ?> -->
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -361,6 +377,7 @@ function checkSlot($mysqli, $date)
             <div class="row">
                 <div class="col-lg-12">
                     <div class="calender-inner">
+                    <!-- <?= $ref_id ?> -->
                         <?php
                         $dateComponents = getdate();
                         if (isset($_GET['month']) && isset($_GET['year'])) {
@@ -380,4 +397,6 @@ function checkSlot($mysqli, $date)
 
     <?php
     include('includes/gc___scripts.php');
+
+        }
     ?>
