@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2022 at 08:23 PM
+-- Generation Time: Oct 14, 2022 at 06:12 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -24,22 +24,112 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `appointment_slots`
+-- Table structure for table `appointments`
 --
 
-CREATE TABLE `appointment_slots` (
-  `slot_id` int(11) NOT NULL,
-  `slot_date` date NOT NULL,
-  `available_slot` int(11) NOT NULL,
+CREATE TABLE `appointments` (
+  `id` int(11) NOT NULL,
+  `timeslot` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `user_type` varchar(150) NOT NULL,
+  `ref_id` int(20) DEFAULT NULL,
+  `id_number` int(20) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `appointment_type` varchar(50) NOT NULL,
+  `info` varchar(300) NOT NULL,
+  `app_status` varchar(150) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `appointment_slots`
+-- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointment_slots` (`slot_id`, `slot_date`, `available_slot`, `updated_at`) VALUES
-(1, '2022-10-07', 5, '2022-10-10 10:47:26');
+INSERT INTO `appointments` (`id`, `timeslot`, `date`, `user_type`, `ref_id`, `id_number`, `subject`, `appointment_type`, `info`, `app_status`, `updated_at`) VALUES
+(8, '08:30AM - 09:00AM', '2022-10-18', 'Student', NULL, 10025410, 'Don\'t want company', 'Walk-in', 'test123 test 123', 'Cancelled', '2022-10-14 14:43:16'),
+(9, '09:00AM - 09:30AM', '2022-10-26', 'Student', NULL, 10025123, 'Do not want company', 'Online', 'asdaacsaca', 'In Review', '2022-10-14 13:58:07'),
+(10, '10:00AM - 10:30AM', '2022-10-21', 'Student', NULL, 20012546, 'nature', 'Walk-in', 'reason, action taken, remarks', 'Completed', '2022-10-14 13:58:10'),
+(11, '03:30PM - 04:00PM', '2022-10-24', 'Student', 3, 100254256, 'test subject', 'Walk-in', 'Nagwawala, Pinacheck up sa Doctor, Needs Psychiatry', 'In Review', '2022-10-14 16:07:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointment_history`
+--
+
+CREATE TABLE `appointment_history` (
+  `id` int(11) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `reason` varchar(300) NOT NULL,
+  `status` varchar(150) NOT NULL,
+  `date_accomplished` date NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointment_history`
+--
+
+INSERT INTO `appointment_history` (`id`, `app_id`, `reason`, `status`, `date_accomplished`, `updated_at`) VALUES
+(1, 8, 'Does not fit into my schedule', 'Cancelled', '2022-10-14', '2022-10-14 09:25:35'),
+(2, 10, 'reason, action taken, remarks', 'Completed', '2022-10-14', '2022-10-14 10:05:54'),
+(3, 8, 'testing cancel', 'Cancelled', '2022-10-14', '2022-10-14 14:43:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `counseling`
+--
+
+CREATE TABLE `counseling` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `subject` varchar(300) NOT NULL,
+  `remarks` varchar(300) NOT NULL,
+  `date` date NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `program` varchar(255) NOT NULL,
+  `section` varchar(150) NOT NULL,
+  `app_id` int(20) NOT NULL,
+  `session_date` date NOT NULL,
+  `feedback_date` date NOT NULL,
+  `action_taken` varchar(300) NOT NULL,
+  `remarks` varchar(300) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `student_name`, `program`, `section`, `app_id`, `session_date`, `feedback_date`, `action_taken`, `remarks`, `updated_at`) VALUES
+(1, 'Josephine Bracken', 'BSIT', '4', 10, '2022-10-21', '2022-10-14', 'Feedback Action Taken', 'Feedback Remarks', '2022-10-14 14:17:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offenses`
+--
+
+CREATE TABLE `offenses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `info` varchar(300) NOT NULL,
+  `remarks` varchar(300) NOT NULL,
+  `date` date NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -77,6 +167,21 @@ INSERT INTO `refferals` (`ref_id`, `reffered_user`, `source`, `reffered_by`, `re
 (10, 4, 'Staff', 3, '2022-10-12', 'Personal', 'Bullying', 'Have tutor', 'Need Psychiatry', 'Pending', '2022-10-12 09:59:23'),
 (11, 5, 'Staff', 3, '2022-10-12', 'Career', 'Poverty', 'Find Part Time Job', 'Unhealthy Environment', 'Pending', '2022-10-12 09:59:17'),
 (12, 3, 'Guidance Counselor', 2, '2022-10-12', 'Personal', 'Poverty', 'Teachers counseling', 'Pursigido', 'For Approval', '2022-10-12 11:42:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `refferal_id` int(20) NOT NULL,
+  `offense` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -147,10 +252,34 @@ INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_
 --
 
 --
--- Indexes for table `appointment_slots`
+-- Indexes for table `appointments`
 --
-ALTER TABLE `appointment_slots`
-  ADD PRIMARY KEY (`slot_id`);
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `appointment_history`
+--
+ALTER TABLE `appointment_history`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `counseling`
+--
+ALTER TABLE `counseling`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offenses`
+--
+ALTER TABLE `offenses`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `refferals`
@@ -158,6 +287,12 @@ ALTER TABLE `appointment_slots`
 ALTER TABLE `refferals`
   ADD PRIMARY KEY (`ref_id`),
   ADD KEY `user_id` (`reffered_user`);
+
+--
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `roles`
@@ -177,16 +312,46 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `appointment_slots`
+-- AUTO_INCREMENT for table `appointments`
 --
-ALTER TABLE `appointment_slots`
-  MODIFY `slot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `appointments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `appointment_history`
+--
+ALTER TABLE `appointment_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `counseling`
+--
+ALTER TABLE `counseling`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `offenses`
+--
+ALTER TABLE `offenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `refferals`
 --
 ALTER TABLE `refferals`
   MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
