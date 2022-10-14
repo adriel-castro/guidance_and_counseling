@@ -1,9 +1,14 @@
 <?php
+
 session_start();
-$mysqli = new mysqli('localhost', 'root', '', 'db_guidancems');
+
+include_once("../connections/connection.php");
+
+$con = connection();                
+
 if (isset($_GET['date'])) {
     $date = $_GET['date'];
-    $stmt = $mysqli->prepare("select * from new_booking_tbl where date = ?");
+    $stmt = $con->prepare("select * from appointments where date = ?");
     $stmt->bind_param('s', $date);
     $bookings = array();
     if ($stmt->execute()) {
@@ -17,38 +22,79 @@ if (isset($_GET['date'])) {
     }
 }
 
+if (isset($_GET['ref_id'])) {
+    $ref_id = $_GET['ref_id'];
+    $ref_query = "SELECT * FROM refferals WHERE ref_id = '$ref_id'";
+    $ref_con = $con->query($ref_query) or die ($con->error);
+    $row_ref = $ref_con->fetch_assoc();
+    $reffered_user = $row_ref['reffered_user'];
+    $reason = $row_ref['reason'];
+    $actions = $row_ref['actions'];
+    $remarks = $row_ref['remarks'];
 
+    if($row_ref > 0) {
+        $user_query = "SELECT id_number FROM users WHERE user_id = '$reffered_user'";
+        $user_con = $con->query($user_query) or die ($con->error);
+        $row_user = $user_con->fetch_assoc();
+    }
+}
+
+// for type radio button
+$type = isset($_POST['type']);
 
 // this code is for the booked time slot cannot be doubled or validation
 if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
     $timeslot = $_POST['timeslot'];
-    $stmt = $mysqli->prepare("select * from new_booking_tbl where date = ? AND timeslot=?");
-    $stmt->bind_param('ss', $date, $timeslot);
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
+    $user_type = $_POST['user_type'];
+    $id_number = $_POST['id_number'];
+    $subject = $_POST['subject'];
+    $type = $_POST['type'];
+    $info = $_POST['info'];
+    $status = "In Review";
 
-            // $msg = "<div class='alert alert-danger'>Already Booked</div>";
-            $_SESSION['status'] = "Already Booked";
-            $_SESSION['status_code'] = "warning";
-            header('Location: gc___all-appointment.php');
+    $search_query = "SELECT * FROM `users` WHERE id_number = '$id_number'";
+    $get_s_id = $con->query($search_query) or die ($con->error);
+    $row_student = $get_s_id->fetch_assoc();
 
-        } else {
-            $stmt = $mysqli->prepare("INSERT INTO new_booking_tbl (name, timeslot, email, date) VALUES (?,?,?,?)");
-            $stmt->bind_param('ssss', $name, $timeslot, $email, $date);
-            $stmt->execute();
+    if($row_student > 0) {
 
-            $_SESSION['status'] = "Booking Successful";
-            $_SESSION['status_code'] = "success";
-            header('Location: gc___all-students.php');
+        $stmt = $con->prepare("select * from appointments where date = ? AND timeslot=?");
+        $stmt->bind_param('ss', $date, $timeslot);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
 
-            // $msg = "<div class='alert alert-success'>Booking Successfull</div>";
-            $bookings[] = $timeslot;
-            $stmt->close();
-            $mysqli->close();
+                // $msg = "<div class='alert alert-danger'>Already Booked</div>";
+                $_SESSION['status'] = "Already Booked";
+                $_SESSION['status_code'] = "warning";
+                header('Location: gc___all-appointment.php');
+
+            } else {
+                if (isset($_GET['ref_id'])) {
+                    $stmt = $con->prepare("INSERT INTO appointments (date, timeslot, user_type, ref_id, id_number, subject, appointment_type, info, app_status) VALUES (?,?,?,?,?,?,?,?,?)");
+                    $stmt->bind_param('sssssssss', $date, $timeslot, $user_type, $ref_id, $id_number, $subject, $type, $info, $status);
+                } else {
+                    $stmt = $con->prepare("INSERT INTO appointments (date, timeslot, user_type, id_number, subject, appointment_type, info, app_status) VALUES (?,?,?,?,?,?,?,?)");
+                    $stmt->bind_param('ssssssss', $date, $timeslot, $user_type, $id_number, $subject, $type, $info, $status);
+                }
+                $stmt->execute();
+
+                $_SESSION['status'] = "Booking Successful";
+                $_SESSION['status_code'] = "success";
+                header('Location: gc___all_appointment.php');
+                // header('Location: gc___all-students.php');
+
+                // $msg = "<div class='alert alert-success'>Booking Successfull</div>";
+                $bookings[] = $timeslot;
+                $stmt->close();
+                $con->close();
+            }
         }
+
+    } else {
+        
+        echo "<script>alert('Student is not existing.')</script>";
+        // echo header('Location: 404.php');
     }
 }
 
@@ -170,6 +216,38 @@ function timeslots($duration, $cleanup, $start, $end)
 		============================================ -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" > -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    
+    <!-- <script>
+        
+    function get_student_id() {
+        var form_element = document.getElementByClassName('search_student');
+        var search_student = new SearchStudent();
+
+        for(var i = 0; i < form_element.length; i++) {
+            search_student.append(form_element[i].name, form_element[i].value);
+        }
+
+        document.getElementById('search').disabled = true;
+
+        var ajax_request = new XMLHttpRequest();
+
+        ajax_request.open('POST', 'search_student.php');
+
+        ajax_request.send(search_student);
+
+        ajax_request.onreadystatechange = function() {
+            if(ajax.request.readyState == 4 && ajax.request.status == 200) {
+                document.getElementById('search').disabled = false;
+                document.getElementById('s_id_form').reset();
+                document.getElementById('search_success_message').innerHTML = ajax_request.responseText;
+                setTimeout(function() {
+                    document.getElementById('search_success_message').innerHTML = '';
+                }, 2000);
+
+            }
+        }
+    }
+    </script> -->
 
     <!-- <style>
         @media only screen and (max-width: 760px),
@@ -271,7 +349,7 @@ function timeslots($duration, $cleanup, $start, $end)
                         </div>
                     </div>
 
-                    <form action="#" method="post">
+                    <form action="" method="post">
                         <div class="modal-body">
 
                             <div class="form-group-inner">
@@ -296,7 +374,7 @@ function timeslots($duration, $cleanup, $start, $end)
                                 </div>
                             </div>
 
-                            <div class="form-group-inner">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Name</label>
@@ -315,40 +393,46 @@ function timeslots($duration, $cleanup, $start, $end)
                                         <input required type="email" class="form-control" name="email">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <!-- <div class="form-group-inner">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">User Type</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
-                                            <select id="mySelect" class="form-control custom-select-value" name="usertype" onchange="changeDropdown(this.value);">
-                                                <option value="student">Student</option>
-                                                <option value="staff">Staff</option>
-                                                <option value="faculty">Faculty</option>
+                                            <select id="mySelect" class="form-control custom-select-value" name="user_type" onchange="changeDropdown(this.value);">
+                                                <option value="Student">Student</option>
+                                                <option value="Staff">Staff</option>
+                                                <option value="Faculty">Faculty</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner" id="STUD_ID">
+
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                         <label class="login2 pull-right pull-right-pro">Student ID</label>
                                     </div>
                                     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search Student" name="stud_id">
-                                            <div class="input-group-btn">
+                                            <?php if (isset($_GET['ref_id'])) { ?>
+                                                <input type="text" class="form-control" placeholder="Search Student" value="<?php echo $row_user['id_number']; ?>" disabled />
+                                                <input type="hidden" class="form-control" placeholder="Search Student" name="id_number" value="<?php echo $row_user['id_number']; ?>" />
+                                            <?php } else {  ?>
+                                                <input type="text" class="form-control" placeholder="Search Student ID" name="id_number" required/>
+                                            <?php } ?>
+                                            <!-- <div class="input-group-btn">
                                                 <button tabindex="-1" class="btn btn-primary btn-md" type="button" data-toggle="modal" data-target="#SEARCH_STUDENT">Search</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner" id="STUD_NAME">
+                            <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Student Name</label>
@@ -359,7 +443,7 @@ function timeslots($duration, $cleanup, $start, $end)
 
                                 </div>
                             </div>
-                            <div class="form-group-inner" id="STUD_PROGRAM">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Program</label>
@@ -369,7 +453,7 @@ function timeslots($duration, $cleanup, $start, $end)
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group-inner" id="STUD_LEVEL">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Level</label>
@@ -378,10 +462,10 @@ function timeslots($duration, $cleanup, $start, $end)
                                         <input type="text" readonly class="form-control" placeholder="Student Level" name="stud_level" />
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
 
-                            <div class="form-group-inner" id="STAFF_ID" style="display: none;">
+                            <!-- <div class="form-group-inner" id="STAFF_ID" style="display: none;">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Staff ID</label>
@@ -452,7 +536,9 @@ function timeslots($duration, $cleanup, $start, $end)
                                     </div>
                                 </div>
                             </div> -->
-                            <!-- <div class="form-group-inner">
+
+                            
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Subject</label>
@@ -461,22 +547,22 @@ function timeslots($duration, $cleanup, $start, $end)
                                         <input type="text" class="form-control" placeholder="Enter Appointment Subject" name="subject" />
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
-                            <!-- <div class="form-group-inner">
+                            <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <label class="login2 pull-right pull-right-pro"><span class="basic-ds-n">Type</span></label>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
-                                        <div class=" bt-df-checkbox">
+                                        <div class="bt-df-checkbox">
                                             <label for="APPOINT_OP1" style="margin-right: 15px;">
-                                                <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="appoint1">
+                                                <input class="pull-left radio-checked" type="radio" value="Walk-in" name="type" <?php echo ($type=='Walk-in')?'checked':'' ?> >
                                                 Walk-In
                                             </label>
 
                                             <label for="APPOINT_OP2">
-                                                <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="appoint2">
+                                                <input class="pull-left radio-checked" type="radio" value="Online" name="type" <?php echo ($type=='Online')?'checked':'' ?> >
                                                 Online
                                             </label>
                                         </div>
@@ -489,10 +575,15 @@ function timeslots($duration, $cleanup, $start, $end)
                                         <label class="login2 pull-right">Information</label>
                                     </div>
                                     <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <textarea name="description" placeholder="Description of Appointment" name="information"></textarea>
+                                    <?php if (isset($_GET['ref_id'])) { ?>
+                                        <textarea placeholder="Description of Appointment" disabled><?= $reason ?>, <?= $actions ?>, <?= $remarks ?></textarea>
+                                        <textarea style="display: none;" placeholder="Description of Appointment" name="info"><?= $reason ?>, <?= $actions ?>, <?= $remarks ?></textarea>
+                                    <?php } else {  ?>
+                                        <textarea placeholder="Description of Appointment" name="info" required></textarea>
+                                    <?php } ?>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
@@ -532,6 +623,8 @@ function timeslots($duration, $cleanup, $start, $end)
         </div>
     </div>
     </div>
+
+    <!-- <?php echo $newurl ?> -->
 
     <div class="data-table-area mg-b-15">
         <div class="container-fluid">
