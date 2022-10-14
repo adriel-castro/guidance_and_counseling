@@ -1,4 +1,80 @@
-<?php session_start(); ?>
+<?php
+
+session_start(); 
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])){
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+}else{
+
+    $con = connection();
+    // AND appointments.app_status NOT LIKE 'Cancelled%'
+    $query = "SELECT * FROM users LEFT JOIN appointments ON appointments.id_number = users.id_number WHERE appointments.id IS NOT NULL ORDER BY date AND timeslot ASC";
+    $get_app = $con->query($query) or die ($con->error);
+    $row = $get_app->fetch_assoc();
+
+    // For Cancel button
+    if(isset($_GET['cancel_id'])) {
+        $cancel_id = $_GET['cancel_id'];
+        $app_status = "Cancelled";
+        $cancel_appointment = "UPDATE `appointments` SET `app_status`='$app_status' WHERE id = '$cancel_id'";
+        $con->query($cancel_appointment) or die ($con->error);
+        header("Location: cancel_appointment.php?app_id=$cancel_id");
+    }
+
+    // For Completed button
+    if(isset($_GET['success_id'])) {
+        $success_id = $_GET['success_id'];
+        $app_status = "Completed";
+        $success_appointment = "UPDATE `appointments` SET `app_status`='$app_status' WHERE id = '$success_id'";
+        $con->query($success_appointment) or die ($con->error);
+
+        // Get Information in appointments to save in appointment History
+        $info_query = "SELECT info FROM appointments WHERE id = '$success_id'";
+        $get_info = $con->query($info_query) or die ($con->error);
+        $row =  $get_info->fetch_assoc();
+
+        if ($row > 0) {
+            $reason = $row['info'];
+            $app_status = "Completed";
+            $date_accomplished = date("Y-m-d");
+            
+            $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
+            $con->query($query) or die ($con->error);
+            header("Location: gc___all_appointment.php");
+
+        } else {
+            header("Location: 404.php");
+        }
+    }
+
+    // Add Feedback
+    if(isset($_SESSION['AppId'])) {
+        $app_id = $_SESSION['AppId'];
+        
+        $app_query = "SELECT * FROM users LEFT JOIN appointments ON appointments.id_number = users.id_number WHERE appointments.id = '$app_id'";
+        $app_details = $con->query($app_query) or die ($con->error);
+        $app_row =  $app_details->fetch_assoc();
+
+        // if($app_row['ref_id'] != 0 ) {
+        //     $ref_id = $app_row['ref_id'];
+        //     $date_query = "SELECT reffered_date FROM refferals WHERE ref_id = '$ref_id'";
+        //     $date_con = $con->query($app_query) or die ($con->error);
+        //     $date_row =  $date_con->fetch_assoc();
+        // }
+    }
+
+    $fb_query = "SELECT * FROM `feedback` WHERE app_id = '$app_id'";
+    $fb_con = $con->query($fb_query) or die ($con->error);
+    $fb_row =  $fb_con->fetch_assoc();
+    // $fb_row['app_id'];
+
+
+?>
+
+
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -122,6 +198,130 @@
             </div>
         </div>
     </div>
+
+    <!-- Add new Referral -->
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div id="ADD_FEEDBACK" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header header-color-modal bg-color-1">
+                        <h4 class="modal-title">Add Feedback</h4>
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+                    </div>
+                    <input type="hidden" value="<?php echo $id = $_SESSION['AppId']; ?>" />
+                    
+
+                    <form action="appointment_feedback.php" method="POST">
+                    <!-- <form action="" method="POST"> -->
+                        <div class="modal-body">
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Full Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px; text-align: left;"><?= $app_row['first_name'] ?> <?= $app_row['last_name'] ?></h5>
+                                        <input type="hidden" class="form-control" name="stud_name" placeholder="Enter Full Name" value="<?= $app_row['first_name'] ?> <?= $app_row['last_name'] ?>" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Program</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px; text-align: left;"><?= $app_row['program'] ?></h5>
+                                        <input type="hidden" class="form-control" name="program" placeholder="Program" value="<?= $app_row['program'] ?>" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Level/Section</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px; text-align: left;"><?= $app_row['level'] ?></h5>
+                                        <input type="hidden" class="form-control" name="section" placeholder="Enter Level / Section" value="<?= $app_row['level'] ?>" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Start If the appointment comes from Referral get ref_date otherwise no value -->
+                            <!-- <?php if($app_row['ref_id'] != 0) { ?>
+                                <div class="form-group-inner">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label class="login2 pull-right">Referral Date</label>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                            <input type="date" class="form-control" name="ref_date" value="<?php echo $date_row['refferal_date'] ?>" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="form-group-inner">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label class="login2 pull-right">Referral Date</label>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                            <input type="date" class="form-control" name="ref_date" value="" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?> -->
+                            <!-- End If the appointment comes from Referral get ref_date otherwise no value -->
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Session Date</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <h5 style="margin-top: 12px; margin-left: 15px; text-align: left;"><?= $app_row['date'] ?></h5>
+                                        <input type="hidden" class="form-control" name="session_date" value="<?= $app_row['date'] ?>" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Action Taken</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" name="action_taken" placeholder="Action/s Taken" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Remarks</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" name="remarks" placeholder="Remarks" required/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_feedback" class="btn btn-primary btn-md">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!----------------------------------------- THIS IS THE MODAL FORM FOR ADDING APPOINTMENT  ---------------------------------------------->
     <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -368,121 +568,65 @@
                                     <thead>
                                         <tr>
                                             <th data-field="appoint_stud_name">Student Name</th>
-                                            <th data-field="appoint_reason">Appointment Reason</th>
-                                            <th data-field="appoint_ref_reason">Referral Reason</th>
-                                            <th data-field="appoint_concern">Concern</th>
+                                            <th data-field="appoint_reason">Subject</th>
+                                            <th data-field="appoint_ref_reason">Information</th>
+                                            <!-- <th data-field="appoint_concern">Concern</th> -->
                                             <th data-field="appoint_date">Date</th>
                                             <th data-field="appoint_time">Time</th>
                                             <th data-field="appoint_type">Type</th>
-                                            <th data-field="appoint_link">Meeting Link</th>
+                                            <!-- <th data-field="appoint_link">Meeting Link</th> -->
                                             <th data-field="appoint_status">Status</th>
                                             <!-- <th data-field="appoint_edit">Edit</th> -->
-                                            <th data-field="appoint_cancel">Cancel</th>
-
+                                            <th data-field="appoint_cancel">Actions</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- If no Data to display display null -->
+                                    <?php if($row == 0) { echo null;
+                                        } else { do { ?>
                                         <tr>
 
-                                            <td>Abigail Nazal</td>
-                                            <td>Bullying</td>
-                                            <td>Bullying</td>
-                                            <td>Concern</td>
-                                            <td>September 5, 2022</td>
-                                            <td>5:00pm</td>
-                                            <td>Walk-in</td>
-                                            <td></td>
+                                            <td><?php echo $row['first_name'] ?> <?php echo $row['last_name'] ?></td>
+                                            <td><?php echo $row['subject'] ?></td>
+                                            <td><?php echo $row['info'] ?></td>
+                                            <!-- <td>Concern</td> -->
+                                            <td><?php echo $row['date'] ?></td>
+                                            <td><?php echo $row['timeslot'] ?></td>
+                                            <td><?php echo $row['appointment_type'] ?></td>
+                                            <!-- <td><?php echo $row['app_status'] ?></td> -->
                                             <td>
-                                                <button class="pd-setting " style="background-color: green; color:white;">Approved</button>
+                                            <span class="btn btn-xs <?php if ($row['app_status'] == "in review" || $row['app_status'] == "In Review") {
+                                                    echo "btn-primary";
+                                                } elseif ($row['app_status'] == "completed" || $row['app_status'] == "Completed") {
+                                                    echo "btn-success";
+                                                } elseif($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") {
+                                                    echo "btn-danger";
+                                                } else {
+                                                    echo "btn-primary";
+                                                } ?>"><?php echo $row['app_status'] ?></span>
                                             </td>
-
-                                            <!-- <td>
-                                                <form action="gc___EDIT.php" method="post">
-                                                    <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
-                                                </form>
-                                            </td> -->
                                             <td>
-                                                <form action="thecode.php" method="post">
-                                                    <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="cancel_btn" class="btn btn-danger">Cancel</button>
-                                                </form>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-
-                                            <td>Abigail Nazal</td>
-                                            <td>Bullying</td>
-                                            <td>Bullying</td>
-                                            <td>Concern</td>
-                                            <td>September 5, 2022</td>
-                                            <td>5:00pm</td>
-                                            <td>Online-Meeting</td>
-                                            <td>https://meetinglink101.com</td>
-                                            <td>
-                                                <button class="pd-setting " style="background-color: red; color:white;">Cancelled</button>
-                                            </td>
-
-                                            <!-- <td>
-                                                <form action="gc___EDIT.php" method="post">
-                                                    <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
-                                                </form>
-                                            </td> -->
-                                            <td>
-                                                <form action="thecode.php" method="post">
-                                                    <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                                                </form>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-
-                                            <td>Abigail Nazal</td>
-                                            <td>Bullying</td>
-                                            <td>Bullying</td>
-                                            <td>Concern</td>
-                                            <td>September 5, 2022</td>
-                                            <td>5:00pm</td>
-                                            <td>Walk-in</td>
-                                            <td></td>
-                                            <td>
-                                                <button class="pd-setting " style="background-color: blue; color:white;">Pending</button>
-                                                <div class="form-group-inner">
-                                                    <div class="row">
-
-                                                        <!-- <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                                            <div class="form-select-list">
-                                                                <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
-                                                                    <option value="student">Ongoing</option>
-                                                                    <option value="staff">Staff</option>
-                                                                    <option value="faculty">Faculty</option>
-                                                                </select>
-                                                            </div>
-                                                        </div> -->
+                                                
+                                                <?php if ($row['app_status'] == "completed" || $row['app_status'] == "Completed") { ?>
+                                                    <?php $_SESSION['AppId'] = $row['id']; ?>
+                                                    <div style="display: <?= ($fb_row > 0) ? "none" : "flex" ?>; justify-content: center;">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_FEEDBACK">
+                                                            Add Feedback
+                                                        </button>
                                                     </div>
-                                                </div>
-                                            </td>
-
-                                            <!-- <td>
-                                                <form action="gc___EDIT.php" method="post">
-                                                    <input type="hidden" name="edit_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="edit_btn" class="btn btn-success">EDIT</button>
-                                                </form>
-                                            </td> -->
-                                            <td>
-                                                <form action="thecode.php" method="post">
-                                                    <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                                                    <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                                                </form>
+                                                <?php } elseif ($row['app_status'] == "in review" || $row['app_status'] == "In Review") { ?>
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <a class="btn btn-danger" style="margin-left: 10px; color: white;" 
+                                                            href="gc___all_appointment.php?cancel_id=<?= $row['id'] ?>">Cancel</a>
+                                                        <a class="btn btn-success" style="margin-left: 10px; color: white;" 
+                                                        href="gc___all_appointment.php?success_id=<?= $row['id'] ?>">Completed</a>
+                                                    </div>
+                                                <?php } elseif ($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") { echo null; } ?>
                                             </td>
 
                                         </tr>
+                                    <?php } while ($row = $get_app->fetch_assoc());  } ?>
 
                                     </tbody>
                                 </table>
@@ -497,9 +641,8 @@
 
     </div>
 
-    <?php
-    include('includes/gc___scripts.php');
-    ?>
+    <?php include('includes/gc___footer.php'); ?>
+    <?php include('includes/gc___scripts.php');?>
 
     <script>
         function changeDropdown() {
@@ -590,3 +733,5 @@
 </body>
 
 </html>
+
+<?php } ?>
