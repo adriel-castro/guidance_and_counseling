@@ -43,7 +43,7 @@ if(!isset($_SESSION['UserEmail'])){
       echo header("Location: gc___referral.php");
 
     } else {
-      echo "Student is not existing.";
+      echo "<script>alert('Student is not existing.')</script>";
     }
   }
     
