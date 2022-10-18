@@ -28,24 +28,27 @@ if(!isset($_SESSION['UserEmail'])){
         $success_id = $_GET['success_id'];
         $app_status = "Done";
         $success_appointment = "UPDATE `appointments` SET `app_status`='$app_status' WHERE id = '$success_id'";
-        $con->query($success_appointment) or die ($con->error);
+        $app_status_row = $con->query($success_appointment) or die ($con->error);
 
-        // Get Information in appointments to save in appointment History
-        $info_query = "SELECT info FROM appointments WHERE id = '$success_id'";
-        $get_info = $con->query($info_query) or die ($con->error);
-        $row =  $get_info->fetch_assoc();
+        if($app_status_row > 0) {
 
-        if ($row > 0) {
-            $reason = $row['info'];
-            $app_status = "Pending Feedback";
-            $date_accomplished = date("Y-m-d");
-            
-            $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
-            $con->query($query) or die ($con->error);
-            header("Location: gc___all_appointment.php");
+            // Get Information in appointments to save in appointment History
+            $info_query = "SELECT * FROM appointments WHERE id = '$success_id'";
+            $get_info = $con->query($info_query) or die ($con->error);
+            $app_row =  $get_info->fetch_assoc();
 
-        } else {
-            header("Location: 404.php");
+            if ($app_row > 0) {
+                $reason = $app_row['info'];
+                $app_status = "Pending Feedback";
+                $date_accomplished = date("Y-m-d");
+                
+                $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
+                $con->query($query) or die ($con->error);
+                header("Location: gc___all_appointment.php");
+
+            } else {
+                header("Location: 404.php");
+            }
         }
     }
 
@@ -313,8 +316,10 @@ if(!isset($_SESSION['UserEmail'])){
                         </div>
                         
                         <div class="modal-footer">
-                            <a class="btn btn-secondary btn-md" data-dismiss="modal" href="gc___all_appointment.php" >Cancel</a>
-                            <button type="submit" name="add_feedback" class="btn btn-primary btn-md">Submit</button>
+                            <div style="display: flex; justify-content: end;">
+                                <a class="btn " style="background-color: #fff; color: #337ab7; border: 1px solid #337ab7; margin-right: 10px;" href="gc___all_appointment.php" >Cancel</a>
+                                <button type="submit" name="add_feedback" class="btn btn-primary btn-md">Submit</button>
+                            </div>
                         </div>
                     </form>
 
@@ -368,7 +373,7 @@ if(!isset($_SESSION['UserEmail'])){
                                             <!-- <th data-field="appoint_link">Meeting Link</th> -->
                                             <th data-field="appoint_status">Status</th>
                                             <!-- <th data-field="appoint_edit">Edit</th> -->
-                                            <th data-field="appoint_cancel">Actions</th>
+                                            <th data-field="appoint_cancel"></th>
 
                                         </tr>
                                     </thead>
@@ -393,14 +398,22 @@ if(!isset($_SESSION['UserEmail'])){
                                                     echo "btn-success";
                                                 } elseif($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") {
                                                     echo "btn-danger";
+                                                } elseif($row['app_status'] == "done" || $row['app_status'] == "Done") {
+                                                    echo "btn-warning";
                                                 } else {
                                                     echo "btn-primary";
-                                                } ?>"><?php echo $row['app_status'] ?></span>
+                                                } ?>"><?php if($row['app_status'] == "done" || $row['app_status'] == "Done") {
+                                                    echo "Pending Feedback";
+                                                } else {
+                                                    echo $row['app_status'];
+                                                }
+                                                ?></span>
                                             </td>
                                             <td>
                                                 
-                                                <?php if ($row['app_status'] == "pending feedback" || $row['app_status'] == "Pending Feedback") { ?>
-                                                    <div style="display: <?php if($fb_row > 0) { echo "none"; } else { echo "flex"; } ?>; justify-content: center; text-align: center;">
+                                                <?php if ($row['app_status'] == "done" || $row['app_status'] == "Done") { ?>
+                                                    <!-- <div style="display: <?php if($app_row == "done" || $app_row == "Done") { echo "none"; } else { echo "flex"; } ?>; justify-content: center; text-align: center;"> -->
+                                                    <div style="justify-content: center; text-align: center;">
                                                         <a class="btn btn-primary" style="margin-left: 10px; color: white;" 
                                                             href="gc___all_appointment.php?feedback_id=<?= $row['id'] ?>">Add Feedback</a>
                                                     </div>
@@ -411,7 +424,8 @@ if(!isset($_SESSION['UserEmail'])){
                                                         <a class="btn btn-success" style="margin-left: 10px; color: white;" 
                                                         href="gc___all_appointment.php?success_id=<?= $row['id'] ?>">Done</a>
                                                     </div>
-                                                <?php } elseif ($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") { echo null; } ?>
+                                                <?php } elseif ($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") { echo null;
+                                                } else { echo "<p style='text-align: center;' >Done Feedback</p>"; } ?>
                                             </td>
 
                                         </tr>
