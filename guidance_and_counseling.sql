@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2022 at 06:12 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Oct 18, 2022 at 04:56 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,10 +46,13 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `timeslot`, `date`, `user_type`, `ref_id`, `id_number`, `subject`, `appointment_type`, `info`, `app_status`, `updated_at`) VALUES
-(8, '08:30AM - 09:00AM', '2022-10-18', 'Student', NULL, 10025410, 'Don\'t want company', 'Walk-in', 'test123 test 123', 'Cancelled', '2022-10-14 14:43:16'),
-(9, '09:00AM - 09:30AM', '2022-10-26', 'Student', NULL, 10025123, 'Do not want company', 'Online', 'asdaacsaca', 'In Review', '2022-10-14 13:58:07'),
-(10, '10:00AM - 10:30AM', '2022-10-21', 'Student', NULL, 20012546, 'nature', 'Walk-in', 'reason, action taken, remarks', 'Completed', '2022-10-14 13:58:10'),
-(11, '03:30PM - 04:00PM', '2022-10-24', 'Student', 3, 100254256, 'test subject', 'Walk-in', 'Nagwawala, Pinacheck up sa Doctor, Needs Psychiatry', 'In Review', '2022-10-14 16:07:43');
+(1, '09:00AM - 09:30AM', '2022-10-19', 'Student', NULL, 20012546, 'Test Subject1', 'Walk-in', 'Test Info 1', 'Completed', '2022-10-18 12:33:29'),
+(2, '09:00AM - 09:30AM', '2022-10-20', 'Student', NULL, 100254256, 'Test Subject2', 'Online', 'Test Info 2', 'Completed', '2022-10-18 12:34:00'),
+(3, '09:30AM - 10:00AM', '2022-10-21', 'Student', NULL, 100232541, 'Test Subject3', 'Walk-in', 'Test Info 3', 'Completed', '2022-10-18 12:36:25'),
+(4, '09:00AM - 09:30AM', '2022-10-24', 'Student', NULL, 10025123, 'Test Subject4', 'Walk-in', 'Test Info 4', 'Completed', '2022-10-18 13:14:47'),
+(5, '12:30PM - 01:00PM', '2022-10-25', 'Student', 12, 1003001, 'Test Subject4', 'Walk-in', 'Poverty, Teachers counseling, Pursigido', 'Completed', '2022-10-18 13:34:37'),
+(6, '11:30AM - 12:00PM', '2022-10-27', 'Student', 10, 10025410, 'Test Subject6', 'Online', 'Bullying, Have tutor, Need Psychiatry', 'In Review', '2022-10-18 13:55:49'),
+(7, '11:00AM - 11:30AM', '2022-10-26', 'Student', 8, 10025410, 'Test Subject7', 'Walk-in', 'Poverty, Find Part Time Job, Pursigido', 'Completed', '2022-10-18 14:54:03');
 
 -- --------------------------------------------------------
 
@@ -71,9 +74,12 @@ CREATE TABLE `appointment_history` (
 --
 
 INSERT INTO `appointment_history` (`id`, `app_id`, `reason`, `status`, `date_accomplished`, `updated_at`) VALUES
-(1, 8, 'Does not fit into my schedule', 'Cancelled', '2022-10-14', '2022-10-14 09:25:35'),
-(2, 10, 'reason, action taken, remarks', 'Completed', '2022-10-14', '2022-10-14 10:05:54'),
-(3, 8, 'testing cancel', 'Cancelled', '2022-10-14', '2022-10-14 14:43:24');
+(1, 1, 'Test Info 1', 'Completed', '2022-10-18', '2022-10-18 12:31:08'),
+(2, 2, 'Test Info 2', 'Completed', '2022-10-18', '2022-10-18 12:34:00'),
+(3, 3, 'Test Info 3', 'Completed', '2022-10-18', '2022-10-18 12:36:25'),
+(4, 4, 'Test Info 4', 'Completed', '2022-10-18', '2022-10-18 13:14:47'),
+(5, 5, 'Poverty, Teachers counseling, Pursigido', 'Completed', '2022-10-18', '2022-10-18 13:34:37'),
+(6, 7, 'Poverty, Find Part Time Job, Pursigido', 'Completed', '2022-10-18', '2022-10-18 14:54:03');
 
 -- --------------------------------------------------------
 
@@ -114,7 +120,13 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `student_name`, `program`, `section`, `app_id`, `session_date`, `feedback_date`, `action_taken`, `remarks`, `updated_at`) VALUES
-(1, 'Josephine Bracken', 'BSIT', '4', 10, '2022-10-21', '2022-10-14', 'Feedback Action Taken', 'Feedback Remarks', '2022-10-14 14:17:22');
+(1, 'Josephine Bracken', 'BSIT', '4', 1, '2022-10-19', '2022-10-18', 'Feedback Action Taken', 'Feedback Remarks', '2022-10-18 12:31:08'),
+(2, 'Josephine Bracken', 'BSIT', '4', 1, '2022-10-19', '2022-10-18', 'Feedback Action Taken', 'Feedback Remarks', '2022-10-18 12:33:29'),
+(3, 'maria elizabeth galang', 'CpE', '3', 2, '2022-10-20', '2022-10-18', 'Feedback Action Taken2', 'Feedback Remarks2', '2022-10-18 12:34:00'),
+(4, 'rex bryan cabiles', 'BSIT', '5', 3, '2022-10-21', '2022-10-18', 'Feedback Action Taken3', 'Feedback Remarks3', '2022-10-18 12:36:25'),
+(5, 'jessica bernardo', 'BSIT', '4', 4, '2022-10-24', '2022-10-18', 'Feedback Action Taken4', 'Feedback Remarks4', '2022-10-18 13:14:47'),
+(6, 'juan dela cruz', 'BSIT', '4', 5, '2022-10-25', '2022-10-18', 'Feedback Action Taken5', 'Feedback Remarks5', '2022-10-18 13:34:37'),
+(7, 'hannah marie perez', 'BSIT', '3', 7, '2022-10-26', '2022-10-18', 'Feedback Action Taken7', 'Feedback Remarks7', '2022-10-18 14:54:03');
 
 -- --------------------------------------------------------
 
@@ -162,11 +174,11 @@ INSERT INTO `refferals` (`ref_id`, `reffered_user`, `source`, `reffered_by`, `re
 (5, 5, 'Guidance Counselor', 3, '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'For Approval', '2022-10-12 09:40:53'),
 (6, 4, 'Classmate/s', 2, '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'For Approval', '2022-10-12 09:42:36'),
 (7, 4, 'Classmate/s', 2, '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'Completed', '2022-10-12 09:42:40'),
-(8, 4, 'Others', 2, '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Pending', '2022-10-12 09:42:45'),
+(8, 4, 'Others', 2, '2022-09-27', 'Crisis', 'Poverty', 'Find Part Time Job', 'Pursigido', 'Completed', '2022-10-18 14:54:03'),
 (9, 7, 'Staff', 2, '2022-09-27', 'Academic', 'Slow learner', 'Have tutor', 'Unhealthy Environment', 'Completed', '2022-10-12 09:42:48'),
 (10, 4, 'Staff', 3, '2022-10-12', 'Personal', 'Bullying', 'Have tutor', 'Need Psychiatry', 'Pending', '2022-10-12 09:59:23'),
 (11, 5, 'Staff', 3, '2022-10-12', 'Career', 'Poverty', 'Find Part Time Job', 'Unhealthy Environment', 'Pending', '2022-10-12 09:59:17'),
-(12, 3, 'Guidance Counselor', 2, '2022-10-12', 'Personal', 'Poverty', 'Teachers counseling', 'Pursigido', 'For Approval', '2022-10-12 11:42:56');
+(12, 3, 'Guidance Counselor', 2, '2022-10-12', 'Personal', 'Poverty', 'Teachers counseling', 'Pursigido', 'Completed', '2022-10-18 13:34:37');
 
 -- --------------------------------------------------------
 
@@ -315,13 +327,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `appointment_history`
 --
 ALTER TABLE `appointment_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `counseling`
@@ -333,7 +345,7 @@ ALTER TABLE `counseling`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `offenses`
