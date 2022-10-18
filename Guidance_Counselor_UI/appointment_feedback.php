@@ -29,7 +29,7 @@ if(!isset($_SESSION['UserEmail'])){
             "VALUES ('$stud_name','$program','$section','$app_id','$session_date','$feedback_date','$action_taken','$remarks')";
     $con->query($query) or die ($con->error);
     header("Location: gc___all_appointment.php");
-    
-  }
+  
+}
 
 }
