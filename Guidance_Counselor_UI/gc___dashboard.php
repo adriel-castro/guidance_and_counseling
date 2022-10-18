@@ -13,8 +13,9 @@ $con = connection();
 
 function build_calendar($month, $year)
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'db_guidancems');
-    // $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
+    $con = connection();
+    // $con = new mysqli('localhost', 'root', '', 'db_guidancems');
+    // $stmt = $con->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
     // $stmt->bind_param('ss', $month, $year);
     // $bookings = array();
     // if ($stmt->execute()) {
@@ -112,7 +113,7 @@ function build_calendar($month, $year)
         else {
 
             // this is where in calendar mared na yung date if nakuha na lahat ng appointment timeslots
-            $totalbookings = checkSlot($mysqli, $date);
+            $totalbookings = checkSlot($con, $date);
             // yung 12 dito is yung total timeslots sa isang date
             if ($totalbookings == 18) {
                 $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>All Booked</a>";
@@ -143,9 +144,9 @@ function build_calendar($month, $year)
 }
 
 
-function checkSlot($mysqli, $date)
+function checkSlot($con, $date)
 {
-    $stmt = $mysqli->prepare("select * from new_booking_tbl where date=?");
+    $stmt = $con->prepare("select * from appointments where date=?");
     $stmt->bind_param('s', $date);
     $totalbookings = 0;
     if ($stmt->execute()) {
