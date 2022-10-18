@@ -343,7 +343,7 @@ if(!isset($_SESSION['UserEmail'])){
                                             <th data-field="pric" data-editable="false">Action Taken</th>
                                             <th data-field="pri" data-editable="false">Remarks</th>
                                             <th data-field="status">Status</th>
-                                            <th data-field="actions">Actions</th>
+                                            <th data-field="actions"></th>
                                             <!-- <th data-field="appointment">Set Appoinment</th> -->
                                         </tr>
                                     </thead>
@@ -366,23 +366,38 @@ if(!isset($_SESSION['UserEmail'])){
                                             <td><?php echo $row['remarks'] ?></td>
                                             
                                             <td>
-                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
                                                     echo "btn-warning";
-                                                } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
-                                                    echo "btn-primary";
                                                 } elseif($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
                                                     echo "btn-danger";
-                                                } else {
+                                                } elseif($row['ref_status'] == "In Review" || $row['ref_status'] == "in review") {
+                                                    echo "btn-primary";
+                                                } elseif($row['ref_status'] == "Done" || $row['ref_status'] == "done") {
+                                                    echo "btn-info";
+                                                } elseif($row['ref_status'] == "Pending Feedback" || $row['ref_status'] == "pending feedback") {
+                                                    echo "btn-warning";
+                                                } elseif($row['ref_status'] == "Completed" || $row['ref_status'] == "completed") {
                                                     echo "btn-success";
+                                                } else {
+                                                    echo "btn-secondary";
                                                 } ?>"><?php echo $row['ref_status'] ?></button>
                                             </td>
-                                            <td >
-                                                <div style="display: flex;">
+                                            <td>
+                                                <?php if ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval" || $row['ref_status'] == "Pending" || $row['ref_status'] == "pending") {
+                                                echo "<div style='display: flex; text-align: center; align-items: center;'>" ?>
                                                     <!-- <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a> -->
-                                                    <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a>
+                                                    <a class="btn btn-danger" style="color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a>
                                                     <a class="btn btn-success" style="margin-left: 10px; color: white;" 
                                                     href="gc___calendar.php?ref_id=<?= $row['ref_id'] ?>&firstName=<?= $row['first_name'] ?>&lastName=<?= $row['last_name'] ?>">Set Appointment</a>
-                                                </div>
+                                                <?php "</div>"; 
+                                                } else echo null; ?>
+
+                                                <!-- <div style="display: flex;"> -->
+                                                    <!-- <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a> -->
+                                                    <!-- <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a>
+                                                    <a class="btn btn-success" style="margin-left: 10px; color: white;" 
+                                                    href="gc___calendar.php?ref_id=<?= $row['ref_id'] ?>&firstName=<?= $row['first_name'] ?>&lastName=<?= $row['last_name'] ?>">Set Appointment</a>
+                                                </div> -->
                                             </td>
                                         </tr>
                                     <?php } while ($row = $get_referral->fetch_assoc());  } ?>
