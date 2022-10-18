@@ -78,6 +78,18 @@ if (isset($_POST['submit'])) {
                     $stmt->bind_param('ssssssss', $date, $timeslot, $user_type, $id_number, $subject, $type, $info, $status);
                 }
                 $stmt->execute();
+                
+                // Change referral status to In review after pushing to appointments table
+                $stmt2 = "select * from appointments where ref_id = '$ref_id'";
+                $get_stmt2 = $con->query($stmt2) or die ($con->error);
+                $row_stmt2 = $get_stmt2->fetch_assoc();
+
+                $update_ref_status = $row_stmt2['ref_id'];
+                
+                if($row_stmt2 > 0) {
+                    $ref_query_status = "UPDATE refferals SET ref_status = '$status' WHERE ref_id = '$update_ref_status'";
+                    $con->query($ref_query_status) or die ($con->error);
+                }
 
                 $_SESSION['status'] = "Booking Successful";
                 $_SESSION['status_code'] = "success";
