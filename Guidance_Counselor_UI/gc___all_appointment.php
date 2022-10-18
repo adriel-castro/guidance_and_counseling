@@ -23,10 +23,10 @@ if(!isset($_SESSION['UserEmail'])){
         header("Location: cancel_appointment.php?app_id=$cancel_id");
     }
 
-    // For Completed button
+    // For Done/Success button
     if(isset($_GET['success_id'])) {
         $success_id = $_GET['success_id'];
-        $app_status = "Completed";
+        $app_status = "Done";
         $success_appointment = "UPDATE `appointments` SET `app_status`='$app_status' WHERE id = '$success_id'";
         $con->query($success_appointment) or die ($con->error);
 
@@ -37,7 +37,7 @@ if(!isset($_SESSION['UserEmail'])){
 
         if ($row > 0) {
             $reason = $row['info'];
-            $app_status = "Completed";
+            $app_status = "Pending Feedback";
             $date_accomplished = date("Y-m-d");
             
             $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
@@ -50,25 +50,25 @@ if(!isset($_SESSION['UserEmail'])){
     }
 
     // Add Feedback
-    if(isset($_SESSION['AppId'])) {
-        $app_id = $_SESSION['AppId'];
+    // if(isset($_SESSION['AppId'])) {
+    //     $app_id = $_SESSION['AppId'];
+
+    if(isset($_GET['feedback_id'])) {
+        $app_id = $_GET['feedback_id'];
         
         $app_query = "SELECT * FROM users LEFT JOIN appointments ON appointments.id_number = users.id_number WHERE appointments.id = '$app_id'";
         $app_details = $con->query($app_query) or die ($con->error);
         $app_row =  $app_details->fetch_assoc();
 
-        // if($app_row['ref_id'] != 0 ) {
-        //     $ref_id = $app_row['ref_id'];
-        //     $date_query = "SELECT reffered_date FROM refferals WHERE ref_id = '$ref_id'";
-        //     $date_con = $con->query($app_query) or die ($con->error);
-        //     $date_row =  $date_con->fetch_assoc();
-        // }
+        $_SESSION['AppId'] = $app_id;
     }
+        
+        $fb_query = "SELECT * FROM `feedback`";
+        $fb_con = $con->query($fb_query) or die ($con->error);
+        $fb_row =  $fb_con->fetch_assoc();
 
-    $fb_query = "SELECT * FROM `feedback` WHERE app_id = '$app_id'";
-    $fb_con = $con->query($fb_query) or die ($con->error);
-    $fb_row =  $fb_con->fetch_assoc();
-    // $fb_row['app_id'];
+
+        
 
 
 ?>
@@ -199,18 +199,19 @@ if(!isset($_SESSION['UserEmail'])){
         </div>
     </div>
 
+    <?php if(isset($_GET['feedback_id'])) { ?>
     <!-- Add new Referral -->
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div id="ADD_FEEDBACK" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+        <div id="ADD_FEEDBACK" class="modal modal-edu-general default-popup-PrimaryModal show" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header header-color-modal bg-color-1">
                         <h4 class="modal-title">Add Feedback</h4>
                         <div class="modal-close-area modal-close-df">
-                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                            <a class="close" data-dismiss="modal" href="gc___all_appointment.php"><i class="fa fa-close"></i></a>
                         </div>
                     </div>
-                    <input type="hidden" value="<?php echo $id = $_SESSION['AppId']; ?>" />
+                    <input type="text" value="<?php echo $id = $_GET['feedback_id']; ?>" />
                     
 
                     <form action="appointment_feedback.php" method="POST">
@@ -312,7 +313,7 @@ if(!isset($_SESSION['UserEmail'])){
                         </div>
                         
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-secondary btn-md" data-dismiss="modal" href="gc___all_appointment.php" >Cancel</a>
                             <button type="submit" name="add_feedback" class="btn btn-primary btn-md">Submit</button>
                         </div>
                     </form>
@@ -321,217 +322,7 @@ if(!isset($_SESSION['UserEmail'])){
             </div>
         </div>
     </div>
-
-
-    <!----------------------------------------- THIS IS THE MODAL FORM FOR ADDING APPOINTMENT  ---------------------------------------------->
-    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <div id="ADD_APPOINTMENT" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header header-color-modal bg-color-1">
-                        <h4 class="modal-title">Add New Appointment</h4>
-                        <div class="modal-close-area modal-close-df">
-                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                        </div>
-                    </div>
-
-                    <form action="thecode.php">
-                        <div class="modal-body">
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">User Type</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="form-select-list">
-                                            <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
-                                                <option value="student">Student</option>
-                                                <option value="staff">Staff</option>
-                                                <option value="faculty">Faculty</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STUD_ID">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Student ID</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search Student">
-                                            <div class="input-group-btn">
-                                                <button tabindex="-1" class="btn btn-primary btn-md" type="button" data-toggle="modal" data-target="#SEARCH_STUDENT">Search</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STUD_NAME">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Student Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
-                                        <input type="text" disabled class="form-control" placeholder="Enter Student Name" />
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STUD_PROGRAM">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Program</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Student Program" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STUD_LEVEL">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Level</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Student Level" />
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group-inner" id="STAFF_ID" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Staff ID</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter Staff ID" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STAFF_NAME" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Staff Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Enter Staff Name" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="STAFF_POSITION" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Position</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Staff Position" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner" id="FACULTY_ID" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Faculty ID</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter Faculty ID" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="FACULTY_NAME" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Faculty Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Faculty Name" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner" id="FACULTY_POSITION" style="display: none;">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Position</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" disabled class="form-control" placeholder="Faculty Position" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Subject</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Enter Appointment Subject" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner data-custon-pick" id="data_2">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
-                                        <label class="login2 pull-right" style="font-weight: bold;">Date</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group date ">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input type="text" class="form-control" value="XX/XX/XXXX">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <label class="login2 pull-right pull-right-pro"><span class="basic-ds-n">Type</span></label>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
-                                        <div class=" bt-df-checkbox">
-                                            <label for="APPOINT_OP1" style="margin-right: 15px;">
-                                                <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="appoint1">
-                                                Walk-In
-                                            </label>
-
-                                            <label for="APPOINT_OP2">
-                                                <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="appoint2">
-                                                Online
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Information</label>
-                                    </div>
-                                    <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <textarea name="description" placeholder="Description of Appointment"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </form>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="save_excel_data" class="btn btn-primary btn-md">Add</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div> -->
+    <?php } ?>
 
     <!-- Static Table Start -->
     <div class="data-table-area mg-b-15">
@@ -608,19 +399,17 @@ if(!isset($_SESSION['UserEmail'])){
                                             </td>
                                             <td>
                                                 
-                                                <?php if ($row['app_status'] == "completed" || $row['app_status'] == "Completed") { ?>
-                                                    <?php $_SESSION['AppId'] = $row['id']; ?>
-                                                    <div style="display: <?= ($fb_row > 0) ? "none" : "flex" ?>; justify-content: center;">
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ADD_FEEDBACK">
-                                                            Add Feedback
-                                                        </button>
+                                                <?php if ($row['app_status'] == "pending feedback" || $row['app_status'] == "Pending Feedback") { ?>
+                                                    <div style="display: <?php if($fb_row > 0) { echo "none"; } else { echo "flex"; } ?>; justify-content: center; text-align: center;">
+                                                        <a class="btn btn-primary" style="margin-left: 10px; color: white;" 
+                                                            href="gc___all_appointment.php?feedback_id=<?= $row['id'] ?>">Add Feedback</a>
                                                     </div>
                                                 <?php } elseif ($row['app_status'] == "in review" || $row['app_status'] == "In Review") { ?>
                                                     <div style="display: flex; justify-content: center;">
                                                         <a class="btn btn-danger" style="margin-left: 10px; color: white;" 
                                                             href="gc___all_appointment.php?cancel_id=<?= $row['id'] ?>">Cancel</a>
                                                         <a class="btn btn-success" style="margin-left: 10px; color: white;" 
-                                                        href="gc___all_appointment.php?success_id=<?= $row['id'] ?>">Completed</a>
+                                                        href="gc___all_appointment.php?success_id=<?= $row['id'] ?>">Done</a>
                                                     </div>
                                                 <?php } elseif ($row['app_status'] == "cancelled" || $row['app_status'] == "Cancelled") { echo null; } ?>
                                             </td>
