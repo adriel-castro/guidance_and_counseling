@@ -37,7 +37,13 @@ if(!isset($_SESSION['UserEmail'])){
             $get_info = $con->query($info_query) or die ($con->error);
             $app_row =  $get_info->fetch_assoc();
 
+            $ref_id = $app_row['ref_id'];
+
+            // Change referral status to Done after pushing to appointments table
             if ($app_row > 0) {
+                $ref_query = "UPDATE refferals SET ref_status = '$app_status' WHERE ref_id = '$ref_id'";
+                $con->query($ref_query) or die ($con->error);
+
                 $reason = $app_row['info'];
                 $app_status = "Pending Feedback";
                 $date_accomplished = date("Y-m-d");
@@ -45,16 +51,12 @@ if(!isset($_SESSION['UserEmail'])){
                 $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
                 $con->query($query) or die ($con->error);
                 header("Location: gc___all_appointment.php");
-
-            } else {
-                header("Location: 404.php");
-            }
+            } 
+        } else {
+            header("Location: 404.php");
         }
     }
-
-    // Add Feedback
-    // if(isset($_SESSION['AppId'])) {
-    //     $app_id = $_SESSION['AppId'];
+    
 
     if(isset($_GET['feedback_id'])) {
         $app_id = $_GET['feedback_id'];
@@ -66,9 +68,9 @@ if(!isset($_SESSION['UserEmail'])){
         $_SESSION['AppId'] = $app_id;
     }
         
-        $fb_query = "SELECT * FROM `feedback`";
-        $fb_con = $con->query($fb_query) or die ($con->error);
-        $fb_row =  $fb_con->fetch_assoc();
+        // $fb_query = "SELECT * FROM `feedback`";
+        // $fb_con = $con->query($fb_query) or die ($con->error);
+        // $fb_row =  $fb_con->fetch_assoc();
 
 
         
