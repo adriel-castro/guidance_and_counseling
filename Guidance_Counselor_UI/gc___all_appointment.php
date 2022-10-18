@@ -41,11 +41,11 @@ if(!isset($_SESSION['UserEmail'])){
 
             // Change referral status to Done after pushing to appointments table
             if ($app_row > 0) {
+                $app_status = "Pending Feedback";
                 $ref_query = "UPDATE refferals SET ref_status = '$app_status' WHERE ref_id = '$ref_id'";
                 $con->query($ref_query) or die ($con->error);
 
                 $reason = $app_row['info'];
-                $app_status = "Pending Feedback";
                 $date_accomplished = date("Y-m-d");
                 
                 $query = "INSERT INTO `appointment_history`(`app_id`, `reason`, `status`, `date_accomplished`) VALUES ('$success_id','$reason','$app_status','$date_accomplished')";
