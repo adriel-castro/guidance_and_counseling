@@ -166,9 +166,9 @@
                                                             <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                         </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="gc___staff_profile.php"><span class="edu-icon edu-user-rounded author-log-ic"></span>My Profile</a>
+                                                        <li><a href="gc___staff_profile.php?id=<?= $_SESSION['UserId']; ?>">My Profile</a>
                                                         </li>
-                                                        <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Settings</a>
+                                                        <!-- <li><a href="#">Settings</a> -->
                                                         </li>
                                                         <li>
                                                             
