@@ -1,11 +1,49 @@
 <?php
+
+session_start();
+
+    include_once("../connections/connection.php");
+
+    if(!isset($_SESSION['UserEmail'])){
+        
+        echo "<script>window.open('../homepage___login.php','_self')</script>";
+        
+    }else{
+
+        $con = connection();            
+
+        if(isset($_GET['id'])){
+
+            $id = $_GET['id'];
+            $query = "SELECT * FROM users WHERE user_id = '$id'";
+            $get_user = $con->query($query) or die ($con->error);
+            $row = $get_user->fetch_assoc();
+        }
+
+        if(isset($_POST['update_details'])) {
+            // $user_id = $row['user_id'];
+            $first_name = $_POST['first_name'];
+            $last_name = $_POST['last_name'];
+            $middle_name = $_POST['middle_name'];
+            $birthday = $_POST['birthday'];
+            $position = $_POST['position'];
+            $address = $_POST['address'];
+            $gender = $_POST['gender'];
+            $contact = $_POST['contact'];
+
+            $update_query = "UPDATE `users` SET `first_name` = '$first_name', `last_name` = '$last_name', `middle_name` = '$middle_name', `date_of_birth` = '$birthday', ".
+                        "`position` = '$position', `address` = '$address', `gender` = '$gender', `contact` = '$contact' WHERE user_id = '$id'";
+            $con->query($update_query) or die ($con->error);
+            header("Location: gc___staff_profile.php?id=$id");
+        }
+?>
+
+<?php
     include('includes/gc___header.php');
     include('includes/gc___left-menu-area.php');
     include('includes/gc___top-menu-area.php');
     include('includes/gc___mobile_menu.php');
 ?>
-
-
 
 <div class="breadcome-area">
                 <div class="container-fluid">
@@ -15,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="breadcome-heading">
-                                           
+                                        
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -46,24 +84,24 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr">
-                                            <p><b>Name</b><br /> Michelle Dizon</p>
+                                            <p><b>Name</b><br /> <?= $row['first_name'] ?> <?= $row['last_name'] ?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Position</b><br /> Head of Dept.</p>
+                                            <p><b>Position</b><br /> <?= $row['position'] ?></p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr">
-                                            <p><b>Email ID</b><br /> fly@gmail.com</p>
+                                            <p><b>Email ID</b><br /> <?= $row['email'] ?></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Contact Number</b><br /> +01962067309</p>
+                                            <p><b>Contact Number</b><br /> +<?= $row['contact'] ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +125,7 @@
                                                 <div class="chat-discussion" style="height: auto">
                                                     <div class="chat-message">
 														<div class="profile-hdtc">
-															 <img class="message-avatar" src="img/contact/1.jpg" alt="">
+															<img class="message-avatar" src="img/contact/1.jpg" alt="">
 														</div>
                                                         <div class="message">
                                                             <a class="message-author" href="#"> Michael Smith </a>
@@ -103,9 +141,9 @@
                                                     </div>
                                                     <div class="chat-message">
 														<div class="profile-hdtc">
-															 <img class="message-avatar" src="img/contact/2.png" alt="">
+															<img class="message-avatar" src="img/contact/2.png" alt="">
 														</div>
-                                                         <div class="message">
+                                                        <div class="message">
                                                             <a class="message-author" href="#"> juan dela cruz </a>
                                                             <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
                                                             <span class="message-content">reffered student, for counseling 
@@ -119,7 +157,7 @@
                                                     </div>
                                                     <div class="chat-message">
 														<div class="profile-hdtc">
-															 <img class="message-avatar" src="img/contact/3.jpg" alt="">
+															<img class="message-avatar" src="img/contact/3.jpg" alt="">
 														</div>
                                                         <div class="message">
                                                             <a class="message-author" href="#"> Jennifer sanchez </a>
@@ -133,7 +171,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   
 
                                                 </div>
                                             </div>
@@ -147,7 +184,7 @@
                                                 <div class="chat-discussion" style="height: auto">
                                                     <div class="chat-message">
                                                         <div class="profile-hdtc">
-                                                             <img class="message-avatar" src="img/contact/1.jpg" alt="">
+                                                            <img class="message-avatar" src="img/contact/1.jpg" alt="">
                                                         </div>
                                                         <div class="message">
                                                             <a class="message-author" href="#"> Michael Smith </a>
@@ -163,9 +200,9 @@
                                                     </div>
                                                     <div class="chat-message">
                                                         <div class="profile-hdtc">
-                                                             <img class="message-avatar" src="img/contact/2.png" alt="">
+                                                            <img class="message-avatar" src="img/contact/2.png" alt="">
                                                         </div>
-                                                         <div class="message">
+                                                        <div class="message">
                                                             <a class="message-author" href="#"> juan dela cruz </a>
                                                             <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
                                                             <span class="message-content">reffered student, for counseling 
@@ -179,7 +216,7 @@
                                                     </div>
                                                     <div class="chat-message">
                                                         <div class="profile-hdtc">
-                                                             <img class="message-avatar" src="img/contact/3.jpg" alt="">
+                                                            <img class="message-avatar" src="img/contact/3.jpg" alt="">
                                                         </div>
                                                         <div class="message">
                                                             <a class="message-author" href="#"> Jennifer sanchez </a>
@@ -193,7 +230,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   
+                                                
 
                                                 </div>
                                             </div>
@@ -204,94 +241,96 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="review-content-section">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <input name="number" type="text" class="form-control" placeholder="First Name">
+                                                <form action="" method="post">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="First Name" name="first_name" value="<?= $row['first_name'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="<?= $row['last_name'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder="Middle Name" name="middle_name" value="<?= $row['middle_name'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="date" class="form-control" placeholder="Date of Birth" name="birthday" value="<?= $row['date_of_birth'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="Position" name="position" value="<?= $row['position'] ?>">
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="Last Name">
-                                                        </div>
-                                                        <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Middle Name">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="Date of Birth">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="Position">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
+                                                        <div class="col-lg-6">
 
-                                                        <div class="form-group">
-                                                            <select class="form-control">
-																<option>Select Gender</option>
-																<option>Male</option>
-																<option>Female</option>
-															</select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" placeholder="Address">
-                                                        </div>
-                                                         <div class="form-group">
-                                                                    <select id="country" class="form-control" onchange="disabledstate">
-                                                                            <option value="" >Select City</option>
-                                                                            <option value="0">San Fernando</option>
-                                                                            <option value="1">Mabalacat</option>
-                                                                            <option value="2">Angeles</option>
-                                                                        </select>
-                                                                        <div id="0" class="group">
-                                                                            <div class="form-group">
-                                                                                <select name="state" class="form-control">
-                                                                                    <option value="none" selected="" disabled="">Select state</option>
-                                                                                    <option value="0">San Luis</option>
-                                                                                    <option value="1">San Simon</option>
-                                                                                    <option value="2">Santa Ana</option>
-                                                                                    <option value="3">Santa Rita</option>
-                                                                                    <option value="4">Santo tomas</option>
-                                                                                    <option value="5">Sasmuan</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div id="1" class="group">
-                                                                            <div class="form-group">
-                                                                                <select name="state" class="form-control">
-                                                                                    <option value="none" selected="" disabled="true">Select state</option>
-                                                                                    <option value="0">Macabebe</option>
-                                                                                    <option value="1">Magalang</option>
-                                                                                    <option value="2">Masantol</option>
-                                                                                    <option value="3">Mexico</option>
-                                                                                    <option value="4">Minalin</option>
-                                                                                    <option value="5">Porac</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div id="2" class="group">
-                                                                            <div class="form-group">
-                                                                                <select name="state" class="form-control">
-                                                                                    <option value="none" selected="" disabled="true">Select state</option>
-                                                                                    <option value="0">Apalit</option>
-                                                                                    <option value="1">Arayat</option>
-                                                                                    <option value="2">Bacolor</option>
-                                                                                    <option value="3">Candaba</option>
-                                                                                    <option value="4">Floridablanca</option>
-                                                                                    <option value="5">Guagua</option>
-                                                                                    <option value="6">Lubao</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                </div>
-                                                        <input type="number" class="form-control" placeholder="Contact Number">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="payment-adress mg-t-15">
-                                                            <button type="submit" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
+                                                            <div class="form-group">
+                                                                <select class="form-control" name="gender">
+                                                                <option value="" disabled>Select Gender</option>
+                                                                    <option <?= ($row['gender'] == "Male" || $row['gender'] == "male") ? "selected" : "" ?>>Male</option>
+                                                                    <option <?= ($row['gender'] == "Female" || $row['gender'] == "female") ? "selected" : "" ?>>Female</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="Address" name="address" value="<?= $row['address'] ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                            <!-- <select id="country" class="form-control" onchange="disabledstate">
+                                                                                <option value="" >Select City</option>
+                                                                                <option value="0">San Fernando</option>
+                                                                                <option value="1">Mabalacat</option>
+                                                                                <option value="2">Angeles</option>
+                                                                            </select> -->
+                                                                            <!-- <div id="0" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="">Select state</option>
+                                                                                        <option value="0">San Luis</option>
+                                                                                        <option value="1">San Simon</option>
+                                                                                        <option value="2">Santa Ana</option>
+                                                                                        <option value="3">Santa Rita</option>
+                                                                                        <option value="4">Santo tomas</option>
+                                                                                        <option value="5">Sasmuan</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                                            <!-- <div id="1" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="true">Select state</option>
+                                                                                        <option value="0">Macabebe</option>
+                                                                                        <option value="1">Magalang</option>
+                                                                                        <option value="2">Masantol</option>
+                                                                                        <option value="3">Mexico</option>
+                                                                                        <option value="4">Minalin</option>
+                                                                                        <option value="5">Porac</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                                            <!-- <div id="2" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="true">Select state</option>
+                                                                                        <option value="0">Apalit</option>
+                                                                                        <option value="1">Arayat</option>
+                                                                                        <option value="2">Bacolor</option>
+                                                                                        <option value="3">Candaba</option>
+                                                                                        <option value="4">Floridablanca</option>
+                                                                                        <option value="5">Guagua</option>
+                                                                                        <option value="6">Lubao</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                                    </div>
+                                                            <input type="tel" class="form-control" placeholder="Contact Number" name="contact" value="<?= $row['contact'] ?>">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="payment-adress mg-t-15">
+                                                                <button type="submit" name="update_details" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -306,4 +345,5 @@
 
 <?php 
     include('includes/gc___scripts.php');
+    }
 ?>        
