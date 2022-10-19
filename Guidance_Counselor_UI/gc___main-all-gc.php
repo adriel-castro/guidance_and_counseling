@@ -407,11 +407,11 @@ if(!isset($_SESSION['UserEmail'])){
                                                 <td><?= $row['middle_name'] ?></td>
                                                 <td><?= $row['address'] ?></td>
                                                 <td><?= $row['contact'] ?></td>
-                                                    <!-- <td><?= $row['STAFF_POSITION'] ?></td> -->
 
                                                     <td>
-                                                        <a href="gc___staff_profile.php">
-                                                            <button type="button" name="view_profile_btn" class="btn btn-primary" href="gc___staff_profile.php">View</button>
+                                                        <!-- <input type="text" value=<?= $row['user_id'] ?> /> -->
+                                                        <a href="gc___staff_profile.php?id=<?= $row['user_id'] ?>">
+                                                            <button type="button" name="view_profile_btn" class="btn btn-primary" >View</button>
                                                         </a>
                                                     </td>
                                                 </tr>
