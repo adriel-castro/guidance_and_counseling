@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2022 at 05:57 PM
+-- Generation Time: Oct 19, 2022 at 04:11 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -220,8 +220,9 @@ CREATE TABLE `users` (
   `first_name` varchar(150) NOT NULL,
   `middle_name` varchar(150) NOT NULL,
   `address` varchar(300) NOT NULL,
-  `contact` int(20) NOT NULL,
+  `contact` varchar(20) NOT NULL,
   `gender` varchar(20) NOT NULL,
+  `date_of_birth` date NOT NULL,
   `department` varchar(50) NOT NULL,
   `program` varchar(50) NOT NULL,
   `level` varchar(50) NOT NULL,
@@ -238,18 +239,18 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`, `updated_at`) VALUES
-(1, 1001, 'counselor', 'guidance', '', 'angeles, pampanga', 123456789, 'male', 'admin', 'admin', 'n/a', 'guidance', 'active', '', 'guidance@gmail.com', 'guidance', 1, '2022-10-12 15:02:45'),
-(2, 1002, 'doe', 'jane', '', 'angeles, pampanga', 123456789, 'female', 'engineering', 'staff', 'n/a', 'staff', 'active', '', 'staff@gmail.com', 'staff', 2, '2022-10-12 15:01:13'),
-(3, 1003001, 'dela cruz', 'juan', '', 'angeles, pampanga', 123456789, 'male', 'IT', 'BSIT', '4', 'student', 'active', '', 'juandelacruz@gmail.com', 'student', 3, '2022-10-05 08:30:10'),
-(4, 10025410, 'perez', 'hannah marie', 'esclito', 'san fernando, pampanga', 238541258, 'female', 'IT', 'BSIT', '3', 'student', 'active', '', 'hannah@gmail.com', 'hannah', 3, '2022-10-05 08:43:43'),
-(5, 10025123, 'bernardo', 'jessica', '', 'magalang, pampanga', 52147823, 'female', 'IT', 'BSIT', '4', 'student', 'active', '', 'jessica@gmail.com', 'jessica', 3, '2022-10-05 11:38:37'),
-(6, 100232541, 'cabiles', 'rex bryan', 'gayla', 'san fernando, pampanga', 123456789, 'male', 'engineering', 'BSIT', '5', 'student', 'active', '', 'rexbryan@gmail.com', 'rexbryan', 3, '2022-10-05 12:35:59'),
-(7, 100254256, 'galang', 'maria elizabeth', '', 'bamban, tarlac', 123456987, 'female', 'engineering', 'CpE', '3', 'student', 'active', '', 'elizabeth@gmail.com', 'elizabeth', 3, '2022-10-05 12:41:36'),
-(8, 20012546, 'Bracken', 'Josephine', 'Clemente', 'Arayat, Pampanga', 453257892, 'Female', 'IT', 'BSIT', '4', 'Student', 'Active', '', 'josephine@gmail.com', 'josephine', 3, '2022-10-12 17:50:08'),
-(9, 422856789, 'Mammaril', 'Juanna Marie', 'Lopez', 'Magalang, Pampanga', 2147483647, 'Female', 'IT', '', '', 'staff', 'Active', '', 'juanna@gmail.com', 'juanna', 2, '2022-10-12 18:07:24'),
-(10, 498752314, 'Reyes', 'John Archee', 'Romualdez', 'Bamban, Tarlac', 2147483647, 'Male', 'Engineering', '', '', 'Staff', 'Active', '', 'johnarchee@gmail.com', 'johnarchee', 2, '2022-10-12 18:11:08'),
-(11, 1000095, 'Marquez', 'Justine', 'Del Valle', 'Clark, Pampanga', 487451230, 'Male', 'Admin', '', '', 'Guidance', 'Active', '', 'justinemarquez@gmail.com', 'justine', 1, '2022-10-12 18:21:21');
+INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `gender`, `date_of_birth`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`, `updated_at`) VALUES
+(1, 1001, 'Counselor', 'Guidance', '', 'angeles, pampanga', '639353204785', 'Female', '2007-07-06', 'admin', 'admin', 'n/a', 'guidance', 'active', '', 'guidance@gmail.com', 'guidance', 1, '2022-10-19 14:09:11'),
+(2, 1002, 'doe', 'jane', '', 'angeles, pampanga', '123456789', 'female', '2007-07-06', 'engineering', 'staff', 'n/a', 'staff', 'active', '', 'staff@gmail.com', 'staff', 2, '2022-10-19 11:10:20'),
+(3, 1003001, 'dela cruz', 'juan', '', 'angeles, pampanga', '123456789', 'male', '2007-07-06', 'IT', 'BSIT', '4', 'student', 'active', '', 'juandelacruz@gmail.com', 'student', 3, '2022-10-19 11:10:24'),
+(4, 10025410, 'perez', 'hannah marie', 'esclito', 'san fernando, pampanga', '238541258', 'female', '2007-07-06', 'IT', 'BSIT', '3', 'student', 'active', '', 'hannah@gmail.com', 'hannah', 3, '2022-10-19 11:10:26'),
+(5, 10025123, 'bernardo', 'jessica', '', 'magalang, pampanga', '52147823', 'female', '2007-07-06', 'IT', 'BSIT', '4', 'student', 'active', '', 'jessica@gmail.com', 'jessica', 3, '2022-10-19 11:10:29'),
+(6, 100232541, 'cabiles', 'rex bryan', 'gayla', 'san fernando, pampanga', '123456789', 'male', '2007-07-06', 'engineering', 'BSIT', '5', 'student', 'active', '', 'rexbryan@gmail.com', 'rexbryan', 3, '2022-10-19 11:10:31'),
+(7, 100254256, 'galang', 'maria elizabeth', '', 'bamban, tarlac', '123456987', 'female', '2007-07-06', 'engineering', 'CpE', '3', 'student', 'active', '', 'elizabeth@gmail.com', 'elizabeth', 3, '2022-10-19 11:10:33'),
+(8, 20012546, 'Bracken', 'Josephine', 'Clemente', 'Arayat, Pampanga', '453257892', 'Female', '2007-07-06', 'IT', 'BSIT', '4', 'Student', 'Active', '', 'josephine@gmail.com', 'josephine', 3, '2022-10-19 11:10:35'),
+(9, 422856789, 'Mammaril', 'Juanna Marie', 'Lopez', 'Magalang, Pampanga', '2147483647', 'Female', '2007-07-06', 'IT', '', '', 'staff', 'Active', '', 'juanna@gmail.com', 'juanna', 2, '2022-10-19 11:10:38'),
+(10, 498752314, 'Reyes', 'John Archee', 'Romualdez', 'Bamban, Tarlac', '2147483647', 'Male', '2007-07-06', 'Engineering', '', '', 'Staff', 'Active', '', 'johnarchee@gmail.com', 'johnarchee', 2, '2022-10-19 11:10:40'),
+(11, 1000095, 'Marquez', 'Justine', 'Del Valle', 'Clark, Pampanga', '487451230', 'Male', '2007-07-06', 'Admin', '', '', 'Guidance', 'Active', '', 'justinemarquez@gmail.com', 'justine', 1, '2022-10-19 14:01:57');
 
 --
 -- Indexes for dumped tables
