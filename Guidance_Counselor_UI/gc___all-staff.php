@@ -455,8 +455,8 @@ if(!isset($_SESSION['UserEmail'])){
                           <td><?= $row['position'] ?></td>
 
                           <td>
-                            <a href="gc___staff_profile.php">
-                              <button type="button" name="view_profile_btn" class="btn btn-primary" href="gc___staff_profile.php">View</button>
+                            <a href="gc___staff_profile.php?id=<?= $row['user_id'] ?>">
+                              <button type="button" name="view_profile_btn" class="btn btn-primary">View</button>
                             </a>
                           </td>
                         </tr>
