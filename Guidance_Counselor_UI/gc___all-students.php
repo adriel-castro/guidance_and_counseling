@@ -445,7 +445,7 @@ if(!isset($_SESSION['UserEmail'])){
                           <td><?= $row['program'] ?></td>
                           <td><?= $row['level'] ?></td>
                           <td>
-                            <a href="gc___student_profile.php">
+                            <a href="gc___student_profile.php?id=<?= $row['user_id'] ?>">
                               <button type="button" class="btn btn-primary">View</button>
                             </a>
                           </td>
