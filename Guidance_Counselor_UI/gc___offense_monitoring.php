@@ -150,7 +150,7 @@
                     <label class="login2 pull-right">Student ID</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Student ID" />
+                    <input type="text" class="form-control" placeholder="Enter Student ID" name="id_number" />
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@
                     <label class="login2 pull-right">Student Name</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Student Name" />
+                    <input type="text" class="form-control" placeholder="Enter Student Name" name="name" />
                   </div>
                 </div>
               </div>
@@ -171,7 +171,8 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="form-select-list">
-                      <select class="form-control custom-select-value" name="account">
+                      <select class="form-control custom-select-value" name="type">
+                        <option value="" disabled>Offense Type</option>
                         <option>Offense A</option>
                         <option>Offense B</option>
                         <option>Offense C</option>
@@ -187,7 +188,7 @@
                     <label class="login2 pull-right">Description</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Offense Description" />
+                    <input type="text" class="form-control" placeholder="Enter Offense Description" name="description" />
                   </div>
                 </div>
               </div>
@@ -197,10 +198,11 @@
                     <label class="login2 pull-right" style="font-weight: bold;">Date</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <div class="input-group date ">
+                    <input type="date" class="form-control" name="date" />
+                    <!-- <div class="input-group date ">
                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                      <input type="text" class="form-control" value="XX/XX/XXXX">
-                    </div>
+                      <input type="date" class="form-control" value="XX/XX/XXXX">
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -211,7 +213,7 @@
                     <label class="login2 pull-right">Sanction</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Saction" />
+                    <input type="text" class="form-control" name="sanction" placeholder="Enter Saction" />
                   </div>
                 </div>
               </div>
@@ -222,9 +224,9 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="input-daterange input-group" id="datepicker">
-                      <input type="text" class="form-control" name="start" value="05/14/2014" />
+                      <input type="text" class="form-control" name="start_date" value="05/14/2014" />
                       <span class="input-group-addon">to</span>
-                      <input type="text" class="form-control" name="end" value="05/22/2014" />
+                      <input type="text" class="form-control" name="end_date" value="05/22/2014" />
                     </div>
                   </div>
                 </div>
@@ -236,7 +238,7 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="form-select-list">
-                      <select class="form-control custom-select-value" name="account">
+                      <select class="form-control custom-select-value" name="status">
                         <option>Active</option>
                         <option>Completed</option>
                         <option>Cancelled</option>
@@ -251,7 +253,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="save_excel_data" class="btn btn-primary btn-md">Upload</button>
+            <button type="submit" name="add_offense" class="btn btn-primary btn-md">Submit</button>
           </div>
         </div>
       </div>
