@@ -20,6 +20,7 @@ if(!isset($_SESSION['UserEmail'])){
         $address = $_POST['address'];
         $contact = $_POST['contact'];
         $gender = $_POST['gender'];
+        $date_of_birth = $_POST['date_of_birth'];
         $department = $_POST['department'];
         $program = $_POST['program'];
         $level = $_POST['level'];
@@ -28,19 +29,28 @@ if(!isset($_SESSION['UserEmail'])){
         $position = "Guidance";
         $status = "Active";
         $role = "1";
-    
-        $image = $_FILES['image']['name'];
-        $temp_name = $_FILES['image']['tmp_name'];
-        move_uploaded_file($temp_name,"img/student/$image");
-    
-        $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, ".
-                    "`gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`) ".
-                    "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$department', ".
-                    "'$program','$level','$position','$status','$image','$email','$password','$role')";
-        $con->query( $add_staff) or die ($con->error);
-        header("Location: gc___main-all-gc.php");
-    
-    }
+        
+        // $user_image = "4.jpg";
+        $user_image = $_FILES['user_image']['name'];
+        $temp_name = $_FILES['user_image']['tmp_name'];
+        // $folder = "img/users/$image";
+        move_uploaded_file($temp_name, "img/profile/$user_image");
+        
+        echo $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, ".
+                    "`gender`, `date_of_birth`, `department`, `program`, `level`, `position`, `status`, `user_image`, `email`, `password`, `role`) ".
+                    "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$date_of_birth','$department', ".
+                    "'$program','$level','$position','$status','$user_image','$email','$password','$role')";
+        $run_query = $con->query( $add_staff) or die ($con->error);
+        
+        if($run_query){
+                
+            echo "<script>alert('Guidance account has been Created Sucessfully!')</script>";
+            echo header("Location: gc___main-all-gc.php");
+            
+            }
+        // header("Location: gc___main-all-gc.php");
+        
+        }
 
 ?>
 <!doctype html>
@@ -210,7 +220,7 @@ if(!isset($_SESSION['UserEmail'])){
                                 <label class="login2 pull-right">Middle Name</label>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                <input type="text" name="middle_name" class="form-control" placeholder="Enter Middle Name" required/>
+                                <input type="text" name="middle_name" class="form-control" placeholder="Enter Middle Name" />
                             </div>
                             </div>
                         </div>              
@@ -248,6 +258,17 @@ if(!isset($_SESSION['UserEmail'])){
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inner">
+                            <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <label class="login2 pull-right">Date of Birth</label>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <input type="date" name="date_of_birth" class="form-control" />
                             </div>
                             </div>
                         </div>
@@ -324,7 +345,7 @@ if(!isset($_SESSION['UserEmail'])){
                                 <label class="login2 pull-right">Image</label>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                <input type="file" name="image" class="form-control" />
+                                <input type="file" name="user_image" class="form-control" />
                             </div>
                             </div>
                         </div>
@@ -343,8 +364,6 @@ if(!isset($_SESSION['UserEmail'])){
         </div>
 
     </div>
-
-
 
     <!-- Static Table Start -->
 
