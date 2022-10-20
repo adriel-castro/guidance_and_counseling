@@ -10,7 +10,7 @@ session_start();
         
     }else{
 
-        $con = connection();            
+        $con = connection();
 
         if(isset($_GET['id'])){
 

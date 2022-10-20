@@ -10,6 +10,8 @@ if(!isset($_SESSION['UserEmail'])){
     
 }else{
 
+    $con = connection();
+
 function build_calendar($month, $year)
 {
     // $con = new mysqli('localhost', 'root', '', 'db_guidancems');

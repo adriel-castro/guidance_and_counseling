@@ -1,4 +1,12 @@
+<?php
 
+    if(isset($_SESSION['UserId'])){
+        $user_id = $_SESSION['UserId'];
+        $user_query = "SELECT first_name, last_name FROM users WHERE user_id = '$user_id'";
+        $user_con = $con->query($user_query) or die ($con->error);
+        $row_user = $user_con->fetch_assoc();
+    }
+?>
 <!-- Start Welcome area -->
     <div class="all-content-wrapper">
         <div class="container-fluid">
@@ -159,9 +167,9 @@
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                                             <img src="img/product/pro4.jpg" alt="" />
                                                             <span class="admin-name">
-
-                                                                <!-- <?php echo $_SESSION['username']?> -->
                                                                 
+                                                                <?php echo $row_user['first_name']?> <?php echo $row_user['last_name']?>
+
                                                             </span>
                                                             <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                         </a>
