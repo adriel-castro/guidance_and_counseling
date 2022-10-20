@@ -1,11 +1,49 @@
 <?php
+
+session_start();
+
+    include_once("../connections/connection.php");
+
+    if(!isset($_SESSION['UserEmail'])){
+        
+        echo "<script>window.open('../homepage___login.php','_self')</script>";
+        
+    }else{
+
+        $con = connection();            
+
+        if(isset($_GET['id'])){
+
+            $id = $_GET['id'];
+            $query = "SELECT * FROM users WHERE user_id = '$id'";
+            $get_user = $con->query($query) or die ($con->error);
+            $row = $get_user->fetch_assoc();
+        }
+
+        // if(isset($_POST['update_details'])) {
+        //     // $user_id = $row['user_id'];
+        //     $first_name = $_POST['first_name'];
+        //     $last_name = $_POST['last_name'];
+        //     $middle_name = $_POST['middle_name'];
+        //     $birthday = $_POST['birthday'];
+        //     $position = $_POST['position'];
+        //     $address = $_POST['address'];
+        //     $gender = $_POST['gender'];
+        //     $contact = $_POST['contact'];
+
+        //     $update_query = "UPDATE `users` SET `first_name` = '$first_name', `last_name` = '$last_name', `middle_name` = '$middle_name', `date_of_birth` = '$birthday', ".
+        //                 "`position` = '$position', `address` = '$address', `gender` = '$gender', `contact` = '$contact' WHERE user_id = '$id'";
+        //     $con->query($update_query) or die ($con->error);
+        //     header("Location: gc___staff_profile.php?id=$id");
+        // }
+?>
+
+<?php
 include('includes/gc___header.php');
 include('includes/gc___left-menu-area.php');
 include('includes/gc___top-menu-area.php');
 include('includes/gc___mobile_menu.php');
 ?>
-
-
 
 <div class="breadcome-area">
     <div class="container-fluid">
@@ -46,24 +84,24 @@ include('includes/gc___mobile_menu.php');
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Student ID</b><br /> 124124142</p>
+                                    <p><b>Student ID</b><br /> <?= $row['id_number'] ?></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Full Name </b><br /> Abigail Nazal</p>
+                                    <p><b>Full Name </b><br /> <?= $row['first_name'] ?> <?= $row['last_name'] ?></p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Program</b><br /> BSIT</p>
+                                    <p><b>Program</b><br /> <?= $row['program'] ?></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Level</b><br /> 4A</p>
+                                    <p><b>Level</b><br /> <?= $row['level'] ?></p>
                                 </div>
                             </div>
                         </div>
@@ -269,3 +307,5 @@ include('includes/gc___mobile_menu.php');
 include('includes/gc___footer.php');
 include('includes/gc___scripts.php');
 ?>
+
+<?php } ?>
