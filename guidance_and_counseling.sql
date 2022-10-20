@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2022 at 04:11 PM
+-- Generation Time: Oct 19, 2022 at 06:13 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -228,7 +228,7 @@ CREATE TABLE `users` (
   `level` varchar(50) NOT NULL,
   `position` varchar(150) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `image` text NOT NULL,
+  `user_image` varchar(300) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` int(11) NOT NULL,
@@ -239,9 +239,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `gender`, `date_of_birth`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`, `updated_at`) VALUES
-(1, 1001, 'Counselor', 'Guidance', '', 'angeles, pampanga', '639353204785', 'Female', '2007-07-06', 'admin', 'admin', 'n/a', 'guidance', 'active', '', 'guidance@gmail.com', 'guidance', 1, '2022-10-19 14:09:11'),
-(2, 1002, 'doe', 'jane', '', 'angeles, pampanga', '123456789', 'female', '2007-07-06', 'engineering', 'staff', 'n/a', 'staff', 'active', '', 'staff@gmail.com', 'staff', 2, '2022-10-19 11:10:20'),
+INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `gender`, `date_of_birth`, `department`, `program`, `level`, `position`, `status`, `user_image`, `email`, `password`, `role`, `updated_at`) VALUES
+(1, 1001, 'Counselor', 'Guidance', '', 'angeles, pampanga', '639353204785', 'Female', '2007-07-06', 'admin', 'admin', 'n/a', 'guidance', 'active', '1.jpg', 'guidance@gmail.com', 'guidance', 1, '2022-10-19 14:38:56'),
+(2, 1002, 'doe', 'jane', '', 'angeles, pampanga', '123456789', 'female', '2007-07-06', 'engineering', 'staff', 'n/a', 'staff', 'active', '', 'staff@gmail.com', 'staff', 2, '2022-10-19 14:37:43'),
 (3, 1003001, 'dela cruz', 'juan', '', 'angeles, pampanga', '123456789', 'male', '2007-07-06', 'IT', 'BSIT', '4', 'student', 'active', '', 'juandelacruz@gmail.com', 'student', 3, '2022-10-19 11:10:24'),
 (4, 10025410, 'perez', 'hannah marie', 'esclito', 'san fernando, pampanga', '238541258', 'female', '2007-07-06', 'IT', 'BSIT', '3', 'student', 'active', '', 'hannah@gmail.com', 'hannah', 3, '2022-10-19 11:10:26'),
 (5, 10025123, 'bernardo', 'jessica', '', 'magalang, pampanga', '52147823', 'female', '2007-07-06', 'IT', 'BSIT', '4', 'student', 'active', '', 'jessica@gmail.com', 'jessica', 3, '2022-10-19 11:10:29'),
@@ -250,7 +250,9 @@ INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_
 (8, 20012546, 'Bracken', 'Josephine', 'Clemente', 'Arayat, Pampanga', '453257892', 'Female', '2007-07-06', 'IT', 'BSIT', '4', 'Student', 'Active', '', 'josephine@gmail.com', 'josephine', 3, '2022-10-19 11:10:35'),
 (9, 422856789, 'Mammaril', 'Juanna Marie', 'Lopez', 'Magalang, Pampanga', '2147483647', 'Female', '2007-07-06', 'IT', '', '', 'staff', 'Active', '', 'juanna@gmail.com', 'juanna', 2, '2022-10-19 11:10:38'),
 (10, 498752314, 'Reyes', 'John Archee', 'Romualdez', 'Bamban, Tarlac', '2147483647', 'Male', '2007-07-06', 'Engineering', '', '', 'Staff', 'Active', '', 'johnarchee@gmail.com', 'johnarchee', 2, '2022-10-19 11:10:40'),
-(11, 1000095, 'Marquez', 'Justine', 'Del Valle', 'Clark, Pampanga', '487451230', 'Male', '2007-07-06', 'Admin', '', '', 'Guidance', 'Active', '', 'justinemarquez@gmail.com', 'justine', 1, '2022-10-19 14:01:57');
+(11, 1000095, 'Marquez', 'Justine', 'Del Valle', 'Clark, Pampanga', '487451230', 'Male', '2007-07-06', 'Admin', '', '', 'Guidance', 'Active', '3.jpg', 'justinemarquez@gmail.com', 'justine', 1, '2022-10-19 14:38:16'),
+(12, 1000099, 'Empania', 'Dennis', 'Reyes', 'Mabalacat, Pampanga', '09354524886', 'Male', '2007-07-06', 'Engineering', 'BSIT', '4', 'Guidance', 'Active', '2.jpg', 'dennis@gmail.com', 'dennis', 1, '2022-10-19 14:34:46'),
+(20, 1000055, 'Robinson', 'Tony', '', 'Arayat, Pampanga', '9354524874', 'Male', '1996-03-24', 'Engineering', 'BSIT', '3', 'Guidance', 'Active', '', 'tony@gmail.com', 'tonyrobinson', 1, '2022-10-19 15:42:13');
 
 --
 -- Indexes for dumped tables
@@ -368,7 +370,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
