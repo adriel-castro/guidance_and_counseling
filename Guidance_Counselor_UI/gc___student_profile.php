@@ -13,29 +13,28 @@ session_start();
         $con = connection();
 
         if(isset($_GET['id'])){
-
             $id = $_GET['id'];
             $query = "SELECT * FROM users WHERE user_id = '$id'";
             $get_user = $con->query($query) or die ($con->error);
             $row = $get_user->fetch_assoc();
         }
 
-        // if(isset($_POST['update_details'])) {
-        //     // $user_id = $row['user_id'];
-        //     $first_name = $_POST['first_name'];
-        //     $last_name = $_POST['last_name'];
-        //     $middle_name = $_POST['middle_name'];
-        //     $birthday = $_POST['birthday'];
-        //     $position = $_POST['position'];
-        //     $address = $_POST['address'];
-        //     $gender = $_POST['gender'];
-        //     $contact = $_POST['contact'];
+        // $app_history_query = "SELECT * FROM appointment_history LEFT JOIN appointments ON appointment_history.app_id = appointments.id WHERE appointments.ref_id = 12";
+        $app_query = "SELECT * FROM appointment_history JOIN appointments ON appointment_history.app_id = appointments.id JOIN refferals ON refferals.ref_id = appointments.ref_id WHERE refferals.reffered_user = '$id'";
+        $app_con = $con->query($app_query) or die ($con->error);
+        $app_row = $app_con->fetch_assoc();
 
-        //     $update_query = "UPDATE `users` SET `first_name` = '$first_name', `last_name` = '$last_name', `middle_name` = '$middle_name', `date_of_birth` = '$birthday', ".
-        //                 "`position` = '$position', `address` = '$address', `gender` = '$gender', `contact` = '$contact' WHERE user_id = '$id'";
-        //     $con->query($update_query) or die ($con->error);
-        //     header("Location: gc___staff_profile.php?id=$id");
-        // }
+        if($app_row){
+            $referrer_id = $app_row['reffered_by'];
+            $info = $app_row['info'];
+            $date_accomplished = $app_row['date_accomplished'];
+            $new_date = date("D M d, Y", strtotime($date_accomplished));
+            
+            $user_query = "SELECT * FROM users WHERE user_id = '$referrer_id'";
+            $user_con = $con->query($user_query) or die ($con->error);
+            $user_row = $user_con->fetch_assoc();
+        }
+        
 ?>
 
 <?php
@@ -169,7 +168,6 @@ include('includes/gc___mobile_menu.php');
                                                 </div>
                                             </div> -->
 
-
                                         </div>
                                     </div>
                                 </div>
@@ -180,14 +178,24 @@ include('includes/gc___mobile_menu.php');
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="review-content-section">
                                         <div class="chat-discussion" style="height: auto">
+
+                                        <?php if($app_row == 0) { echo "No matching records found.";
+                                        } else { do { ?>
+
                                             <div class="chat-message">
                                                 <div class="profile-hdtc">
-                                                    <img class="message-avatar" src="img/contact/1.jpg" alt="">
+                                                    <img class="message-avatar" src="<?php if($user_row['gender'] == "male" || $user_row['gender'] == "Male") {
+                                                        echo "img/contact/1.jpg";
+                                                    } elseif($user_row['gender'] == "female" || $user_row['gender'] == "Female") {
+                                                        echo "img/contact/3.jpg";
+                                                    }
+                                                    ?>" alt="avatar">
                                                 </div>
                                                 <div class="message">
-                                                    <a class="message-author" href="#"> Michael Smith </a>
-                                                    <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
-                                                    <span class="message-content">reffered student, for counseling
+                                                    <a class="message-author" href="#"> <?= $user_row['first_name'] ?> <?= $user_row['last_name'] ?></a>
+                                                    <!-- <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span> -->
+                                                    <span class="message-date"> <?= $new_date ?> </span>
+                                                    <span class="message-content"><?= $info ?>
                                                     </span>
                                                     <div class="m-t-md mg-t-10">
                                                         <a class="btn btn-xs btn-default"><i></i> Review </a>
@@ -196,7 +204,7 @@ include('includes/gc___mobile_menu.php');
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="chat-message">
+                                            <!-- <div class="chat-message">
                                                 <div class="profile-hdtc">
                                                     <img class="message-avatar" src="img/contact/2.png" alt="">
                                                 </div>
@@ -227,7 +235,9 @@ include('includes/gc___mobile_menu.php');
                                                         <a class="btn btn-xs btn-default"><i></i> archive </a>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
+
+                                            <?php } while ($app_row = $app_con->fetch_assoc()); } ?>
 
 
                                         </div>
