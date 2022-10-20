@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2022 at 06:13 PM
+-- Generation Time: Oct 20, 2022 at 06:20 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -161,7 +161,7 @@ CREATE TABLE `refferals` (
 
 INSERT INTO `refferals` (`ref_id`, `reffered_user`, `source`, `reffered_by`, `reffered_date`, `nature`, `reason`, `actions`, `remarks`, `ref_status`, `updated_at`) VALUES
 (1, 6, 'Guidance Counselor', 3, '2022-10-03', 'Academic', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Cancelled', '2022-10-12 09:26:29'),
-(2, 3, 'Faculty', 4, '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'Cancelled', '2022-10-12 09:26:33'),
+(2, 3, 'Faculty', 4, '2022-10-04', 'Career', 'Madaling mainis', 'Have Tutor', 'Unhealthy Environment', 'Cancelled', '2022-10-20 15:25:03'),
 (3, 7, 'Faculty', 2, '2022-10-03', 'Personal', 'Nagwawala', 'Pinacheck up sa Doctor', 'Needs Psychiatry', 'Pending', '2022-10-12 11:43:18'),
 (5, 5, 'Guidance Counselor', 3, '2022-09-26', 'Personal', 'Slow learner', 'Kinausap ng teacher ng masisinsinan', 'Unhealthy Environment', 'Completed', '2022-10-18 15:55:06'),
 (6, 4, 'Classmate/s', 2, '2022-09-21', 'Career', 'Madaling mainis', 'Have tutor', 'Remarks', 'For Approval', '2022-10-12 09:42:36'),
@@ -252,7 +252,7 @@ INSERT INTO `users` (`user_id`, `id_number`, `last_name`, `first_name`, `middle_
 (10, 498752314, 'Reyes', 'John Archee', 'Romualdez', 'Bamban, Tarlac', '2147483647', 'Male', '2007-07-06', 'Engineering', '', '', 'Staff', 'Active', '', 'johnarchee@gmail.com', 'johnarchee', 2, '2022-10-19 11:10:40'),
 (11, 1000095, 'Marquez', 'Justine', 'Del Valle', 'Clark, Pampanga', '487451230', 'Male', '2007-07-06', 'Admin', '', '', 'Guidance', 'Active', '3.jpg', 'justinemarquez@gmail.com', 'justine', 1, '2022-10-19 14:38:16'),
 (12, 1000099, 'Empania', 'Dennis', 'Reyes', 'Mabalacat, Pampanga', '09354524886', 'Male', '2007-07-06', 'Engineering', 'BSIT', '4', 'Guidance', 'Active', '2.jpg', 'dennis@gmail.com', 'dennis', 1, '2022-10-19 14:34:46'),
-(20, 1000055, 'Robinson', 'Tony', '', 'Arayat, Pampanga', '9354524874', 'Male', '1996-03-24', 'Engineering', 'BSIT', '3', 'Guidance', 'Active', '', 'tony@gmail.com', 'tonyrobinson', 1, '2022-10-19 15:42:13');
+(20, 1000055, 'Robinson', 'Tony', '', 'Arayat, Pampanga', '09354524874', 'Male', '1996-03-24', 'Engineering', 'BSIT', '3', 'Guidance', 'Active', '', 'tony@gmail.com', 'tonyrobinson', 1, '2022-10-20 16:05:49');
 
 --
 -- Indexes for dumped tables
