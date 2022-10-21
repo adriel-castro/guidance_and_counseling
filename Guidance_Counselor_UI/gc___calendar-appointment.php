@@ -37,7 +37,7 @@ if (isset($_GET['ref_id'])) {
         $user_query = "SELECT id_number FROM users WHERE user_id = '$reffered_user'";
         $user_con = $con->query($user_query) or die ($con->error);
         $row_user = $user_con->fetch_assoc();
-        $user_id_number = $row_user['id_number'];
+        $users_id_number = $row_user['id_number'];
     }
 }
 
@@ -434,8 +434,8 @@ function timeslots($duration, $cleanup, $start, $end)
                                     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                                         <div class="input-group">
                                             <?php if (isset($_GET['ref_id'])) { ?>
-                                                <input type="text" class="form-control" placeholder="Search Student" value="<?= $user_id_number ?>" disabled />
-                                                <input type="hidden" class="form-control" placeholder="Search Student" name="id_number" value="<?= $user_id_number ?>" />
+                                                <input type="text" class="form-control" placeholder="Search Student" value="<?= $users_id_number ?>" disabled />
+                                                <input type="hidden" class="form-control" placeholder="Search Student" name="id_number" value="<?= $users_id_number ?>" />
                                             <?php } else {  ?>
                                                 <input type="text" class="form-control" placeholder="Search Student ID" name="id_number" required/>
                                             <?php } ?>
