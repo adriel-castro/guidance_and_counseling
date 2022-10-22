@@ -162,7 +162,14 @@ if (!isset($_SESSION['UserEmail'])) {
     }
 
 ?>
+<style>
+    .today{
+        background: yellow;
+    }
+    
 
+    
+</style>
     <?php
 
     include('includes/gc___header.php');
@@ -204,14 +211,19 @@ if (!isset($_SESSION['UserEmail'])) {
                     <div class="analytics-sparkle-line reso-mg-b-30">
                         <div class="analytics-content">
                             <h5>SHS</h5>
-                            
-                             <!-- <?php
+
+
+                            <!-- Please display the count of Senior High School students in school and currently registered-->
+
+
+                            <!-- <?php
                                     // $query = "SELECT id_number FROM users WHERE position = 'student' || 'Student' ORDER BY id_number";
                                     // $query_run = mysqli_query($con, $query);
                                     // $row = mysqli_num_rows($query_run);
                                     // echo '<h2><span class="counter">' . $row . '</span>
                                     // <span class="tuition-fees">SHS Students</span></h2>'
-                                    // ?>  -->
+                                    // 
+                                    ?>  -->
 
                         </div>
                     </div>
@@ -222,7 +234,10 @@ if (!isset($_SESSION['UserEmail'])) {
                         <div class="analytics-content">
                             <h5>Tertiary</h5>
 
-                             <!-- <?php
+                            <!-- Please display the count of Tertiary students in school and currently registered-->
+
+
+                            <!-- <?php
                                     $query = "SELECT id_number FROM users WHERE position = 'staff' || 'Staff' ORDER BY id_number";
                                     $query_run = mysqli_query($con, $query);
                                     $row = mysqli_num_rows($query_run);
