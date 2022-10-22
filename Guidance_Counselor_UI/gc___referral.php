@@ -421,9 +421,8 @@ if (!isset($_SESSION['UserEmail'])) {
                                                                 echo "<div style='display: flex; text-align: center; align-items: center;'>" ?>
                                                                 <!-- <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a> -->
                                                                 <!-- <a class="btn btn-danger" style="color: white;" href="gc___referral.php?id=<?= $row['ref_id'] ?>">Reject</a> -->
-
+                                                                
                                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#REJECTION_FORM">Reject</button>
-
                                                                 <a class="btn btn-success" style="margin-left: 10px; color: white;" href="gc___calendar.php?ref_id=<?= $row['ref_id'] ?>&firstName=<?= $row['first_name'] ?>&lastName=<?= $row['last_name'] ?>">Set Appointment</a>
                                                             <?php "</div>";
                                                             } else echo null; ?>
