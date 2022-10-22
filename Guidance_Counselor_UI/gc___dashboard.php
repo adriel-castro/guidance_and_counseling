@@ -204,7 +204,7 @@ include('includes/gc___mobile_menu.php');
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div class="analytics-sparkle-line reso-mg-b-30">
                     <div class="analytics-content">
-                        <h5>Students</h5>
+                        <h5>tertiary</h5>
 
                         <?php
                             $query = "SELECT id_number FROM users WHERE position = 'student' || 'Student' ORDER BY id_number";
