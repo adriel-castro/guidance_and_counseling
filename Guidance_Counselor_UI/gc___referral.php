@@ -172,6 +172,10 @@ if (!isset($_SESSION['UserEmail'])) {
                                 </div>
 
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                                <button type="submit" name="add_refferal" class="btn btn-primary btn-md">Submit</button>
+                            </div>
                         </form>
                     </div>
                 </div>
