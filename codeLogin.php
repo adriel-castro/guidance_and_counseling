@@ -33,6 +33,11 @@ if (isset($_POST['login_btn'])) {
         $_SESSION['UserId'] = $row['user_id'];
         $_SESSION['UserRole'] = $row['role'];
         header('Location: ./Student_UI/stud___dashboard.php');
+    }elseif($row["role"] == 4){
+        $_SESSION['UserEmail'] = $row['email'];
+        $_SESSION['UserId'] = $row['user_id'];
+        $_SESSION['UserRole'] = $row['role'];
+        header('Location: ./Guidance_Counselor_UI/gc___dashboard.php');
     }
     
     else {
