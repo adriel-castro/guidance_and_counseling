@@ -1,174 +1,175 @@
-<?php
+<!-- <?php
 
-session_start();
+        session_start();
 
-include_once("../connections/connection.php");
+        include_once("../connections/connection.php");
 
-if(!isset($_SESSION['UserEmail'])){
-        
-    echo "<script>window.open('../homepage___login.php','_self')</script>";
-    
-}else{
+        if (!isset($_SESSION['UserEmail'])) {
 
-    $con = connection();
+            echo "<script>window.open('../homepage___login.php','_self')</script>";
+        } else {
 
-function build_calendar($month, $year)
-{
-    // $con = new mysqli('localhost', 'root', '', 'db_guidancems');
-    $con = connection();
-    // $stmt = $con->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
-    // $stmt->bind_param('ss', $month, $year);
-    // $bookings = array();
-    // if ($stmt->execute()) {
-    //     $result = $stmt->get_result();
-    //     if ($result->num_rows > 0) {
-    //         while ($row = $result->fetch_assoc()) {
-    //             $bookings[] = $row['date'];
-    //         }
-    //         $stmt->close();
-    //     }
-    // }
+            $con = connection();
 
-    // Create array containing abbreviations of days of week.
-    $daysOfWeek = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+            function build_calendar($month, $year)
+            {
+                // $con = new mysqli('localhost', 'root', '', 'db_guidancems');
+                $con = connection();
+                // $stmt = $con->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
+                // $stmt->bind_param('ss', $month, $year);
+                // $bookings = array();
+                // if ($stmt->execute()) {
+                //     $result = $stmt->get_result();
+                //     if ($result->num_rows > 0) {
+                //         while ($row = $result->fetch_assoc()) {
+                //             $bookings[] = $row['date'];
+                //         }
+                //         $stmt->close();
+                //     }
+                // }
 
-    // What is the first day of the month in question?
-    $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
+                // Create array containing abbreviations of days of week.
+                $daysOfWeek = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 
-    // How many days does this month contain?
-    $numberDays = date('t', $firstDayOfMonth);
+                // What is the first day of the month in question?
+                $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
 
-    // Retrieve some information about the first day of the
-    // month in question.
-    $dateComponents = getdate($firstDayOfMonth);
+                // How many days does this month contain?
+                $numberDays = date('t', $firstDayOfMonth);
 
-    // What is the name of the month in question?
-    $monthName = $dateComponents['month'];
+                // Retrieve some information about the first day of the
+                // month in question.
+                $dateComponents = getdate($firstDayOfMonth);
 
-    // What is the index value (0-6) of the first day of the
-    // month in question.
-    $dayOfWeek = $dateComponents['wday'];
+                // What is the name of the month in question?
+                $monthName = $dateComponents['month'];
 
-    // Create the table tag opener and day headers
+                // What is the index value (0-6) of the first day of the
+                // month in question.
+                $dayOfWeek = $dateComponents['wday'];
 
-    $datetoday = date('Y-m-d');
-    $calendar = "<table class='table table-bordered'>";
-    $calendar .= "<center><h2>$monthName $year</h2><br>";
+                // Create the table tag opener and day headers
 
-    $calendar .= "<a class='btn btn-xs btn-primary' href='?month=" . date('m', mktime(0, 0, 0, $month - 1, 1, $year)) . "&year=" . date('Y', mktime(0, 0, 0, $month - 1, 1, $year)) . "'>Previous Month</a> ";
+                $datetoday = date('Y-m-d');
+                $calendar = "<table class='table table-bordered'>";
+                $calendar .= "<center><h2>$monthName $year</h2><br>";
 
-    $calendar .= " <a href='gc___calendar.php' class='btn btn-xs btn-primary' data-month='" . date('m') . "' data-year='" . date('Y') . "'>Current Month</a> ";
+                $calendar .= "<a class='btn btn-xs btn-primary' href='?month=" . date('m', mktime(0, 0, 0, $month - 1, 1, $year)) . "&year=" . date('Y', mktime(0, 0, 0, $month - 1, 1, $year)) . "'>Previous Month</a> ";
 
-    $calendar .= "<a href='?month=" . date('m', mktime(0, 0, 0, $month + 1, 1, $year)) . "&year=" . date('Y', mktime(0, 0, 0, $month + 1, 1, $year)) . "' class='btn btn-xs btn-primary'>Next Month</a></center><br>";
+                $calendar .= " <a href='gc___calendar.php' class='btn btn-xs btn-primary' data-month='" . date('m') . "' data-year='" . date('Y') . "'>Current Month</a> ";
 
-    $calendar .= "<tr>";
+                $calendar .= "<a href='?month=" . date('m', mktime(0, 0, 0, $month + 1, 1, $year)) . "&year=" . date('Y', mktime(0, 0, 0, $month + 1, 1, $year)) . "' class='btn btn-xs btn-primary'>Next Month</a></center><br>";
 
-    // Create the calendar headers
-    foreach ($daysOfWeek as $day) {
-        $calendar .= "<th  class='header'>$day</th>";
-    }
+                $calendar .= "<tr>";
 
-    // Create the rest of the calendar
-    // Initiate the day counter, starting with the 1st.
-    $currentDay = 1;
-    $calendar .= "</tr><tr>";
-
-    // The variable $dayOfWeek is used to
-    // ensure that the calendar
-    // display consists of exactly 7 columns.
-
-    if ($dayOfWeek > 0) {
-        for ($k = 0; $k < $dayOfWeek; $k++) {
-            $calendar .= "<td  class='empty'></td>";
-        }
-    }
-
-
-    $month = str_pad($month, 2, "0", STR_PAD_LEFT);
-
-    while ($currentDay <= $numberDays) {
-        //Seventh column (Saturday) reached. Start a new row.
-        if ($dayOfWeek == 7) {
-            $dayOfWeek = 0;
-            $calendar .= "</tr><tr>";
-        }
-
-        $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
-        date_default_timezone_set('Asia/Manila');
-        $date = "$year-$month-$currentDayRel";
-        $dayname = strtolower(date('l', strtotime($date)));
-        $eventNum = 0;
-        $today = $date == date('Y-m-d') ? "today" : "";
-
-        // this is for the no office hours in the calendar which is the saturday and sunday
-        if ($dayname == 'saturday' || $dayname == 'sunday') {
-            $calendar .= "<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>No Office Hours</button>";
-        }
-        // this is for the already passed date that is not available for booking
-        elseif ($date < date('Y-m-d')) {
-            $calendar .= "<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>N/A</button>";
-        }
-        // elseif (in_array($date, $bookings)) {
-        //     $calendar .= "<td><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>Already Booked</button>";
-        // } 
-        else {
-
-            // this is where in calendar mared na yung date if nakuha na lahat ng appointment timeslots
-            $totalbookings = checkSlot($con, $date);
-            // yung 12 dito is yung total timeslots sa isang date
-            if ($totalbookings == 18) {
-                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>Fully Booked</a>";
-            } else {
-                $availableslots = 18 - $totalbookings;
-                if(!isset($_GET['ref_id'])) {
-                    $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
-                } else {
-                    $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "&ref_id=" . $_GET['ref_id'] . "&firstName=" . $_GET['firstName'] . "&lastName=" . $_GET['lastName'] . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                // Create the calendar headers
+                foreach ($daysOfWeek as $day) {
+                    $calendar .= "<th  class='header'>$day</th>";
                 }
+
+                // Create the rest of the calendar
+                // Initiate the day counter, starting with the 1st.
+                $currentDay = 1;
+                $calendar .= "</tr><tr>";
+
+                // The variable $dayOfWeek is used to
+                // ensure that the calendar
+                // display consists of exactly 7 columns.
+
+                if ($dayOfWeek > 0) {
+                    for ($k = 0; $k < $dayOfWeek; $k++) {
+                        $calendar .= "<td  class='empty'></td>";
+                    }
+                }
+
+
+                $month = str_pad($month, 2, "0", STR_PAD_LEFT);
+
+                while ($currentDay <= $numberDays) {
+                    //Seventh column (Saturday) reached. Start a new row.
+                    if ($dayOfWeek == 7) {
+                        $dayOfWeek = 0;
+                        $calendar .= "</tr><tr>";
+                    }
+
+                    $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
+                    date_default_timezone_set('Asia/Manila');
+                    $date = "$year-$month-$currentDayRel";
+                    $dayname = strtolower(date('l', strtotime($date)));
+                    $eventNum = 0;
+                    $today = $date == date('Y-m-d') ? "today" : "";
+
+                    // this is for the no office hours in the calendar which is the saturday and sunday
+                    if ($dayname == 'saturday' || $dayname == 'sunday') {
+                        $calendar .= "<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>No Office Hours</button>";
+                    }
+                    // this is for the already passed date that is not available for booking
+                    elseif ($date < date('Y-m-d')) {
+                        $calendar .= "<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>N/A</button>";
+                    }
+                    // elseif (in_array($date, $bookings)) {
+                    //     $calendar .= "<td><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>Already Booked</button>";
+                    // } 
+                    else {
+
+                        // this is where in calendar mared na yung date if nakuha na lahat ng appointment timeslots
+                        $totalbookings = checkSlot($con, $date);
+                        // yung 12 dito is yung total timeslots sa isang date
+                        if ($totalbookings == 18) {
+                            $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>Fully Booked</a>";
+                        } else {
+                            $availableslots = 18 - $totalbookings;
+                            if (!isset($_GET['ref_id'])) {
+                                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                            } else {
+                                $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='gc___calendar-appointment.php?date=" . $date . "&ref_id=" . $_GET['ref_id'] . "&firstName=" . $_GET['firstName'] . "&lastName=" . $_GET['lastName'] . "' class='btn btn-success btn-xs'>Book</a> <small><i>$availableslots slots left</i></small>";
+                            }
+                        }
+                    }
+
+
+                    $calendar .= "</td>";
+                    //Increment counters
+                    $currentDay++;
+                    $dayOfWeek++;
+                }
+
+                //Complete the row of the last week in month, if necessary
+                if ($dayOfWeek != 7) {
+                    $remainingDays = 7 - $dayOfWeek;
+                    for ($l = 0; $l < $remainingDays; $l++) {
+                        $calendar .= "<td class='empty'></td>";
+                    }
+                }
+
+                $calendar .= "</tr>";
+                $calendar .= "</table>";
+                return $calendar;
             }
-        }
 
 
-        $calendar .= "</td>";
-        //Increment counters
-        $currentDay++;
-        $dayOfWeek++;
-    }
+            function checkSlot($con, $date)
+            {
+                $stmt = $con->prepare("select * from appointments where date=?");
+                $stmt->bind_param('s', $date);
+                $totalbookings = 0;
+                if ($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $totalbookings++;
+                        }
+                        $stmt->close();
+                    }
+                }
 
-    //Complete the row of the last week in month, if necessary
-    if ($dayOfWeek != 7) {
-        $remainingDays = 7 - $dayOfWeek;
-        for ($l = 0; $l < $remainingDays; $l++) {
-            $calendar .= "<td class='empty'></td>";
-        }
-    }
-
-    $calendar .= "</tr>";
-    $calendar .= "</table>";
-    return $calendar;
-}
-
-
-function checkSlot($con, $date)
-{
-    $stmt = $con->prepare("select * from appointments where date=?");
-    $stmt->bind_param('s', $date);
-    $totalbookings = 0;
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalbookings++;
+                return $totalbookings;
             }
-            $stmt->close();
-        }
-    }
 
-    return $totalbookings;
-}
-
-?>
+        ?> -->
 <!-- <?php session_start() ?> -->
+
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -341,9 +342,9 @@ function checkSlot($con, $date)
 <body>
 
     <?php
-    include('includes/gc___left-menu-area.php');
-    include('includes/gc___top-menu-area.php');
-    include('includes/gc___mobile_menu.php');
+            include('includes/gc___left-menu-area.php');
+            include('includes/gc___top-menu-area.php');
+            include('includes/gc___mobile_menu.php');
     ?>
 
 
@@ -377,9 +378,9 @@ function checkSlot($con, $date)
     <div class="calender-area mg-b-15">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
+                <!-- <div class="col-lg-12">
                     <div class="calender-inner">
-                    <!-- <?= $ref_id ?> -->
+                        <?= $ref_id ?>
                         <?php
                         $dateComponents = getdate();
                         if (isset($_GET['month']) && isset($_GET['year'])) {
@@ -392,13 +393,26 @@ function checkSlot($con, $date)
                         echo build_calendar($month, $year);
                         ?>
                     </div>
+                </div> -->
+
+                <div class="col-lg-12">
+                    <div class="product-sales-chart">
+                        <div class="portlet-title">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id='calendar'></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <?php
-    include('includes/gc___scripts.php');
-
+<?php
+            include('includes/gc___scripts.php');
         }
-    ?>
+?>
