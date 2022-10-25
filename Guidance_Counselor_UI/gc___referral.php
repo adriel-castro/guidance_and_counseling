@@ -14,7 +14,6 @@ if (!isset($_SESSION['UserEmail'])) {
     $get_referral = $con->query($refferal) or die($con->error);
     $row = $get_referral->fetch_assoc();
 
-
     // For Cancelled button
     if (isset($_GET['id'])) {
         $ref_id = $_GET['id'];
@@ -390,21 +389,28 @@ if (!isset($_SESSION['UserEmail'])) {
                                                 echo null;
                                             } else {
                                                 do { ?>
-
+                                                <?php
+                                                    $reffered_by = $row['reffered_by'];
+                                                    $refferedBy_query = "SELECT * FROM users WHERE user_id = '$reffered_by'";
+                                                    $get_refferedBy = $con->query($refferedBy_query) or die($con->error);
+                                                    $row_reffered = $get_refferedBy->fetch_assoc();
+                                                ?>
                                                     <tr>
                                                         <td><b><?php echo $row['id_number'] ?></b></td>
                                                         <td><?php echo $row['first_name'] ?></td>
                                                         <td><?php echo $row['last_name'] ?></td>
                                                         <td><?php echo $row['source'] ?></td>
-                                                        <td><?php echo $row['reffered_by'] ?></td>
+                                                        <!-- <td><?php echo $row['reffered_by'] ?></td> -->
+                                                        <td><?php echo $row_reffered['first_name'] ?> <?php echo $row_reffered['last_name'] ?></td>
                                                         <td><?php echo $row['reffered_date'] ?></td>
                                                         <td><?php echo $row['nature'] ?></td>
                                                         <td><?php echo $row['reason'] ?></td>
                                                         <td><?php echo $row['actions'] ?></td>
                                                         <td><?php echo $row['remarks'] ?></td>
+                                                        <td><?php echo $row['ref_status'] ?></td>
 
-                                                        <td>
-                                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
+                                                        <!-- <td>
+                                                            <p class="btn btn-xs <?php if ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
                                                                                             echo "btn-warning";
                                                                                         } elseif ($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
                                                                                             echo "btn-danger";
@@ -418,8 +424,8 @@ if (!isset($_SESSION['UserEmail'])) {
                                                                                             echo "btn-success";
                                                                                         } else {
                                                                                             echo "btn-secondary";
-                                                                                        } ?>"><?php echo $row['ref_status'] ?></button>
-                                                        </td>
+                                                                                        } ?>"><?php echo $row['ref_status'] ?></p>
+                                                        </td> -->
                                                         <td>
                                                             <?php if ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval" || $row['ref_status'] == "Pending" || $row['ref_status'] == "pending") {
                                                                 echo "<div style='display: flex; text-align: center; align-items: center;'>" ?>
