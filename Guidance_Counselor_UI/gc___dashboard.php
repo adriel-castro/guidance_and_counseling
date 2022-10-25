@@ -175,14 +175,14 @@
                     <div class="analytics-content">
                         <h5>SHS</h5>
 
-                        <!-- <?php
-                                // $query = "SELECT id_number FROM users WHERE position = 'student' || 'Student' ORDER BY id_number";
-                                // $query_run = mysqli_query($con, $query);
-                                // $row = mysqli_num_rows($query_run);
-                                // echo '<h2><span class="counter">' . $row . '</span>
-                                // <span class="tuition-fees">SHS Students</span></h2>'
-                                // 
-                                ?>  -->
+                            <?php
+                                $query = "SELECT id_number FROM users WHERE level = 'G11' || level = 'g11' || level = 'G12' || level = 'g12'";
+                                $query_run = mysqli_query($con, $query);
+                                $row = mysqli_num_rows($query_run);
+                                echo '<h2><span class="counter">' . $row . '</span>
+                                    <span class="tuition-fees">SHS Students</span></h2>'
+                                
+                            ?> 
 
                     </div>
                 </div>
@@ -193,13 +193,13 @@
                     <div class="analytics-content">
                         <h5>Tertiary</h5>
 
-                        <!-- <?php
-                                $query = "SELECT id_number FROM users WHERE position = 'staff' || 'Staff' ORDER BY id_number";
+                            <?php
+                                $query = "SELECT id_number FROM users WHERE level != 'G11' || level != 'g11' || level != 'G12' || level != 'g12' AND role = 3";
                                 $query_run = mysqli_query($con, $query);
                                 $row = mysqli_num_rows($query_run);
                                 echo '<h2><span class="counter">' . $row . '</span>
-                                    <span class="tuition-fees">Tertiary Student</span></h2>'
-                                ?>  -->
+                                    <span class="tuition-fees">Tertiary Student</span></h2>'    
+                            ?> 
 
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                         <h5>Staff</h5>
 
                         <?php
-                        $query = "SELECT id_number FROM users WHERE position = 'staff' || 'Staff' ORDER BY id_number";
+                        $query = "SELECT id_number FROM users WHERE position = 'staff' || position = 'Staff'";
                         $query_run = mysqli_query($con, $query);
                         $row = mysqli_num_rows($query_run);
                         echo '<h2><span class="counter">' . $row . '</span>
