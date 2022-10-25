@@ -10,35 +10,35 @@ if (!isset($_SESSION['UserEmail'])) {
 
   $con = connection();
 
-  if (isset($_POST['add_staff'])) {
+  // if (isset($_POST['add_staff'])) {
 
-    $staff_id = $_POST['staff_id'];
-    $last_name = $_POST['last_name'];
-    $first_name = $_POST['first_name'];
-    $middle_name = $_POST['middle_name'];
-    $address = $_POST['address'];
-    $contact = $_POST['contact'];
-    $gender = $_POST['gender'];
-    $department = $_POST['department'];
-    $program = $_POST['program'];
-    $level = $_POST['level'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $position = "Staff";
-    $status = "Active";
-    $role = "2";
+  //   $staff_id = $_POST['staff_id'];
+  //   $last_name = $_POST['last_name'];
+  //   $first_name = $_POST['first_name'];
+  //   $middle_name = $_POST['middle_name'];
+  //   $address = $_POST['address'];
+  //   $contact = $_POST['contact'];
+  //   $gender = $_POST['gender'];
+  //   $department = $_POST['department'];
+  //   $program = $_POST['program'];
+  //   $level = $_POST['level'];
+  //   $email = $_POST['email'];
+  //   $password = $_POST['password'];
+  //   $position = "Staff";
+  //   $status = "Active";
+  //   $role = "2";
 
-    $image = $_FILES['image']['name'];
-    $temp_name = $_FILES['image']['tmp_name'];
-    move_uploaded_file($temp_name, "img/student/$image");
+  //   $image = $_FILES['image']['name'];
+  //   $temp_name = $_FILES['image']['tmp_name'];
+  //   move_uploaded_file($temp_name, "img/student/$image");
 
-    $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, " .
-      "`gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`) " .
-      "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$department', " .
-      "'$program','$level','$position','$status','$image','$email','$password','$role')";
-    $con->query($add_staff) or die($con->error);
-    header("Location: gc___all-staff.php");
-  }
+  //   $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, " .
+  //     "`gender`, `department`, `program`, `level`, `position`, `status`, `image`, `email`, `password`, `role`) " .
+  //     "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$gender','$department', " .
+  //     "'$program','$level','$position','$status','$image','$email','$password','$role')";
+  //   $con->query($add_staff) or die($con->error);
+  //   header("Location: gc___all-staff.php");
+  // }
 
 
 ?>
@@ -168,7 +168,7 @@ if (!isset($_SESSION['UserEmail'])) {
               </div>
             </div>
 
-            <form action="#" method="POST">
+            <form action="thecodestaff.php" method="POST">
               <div class="modal-body">
                 <div class="form-group-inner">
                   <div class="row">
@@ -176,7 +176,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">Staff ID</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_id" class="form-control" placeholder="Enter Staff ID" />
+                      <input type="text" name="staff_id" class="form-control" placeholder="Enter Staff ID" required/>
                     </div>
                   </div>
                 </div>
@@ -187,7 +187,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">First Name</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_fname" class="form-control" placeholder="Enter First Name" />
+                      <input type="text" name="first_name" class="form-control" placeholder="Enter First Name" required/>
                     </div>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">Middle Name</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_mname" class="form-control" placeholder="Enter Middle Name" />
+                      <input type="text" name="middle_name" class="form-control" placeholder="Enter Middle Name" required/>
                     </div>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">Last Name</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_lname" class="form-control" placeholder="Enter Last Name" />
+                      <input type="text" name="last_name" class="form-control" placeholder="Enter Last Name" required/>
                     </div>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">Address</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_address" class="form-control" placeholder="Enter Address" />
+                      <input type="text" name="address" class="form-control" placeholder="Enter Address" required/>
                     </div>
                   </div>
                 </div>
@@ -231,7 +231,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <label class="login2 pull-right">Contact No.</label>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" name="staff_contact" class="form-control" placeholder="Enter Contact Number" />
+                      <input type="text" name="contact" class="form-control" placeholder="Enter Contact Number" />
                     </div>
                   </div>
                 </div>
@@ -243,7 +243,7 @@ if (!isset($_SESSION['UserEmail'])) {
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                       <div class="form-select-list">
-                        <select id="Select_Department" required class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value); ">
+                        <select id="Select_Department" class="form-control custom-select-value" name="department" onchange="changeDropdown(this.value);" required>
                           <option disabled selected value>Select Department</option>
                           <option value="academics">Academics</option>
                           <option value="administrative">Administrative</option>
@@ -260,11 +260,11 @@ if (!isset($_SESSION['UserEmail'])) {
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                       <div class="form-select-list">
-                        <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
-                          <option value="lab custodian">Lab Custodian</option>
-                          <option value="kitchen custodian">Kitchen Custodian</option>
-                          <option value="instructor">Instructor</option>
-                          <option value="academic head">Academic Head</option>
+                        <select id="mySelect" class="form-control custom-select-value" name="position" onchange="changeDropdown(this.value);">
+                          <option value="Lab Custodian">Lab Custodian</option>
+                          <option value="Kitchen Custodian">Kitchen Custodian</option>
+                          <option value="Instructor">Instructor</option>
+                          <option value="Academic Head">Academic Head</option>
 
                         </select>
                       </div>
@@ -278,15 +278,12 @@ if (!isset($_SESSION['UserEmail'])) {
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                       <div class="form-select-list">
-                        <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
-                          <option value="registrar">Registrar</option>
-                          <option value="record">Record</option>
-                          <option value="admin officer">Administrative Officer</option>
-                          <option value="security">Security</option>
-                          <option value="utility">Utility</option>
-
-
-
+                        <select id="mySelect" class="form-control custom-select-value" name="position" onchange="changeDropdown(this.value);">
+                          <option value="Registrar">Registrar</option>
+                          <option value="Record">Record</option>
+                          <option value="Administrative Officer">Administrative Officer</option>
+                          <option value="Security">Security</option>
+                          <option value="Utility">Utility</option>
                         </select>
                       </div>
                     </div>
@@ -298,7 +295,7 @@ if (!isset($_SESSION['UserEmail'])) {
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                  <button type="submit" name="register_staff-btn" class="btn btn-primary btn-md">Upload</button>
+                  <button type="submit" name="add_staff" class="btn btn-primary btn-md">Save</button>
                 </div>
               </div>
             </form>
@@ -339,7 +336,7 @@ if (!isset($_SESSION['UserEmail'])) {
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                <button type="submit" name="save_excel_data_staff" class="btn btn-primary btn-md">Upload</button>
+                <button type="submit" name="add_staff_data" class="btn btn-primary btn-md">Upload</button>
 
               </div>
             </form>
@@ -400,7 +397,7 @@ if (!isset($_SESSION['UserEmail'])) {
                       <?php
                       // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
-                      $query = "SELECT * FROM users WHERE position = 'staff' || 'Staff'";
+                      $query = "SELECT * FROM users WHERE role = 2";
                       $query_run = mysqli_query($con, $query);
 
                       if (mysqli_num_rows($query_run) > 0) {
