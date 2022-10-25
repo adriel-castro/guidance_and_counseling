@@ -392,8 +392,8 @@ if(!isset($_SESSION['UserEmail'])){
                                             <td><?php echo $row['date'] ?></td>
                                             <td><?php echo $row['timeslot'] ?></td>
                                             <td><?php echo $row['appointment_type'] ?></td>
-                                            <!-- <td><?php echo $row['app_status'] ?></td> -->
-                                            <td>
+                                            <td><?php echo $row['app_status'] ?></td>
+                                            <!-- <td>
                                             <span class="btn btn-xs <?php if ($row['app_status'] == "in review" || $row['app_status'] == "In Review") {
                                                     echo "btn-primary";
                                                 } elseif ($row['app_status'] == "completed" || $row['app_status'] == "Completed") {
@@ -410,7 +410,7 @@ if(!isset($_SESSION['UserEmail'])){
                                                     echo $row['app_status'];
                                                 }
                                                 ?></span>
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 
                                                 <?php if ($row['app_status'] == "done" || $row['app_status'] == "Done") { ?>
