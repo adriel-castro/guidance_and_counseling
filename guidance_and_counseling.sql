@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2022 at 08:40 PM
+-- Generation Time: Oct 25, 2022 at 02:16 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -104,21 +104,6 @@ INSERT INTO `feedback` (`id`, `student_name`, `program`, `section`, `app_id`, `s
 (2, 'Josephine Bracken', 'BSIT', '4', 2, '2022-10-20', '2022-10-18', 'Feedback Action Taken2', 'Feedback Remarks2', '2022-10-18 15:08:51'),
 (3, 'juan dela cruz', 'BSIT', '4', 3, '2022-10-21', '2022-10-18', 'Feedback Action Taken3', 'Feedback Remarks3', '2022-10-18 15:26:21'),
 (4, 'jessica bernardo', 'BSIT', '4', 4, '2022-10-19', '2022-10-18', 'Feedback Action Taken4', 'Feedback Remarks4', '2022-10-18 15:55:06');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `offenses`
---
-
-CREATE TABLE `offenses` (
-  `id` int(11) NOT NULL,
-  `user_id` int(20) NOT NULL,
-  `info` varchar(300) NOT NULL,
-  `remarks` varchar(300) NOT NULL,
-  `date` date NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -288,12 +273,6 @@ ALTER TABLE `feedback`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `offenses`
---
-ALTER TABLE `offenses`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `refferals`
 --
 ALTER TABLE `refferals`
@@ -340,12 +319,6 @@ ALTER TABLE `appointment_history`
 --
 ALTER TABLE `feedback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `offenses`
---
-ALTER TABLE `offenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `refferals`
