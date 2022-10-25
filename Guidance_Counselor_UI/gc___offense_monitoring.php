@@ -10,8 +10,63 @@
         
     }else{
 
-        $con = connection();
+    $con = connection();
 
+    $offense = "SELECT * FROM offense_monitoring";
+    $get_offense = $con->query($offense) or die($con->error);
+    $row = $get_offense->fetch_assoc();
+    $date_created = $row['date_created'];
+    $newDateCreated = date("F d, Y", strtotime($date_created));  
+
+    // Sanction Days left
+    $startDate = $row['start_date'];
+    $endDate = $row['end_date'];
+    $currentDate = date("Y-m-d");
+
+    if($startDate > $currentDate) {
+      $diff = abs(strtotime($endDate) - strtotime($startDate));
+      $years = floor($diff / (365*60*60*24));
+      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      $sanction_info = ($days + 1) . " days left";
+    } else {
+      $diff = abs(strtotime($endDate) - strtotime($currentDate));
+      $years = floor($diff / (365*60*60*24));
+      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      $sanction_info = ($days + 1) . " days left";
+    }
+
+    if(isset($_POST['add_offense'])) {
+
+      $id_number = $_POST['id_number'];
+      $stud_name = $_POST['name'];
+      $offense_type = $_POST['offense_type'];
+      $description = $_POST['description'];
+      $dateToday = date("Y-m-d");
+      $sanction = $_POST['sanction'];
+      $start_date = $_POST['start_date'];
+      $end_date = $_POST['end_date'];
+      $status = $_POST['status'];
+
+      $offense_query = "INSERT INTO `offense_monitoring`(`student_id`,`stud_name`, `offense_type`, `description`, `date_created`, `sanction`, `sanction_info`, `status`) ".
+              "VALUES ('$id_number','$stud_name','$offense_type','$description','$dateToday','$sanction','$start_date','$end_date','$status')";
+      $query_run = $con->query($offense_query) or die($con->error);
+
+      if ($query_run) {
+        // echo "Saved";
+        $_SESSION['status'] = "Offense Added";
+        $_SESSION['status_code'] = "success";
+        header('Location: gc___offense_monitoring.php');
+      
+        // echo "Not saved";
+        $_SESSION['status'] = "Offense Not Added";
+        $_SESSION['status_code'] = "error";
+        header('Location: gc___offense_monitoring.php');
+      }
+    }
+
+        
 ?>
 
 
@@ -142,7 +197,7 @@
             </div>
           </div>
 
-          <form action="">
+          <form action="" method="post">
             <div class="modal-body">
               <div class="form-group-inner">
                 <div class="row">
@@ -171,7 +226,7 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="form-select-list">
-                      <select class="form-control custom-select-value" name="type">
+                      <select class="form-control custom-select-value" name="offense_type">
                         <option value="" disabled>Offense Type</option>
                         <option>Offense A</option>
                         <option>Offense B</option>
@@ -192,20 +247,21 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group-inner data-custon-pick" id="data_2">
+              
+              <!-- <div class="form-group-inner data-custon-pick" id="data_2">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
                     <label class="login2 pull-right" style="font-weight: bold;">Date</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <input type="date" class="form-control" name="date" />
-                    <!-- <div class="input-group date ">
+                    <div class="input-group date ">
                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       <input type="date" class="form-control" value="XX/XX/XXXX">
-                    </div> -->
+                    </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="form-group-inner">
                 <div class="row">
@@ -224,9 +280,9 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="input-daterange input-group" id="datepicker">
-                      <input type="text" class="form-control" name="start_date" value="05/14/2014" />
+                      <input type="text" class="form-control" name="start_date" value="<?= date("m-d-Y"); ?>" />
                       <span class="input-group-addon">to</span>
-                      <input type="text" class="form-control" name="end_date" value="05/22/2014" />
+                      <input type="text" class="form-control" name="end_date" value="<?= date("m-d-Y"); ?>" />
                     </div>
                   </div>
                 </div>
@@ -249,12 +305,12 @@
                 </div>
               </div>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+              <button type="submit" name="add_offense" class="btn btn-primary btn-md">Submit</button>
+            </div>
           </form>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-            <button type="submit" name="add_offense" class="btn btn-primary btn-md">Submit</button>
-          </div>
         </div>
       </div>
     </div>
@@ -294,42 +350,25 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <?php if ($row == 0) {
+                          echo null;
+                          } else {
+                            do { ?>
                     <tr>
-                      <td>12121212</td>
-                      <td>Abigail Nazal</td>
-                      <td>Offense A</td>
-                      <td>Bullying a student</td>
-                      <td>September 16, 2022</td>
-                      <td>Clean toilet for 3 days</td>
-                      <td>2 days left</td>
-                      <td>
-                        <button class="btn btn-xs btn-success">Active</button>
-                      </td>
+                      <td><b><?php echo $row['student_id'] ?></b></td>
+                      <td><?php echo $row['stud_name'] ?></td>
+                      <td><?php echo $row['offense_type'] ?></td>
+                      <td><?php echo $row['description'] ?></td>
+                      <td><?php echo $newDateCreated ?></td>
+                      <td><?php echo $row['sanction'] ?></td>
+                      <td><?php echo $sanction_info ?></td>
+                      <td><?php echo $row['status'] ?></td>
+                      <!-- <td>
+                        <p class="btn btn-xs btn-success"><?php echo $row['status'] ?></p>
+                      </td> -->
                     </tr>
-                    <tr>
-                      <td>12121212</td>
-                      <td>Abigail Nazal</td>
-                      <td>Offense A</td>
-                      <td>Bullying a student</td>
-                      <td>September 16, 2022</td>
-                      <td>Clean toilet for 3 days</td>
-                      <td>2 days left</td>
-                      <td>
-                        <button class="btn btn-xs btn-primary">Completed</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>12121212</td>
-                      <td>Abigail Nazal</td>
-                      <td>Offense A</td>
-                      <td>Bullying a student</td>
-                      <td>September 16, 2022</td>
-                      <td>Clean toilet for 3 days</td>
-                      <td>2 days left</td>
-                      <td>
-                        <button class="btn btn-xs btn-danger">Cancelled</button>
-                      </td>
-                    </tr>
+
+                    <?php } while ($row = $get_offense->fetch_assoc()); } ?>
 
                   </tbody>
                 </table>
