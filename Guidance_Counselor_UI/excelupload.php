@@ -1,55 +1,68 @@
 <?php
 session_start();
-$con = mysqli_connect('localhost', 'root','', 'db_guidancems');
+
+include_once("../connections/connection.php");
+
+if (!isset($_SESSION['UserEmail'])) {
+
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+} else {
+
+    $con = connection();
 
 require 'vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+// use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-if(isset($_POST['save_excel_data']))
-{
+if(isset($_POST['add_stud_data'])) {
     $fileName = $_FILES['import_file']['name'];
     $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
 
     $allowed_ext = ['xls', 'csv', 'xlsx'];
 
-    if(in_array($file_ext, $allowed_ext))
-    {
+    if(in_array($file_ext, $allowed_ext)) {
         $inputFileNamePath = $_FILES['import_file']['tmp_name'];
 
         /** Load $inputFileName to a Spreadsheet object **/
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
         $data = $spreadsheet->getActiveSheet()->toArray();
-
-        // $count = "0";
-        foreach($data as $row)
-        {
+        
+        foreach($data as $row) {
             // if($count > 0)
             // {
-                $Student_ID = $row[0];
-                $Last_Name = $row[1];
-                $First_Name = $row[2];
-                $Middle_Name = $row[3];
-                $Address = $row[4];
-                $Contant_No = $row[5];
-                $Program = $row[6];
-                $Level = $row[7];
-            // }
-            // else 
-            // {
-            //     $count = "1";
-            // }
+                $stud_id = $row[0];
+                $last_name = $row[1];
+                $first_name = $row[2];
+                $middle_name = $row[3];
+                $address = $row[4];
+                $contact = $row[5];
+                $program = $row[6];
+                $level = $row[7];
 
-           $studentQuery = "INSERT INTO student_tbl
-           (STUD_ID, STUD_LNAME, STUD_FNAME, STUD_MNAME, STUD_ADDRESS, STUD_CONTACT, STUD_PROGRAM, STUD_LEVEL)
-            VALUES ('$Student_ID', '$Last_Name', '$First_Name', '$Middle_Name', '$Address', '$Contant_No', '$Program', '$Level')";
+            $email = strtoupper(str_replace(' ', '', $last_name)) . "." . substr($stud_id, -6) . "@angeles.sti.edu.ph";
+            $full_name = ucwords($first_name . " " . $last_name);
+            $name_initial = explode(' ', $full_name);
 
-            $result = mysqli_query($con, $studentQuery);
+                $initial = "";
+                foreach($name_initial as $n) {
+                    $initial .= $n[0];
+                }
+
+            $password = $initial . substr($stud_id, -6);
+            $position = "Student";
+            $status = "Active";
+            $role = "3";
+
+            $add_student = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, " .
+                        "`program`, `level`, `position`, `status`, `email`, `password`, `role`) " .
+                        "VALUES ('$stud_id','$last_name','$first_name','$middle_name','$address','$contact','$program','$level'," .
+                        "'$position','$status','$email','$password','$role')";
+            $query_run = $con->query($add_student) or die($con->error);
             // $msg = true;
         }
 
-        if(isset($msg))
+        if(isset($query_run))
         {
             $_SESSION['message'] = "Successfully imported";
             $_SESSION['status_code'] = "success";
@@ -71,6 +84,8 @@ if(isset($_POST['save_excel_data']))
         header('Location: gc___all-students.php');
         // exit(0);
     }
+}
+
 }
 
 ?>
