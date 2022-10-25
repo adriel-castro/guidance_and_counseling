@@ -1,37 +1,65 @@
 <?php
 session_start();
 
-$connection = mysqli_connect('localhost', 'root', '', 'db_guidancems');
+include_once("../connections/connection.php");
+
+if (!isset($_SESSION['UserEmail'])) {
+
+echo "<script>window.open('../homepage___login.php','_self')</script>";
+
+} else {
+
+$con = connection();
 
 //this is for registering the staff profile in the database
- 
-if (isset($_POST['register_staff-btn'])) {
+if (isset($_POST['add_staff'])) {
 
-$staff_id = $_POST['staff_id'];
-$staff_fname = $_POST['staff_fname'];
-$staff_lname = $_POST['staff_lname'];
-$staff_mname = $_POST['staff_mname'];
-$staff_address = $_POST['staff_address'];
-$staff_contact = $_POST['staff_contact'];
-$staff_position = $_POST['staff_position'];
-$user_role = $_POST['usertype'];
+    $staff_id = $_POST['staff_id'];
+    $last_name = $_POST['last_name'];
+    $first_name = $_POST['first_name'];
+    $middle_name = $_POST['middle_name'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $department = $_POST['department'];
 
+    ($_POST['position'] != null) ? $position = $_POST['position'] : $position = null;
+    // ($_POST['academic_position']) ? $position = $_POST['academic_position'] : $position = $_POST['admin_position'];
 
-$query = "INSERT INTO staff_tbl (STAFF_ID, STAFF_FNAME, STAFF_LNAME, STAFF_MNAME, STAFF_ADDRESS, STAFF_CONTACT, STAFF_POSITION)
-VALUES ('$staff_id','$staff_fname','$staff_lname', '$staff_mname', '$staff_address', '$staff_contact', '$staff_program')";
-$query_run = mysqli_query($connection, $query);
+    $email = strtoupper(str_replace(' ', '', $last_name)) . "." . substr($staff_id, -6) . "@angeles.sti.edu.ph";
+    $full_name = ucwords($first_name . " " . $last_name);
+    $name_initial = explode(' ', $full_name);
 
-if ($query_run) {
-// echo "Saved";
-$_SESSION['status'] = "Profile Added";
-$_SESSION['status_code'] = "success";
-header('Location: gc___all-staff.php');
-} else {
-// echo "Not saved";
-$_SESSION['status'] = "Profile Not Added";
-$_SESSION['status_code'] = "error";
-header('Location: gc___all-staff.php');
-}
+        $initial = "";
+        foreach($name_initial as $n){
+            $initial .= $n[0];
+        }
+
+    // $position = $_POST['academic_position'] || $_POST['admin_position'];
+    $password = $initial . substr($staff_id, -6);
+    $status = "Active";
+    $role = "2";
+
+    // $image = $_FILES['image']['name'];
+    // $temp_name = $_FILES['image']['tmp_name'];
+    // move_uploaded_file($temp_name, "img/student/$image");
+
+    $add_staff = "INSERT INTO users (`id_number`, `last_name`, `first_name`, `middle_name`, `address`, `contact`, `department`, " .
+        "`position`, `status`, `email`, `password`, `role`) " .
+        "VALUES ('$staff_id','$last_name','$first_name','$middle_name','$address','$contact','$department', " .
+        "'$position','$status','$email','$password','$role')";
+    $query_run = $con->query($add_staff) or die($con->error);
+
+    if ($query_run) {
+        // echo "Saved";
+        $_SESSION['status'] = "Profile Added";
+        $_SESSION['status_code'] = "success";
+        header('Location: gc___all-staff.php');
+    } else {
+        // echo "Not saved";
+        $_SESSION['status'] = "Profile Not Added";
+        $_SESSION['status_code'] = "error";
+        header('Location: gc___all-staff.php');
+    }
 }
 
 
@@ -69,5 +97,5 @@ if (isset($_POST['register_gc_staff-btn'])) {
     }
 }
 
-
+}
 ?>
