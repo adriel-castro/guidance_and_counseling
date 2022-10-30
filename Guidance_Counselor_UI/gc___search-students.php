@@ -87,6 +87,7 @@ if (!isset($_SESSION['UserEmail'])) {
         <link rel="stylesheet" href="css/responsive.css">
         <!-- modernizr JS
 		============================================ -->
+
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
 
@@ -118,88 +119,213 @@ if (!isset($_SESSION['UserEmail'])) {
                                     <h1>Search <span class="table-project-n"> Students</span></h1>
                                 </div>
                             </div>
+
+
                             <div class="sparkline13-graph">
 
                                 <div class="datatable-dashv1-list custom-datatable-overright">
+                                </div>
 
-                                    <div id="toolbar">
-                                        <div class="card-header py-3">
-                                            <h5 class="m-0 font-weight-bold text-primary">
+                                <div id="toolbar">
+                                    <div class="card-header py-3">
+                                        <h5 class="m-0 font-weight-bold text-primary">
 
-                                            </h5>
-                                        </div>
+                                            <!-- <div id="">
+
+                                                <select id="level" name="level">
+                                                    <option value="" disabled="" selected="">Level</option>
+                                                    <option value="G11">G11</option>
+                                                    <option value="G12">G12</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                                <select id="level" name="level">
+                                                    <option value="" disabled="" selected="">Programm/Track</option>
+                                                    <option value="BSIT">BSIT</option>
+                                                    <option value="CCTECH">CCTECH</option>
+                                                    <option value="MAWD">MAWD</option>
+                                                    <option value="CUART">CUART</option>
+                                                    <option value="HUMSS">HUMSS</option>
+                                                    <option value="CpE">CpE</option>
+                                                </select>
+                                                <button class="btn btn-primary" name="filter">Filter</button>
+                                                <button class="btn btn-success" name="reset">Reset</button>
+                                            </div> -->
+                                            <div>
+                                                <div class="form-group-inner">
+
+                                                    <div class=" row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <label class="login2 pull-right">Level</label>
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="selectLevel" class="form-control custom-select-value" name="account">
+                                                                    <option value="" disabled="" selected="">Select Level</option>
+                                                                    <option value="shs">Senior High School</option>
+                                                                    <option value="tertiary">Tertiary</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group-inner" style="display: none;">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <label class="login2 pull-right">Track</label>
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="selectLevel" class="form-control custom-select-value" name="account">
+                                                                    <option value="" disabled="" selected="">Level</option>
+                                                                    <option value="ABM">ABM</option>
+                                                                    <option value="CCTECH">CCTECH</option>
+                                                                    <option value="STEM">STEM</option>
+                                                                    <option value="CULART">CULART</option>
+                                                                    <option value="DIGIART">DIGIART</option>
+                                                                    <option value="HUMMSS">HUMMSS</option>
+                                                                    <option value="MAWD">MAWD</option>
+                                                                    <option value="STEM">STEM</option>
+                                                                    <option value="TOPER">TOPER</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <label class="login2 pull-right">SHS-Level</label>
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="selectLevel" class="form-control custom-select-value" name="account">
+                                                                    <option value="" disabled="" selected="">Level</option>
+                                                                    <option value="shs">Grade 11</option>
+                                                                    <option value="tertiary">Grade 12</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner" style="display: none;">
+
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <label class="login2 pull-right">Program</label>
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="selectLevel" class="form-control custom-select-value" name="account">
+                                                                    <option value="" disabled="" selected="">Level</option>
+                                                                    <option value="BSIT">BSIT</option>
+                                                                    <option value="BMMA">BMMA</option>
+                                                                    <option value="BSBA">BSBA</option>
+                                                                    <option value="BSHM">BSHM</option>
+                                                                    <option value="BSTM">BSTM</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                            <label class="login2 pull-right">Tertiary-Level</label>
+                                                        </div>
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                            <div class="form-select-list">
+                                                                <select id="selectLevel" class="form-control custom-select-value" name="account">
+                                                                    <option value="" disabled="" selected="">Level</option>
+                                                                    <option value="1yr">1st Year</option>
+                                                                    <option value="2yr">2nd Year</option>
+                                                                    <option value="3yr">3rd Year</option>
+                                                                    <option value="4yr">4th Year</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </h5>
 
                                     </div>
 
-                                    <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="state" data-checkbox="true"></th>
-                                                <th>Student ID</th>
-                                                <th>Last Name</th>
-                                                <th>First Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Program</th>
-                                                <th>Level</th>
-                                                <!-- <th>Action</th> -->
-                                            </tr>
-                                        </thead>
+                                </div>
 
-                                        <tbody>
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th>Student ID</th>
+                                            <th>Last Name</th>
+                                            <th>First Name</th>
+                                            <th>Middle Name</th>
+                                            <th>Program</th>
+                                            <th>Level</th>
+                                            <!-- <th>Action</th> -->
+                                        </tr>
+                                    </thead>
 
-                                            <?php
-                                            // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
+                                    <tbody>
 
-                                            $query = "SELECT * FROM users WHERE position = 'student' || 'Student'";
-                                            $query_run = mysqli_query($con, $query);
+                                        <?php
+                                        // $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
-                                            if (mysqli_num_rows($query_run) > 0) {
-                                                foreach ($query_run as $row) {
-                                            ?>
+                                        $query = "SELECT * FROM users WHERE position = 'student' || 'Student'";
+                                        $query_run = mysqli_query($con, $query);
 
-                                                    <tr>
-                                                        <td></td>
-                                                        <td><?= $row['id_number'] ?></td>
-                                                        <td><?= $row['last_name'] ?></td>
-                                                        <td><?= $row['first_name'] ?></td>
-                                                        <td><?= $row['middle_name'] ?></td>
-                                                        <td><?= $row['program'] ?></td>
-                                                        <td><?= $row['level'] ?></td>
-                                                        <!-- <td>
+                                        if (mysqli_num_rows($query_run) > 0) {
+                                            foreach ($query_run as $row) {
+                                        ?>
+
+                                                <tr>
+                                                    <td></td>
+                                                    <td><?= $row['id_number'] ?></td>
+                                                    <td><?= $row['last_name'] ?></td>
+                                                    <td><?= $row['first_name'] ?></td>
+                                                    <td><?= $row['middle_name'] ?></td>
+                                                    <td><?= $row['program'] ?></td>
+                                                    <td><?= $row['level'] ?></td>
+                                                    <!-- <td>
                                                             <a href="gc___student_profile.php?id=<?= $row['user_id'] ?>">
                                                                 <button type="button" class="btn btn-primary">View</button>
                                                             </a>
                                                         </td> -->
-                                                    </tr>
-
-                                                <?php
-
-                                                }
-                                            } else {
-                                                ?>
-                                                <tr>
-                                                    <td colspan="4">No Record Found</td>
                                                 </tr>
 
                                             <?php
+
                                             }
+                                        } else {
                                             ?>
+                                            <tr>
+                                                <td colspan="4">No Record Found</td>
+                                            </tr>
+
+                                        <?php
+                                        }
+                                        ?>
 
 
-                                        </tbody>
-                                    </table>
-                                    <br>
-                                    <button type="submit" name="add_student" class="btn btn-primary btn-md">Confirm</button>
-                                </div>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <a><button type="submit" name="add_student" class="btn btn-primary btn-md">Confirm</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
         <!-- Static Table End -->
-
-
 
         <?php
         include('includes/gc___scripts.php');
@@ -239,3 +365,82 @@ if (!isset($_SESSION['UserEmail'])) {
     </html>
 
 <?php } ?>
+
+<script>
+    function changeDropdown() {
+        var state = document.getElementById("mySelect").value;
+        // alert(state);
+        if (state == "student") {
+            document.getElementById("STUD_ID").style.display = "block";
+            document.getElementById("STUD_NAME").style.display = "block";
+            document.getElementById("STUD_PROGRAM").style.display = "block";
+            document.getElementById("STUD_LEVEL").style.display = "block";
+
+            document.getElementById("STAFF_ID").style.display = "none";
+            document.getElementById("STAFF_NAME").style.display = "none";
+
+            document.getElementById("FACULTY_ID").style.display = "none";
+            document.getElementById("FACULTY_NAME").style.display = "none";
+
+        } else if (state == "staff") {
+            document.getElementById("STUD_ID").style.display = "none";
+            document.getElementById("STUD_NAME").style.display = "none";
+            document.getElementById("STUD_PROGRAM").style.display = "none";
+            document.getElementById("STUD_LEVEL").style.display = "none";
+
+            document.getElementById("STAFF_ID").style.display = "block";
+            document.getElementById("STAFF_NAME").style.display = "block";
+
+            document.getElementById("FACULTY_ID").style.display = "none";
+            document.getElementById("FACULTY_NAME").style.display = "none";
+
+        } else if (state == "faculty") {
+            document.getElementById("STUD_ID").style.display = "none";
+            document.getElementById("STUD_NAME").style.display = "none";
+            document.getElementById("STUD_PROGRAM").style.display = "none";
+            document.getElementById("STUD_LEVEL").style.display = "none";
+
+            document.getElementById("STAFF_ID").style.display = "none";
+            document.getElementById("STAFF_NAME").style.display = "none";
+
+            document.getElementById("FACULTY_ID").style.display = "block";
+            document.getElementById("FACULTY_NAME").style.display = "block";
+
+        } else {
+            document.getElementById("STUD_ID").style.display = "none";
+            document.getElementById("STUD_NAME").style.display = "none";
+            document.getElementById("STUD_PROGRAM").style.display = "none";
+            document.getElementById("STUD_LEVEL").style.display = "none";
+
+            document.getElementById("STAFF_ID").style.display = "none";
+            document.getElementById("STAFF_NAME").style.display = "none";
+
+            document.getElementById("FACULTY_ID").style.display = "none";
+            document.getElementById("FACULTY_NAME").style.display = "none";
+
+
+        }
+    }
+</script>
+
+<!-- <?php
+        require 'connection.php';
+        if (isset($_POST['filter'])) {
+            $level = $_POST['level'];
+
+            $query = mysqli_query($connection, "SELECT * FROM `users` WHERE `level`='$level'") or die(mysqli_error());
+            while ($fetch = mysqli_fetch_array($query)) {
+                echo "<tr><td>" . $fetch['last_name'] . "</td><td>" . $fetch['level'] . "</td></tr>";
+            }
+        } else if (isset($_POST['reset'])) {
+            $query = mysqli_query($connection, "SELECT * FROM `users`") or die(mysqli_error());
+            while ($fetch = mysqli_fetch_array($query)) {
+                echo "<tr><td>" . $fetch['last_name'] . "</td><td>" . $fetch['level'] . "</td></tr>";
+            }
+        } else {
+            $query = mysqli_query($connection, "SELECT * FROM `users`") or die(mysqli_error());
+            while ($fetch = mysqli_fetch_array($query)) {
+                echo "<tr><td>" . $fetch['last_name'] . "</td><td>" . $fetch['level'] . "</td></tr>";
+            }
+        }
+        ?> -->
