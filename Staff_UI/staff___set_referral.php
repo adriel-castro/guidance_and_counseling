@@ -193,73 +193,149 @@ if(!isset($_SESSION['UserEmail'])){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header header-color-modal bg-color-1">
-                        <h4 class="modal-title">Refer a Student or Teacher</h4>
+                        <h4 class="modal-title">Refer a Student / Faculty / Staff</h4>
                         <div class="modal-close-area modal-close-df">
                             <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                         </div>
                     </div>
 
-                    <form action="add_referral.php" method="POST">
+                    <form action="referral_code.php">
                         <div class="modal-body">
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Last Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id= "LastName" type="text" name="last_name" class="form-control" placeholder="Enter the Full Last Name you want to Refer" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">First Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id= "FirstName" type="text" name="first_name" class="form-control" placeholder="Enter the Full First Name you want to Refer" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Level</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id="STUD_LEVEL" type="text" name="level"  class="form-control" placeholder="Enter level" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Program</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id="" type="text" name="program"  class="form-control" placeholder="Enter Program" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right" name="source">Source</label>
+                                        <label class="login2 pull-right">User Type</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
-                                            <select class="form-control custom-select-value" name="source" required>
-                                                <option value="" selected disabled hidden>Select Source</option>
-                                                <option>Guidance Counselor</option>
-                                                <option>Faculty</option>
-                                                <option>Staff</option>
-                                                <option>Classmate/s</option>
-                                                <option>Parent/Guardian</option>
-                                                <option>Others</option>
+                                            <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
+                                                <option value="student">Student</option>
+                                                <option value="staff">Staff</option>
+                                                <option value="faculty">Faculty</option>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="form-group-inner" id="STUD_ID">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Student ID</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Enter Student ID" />
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="form-group-inner" id="STUD_ID">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="login2 pull-right pull-right-pro">Student ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search Student">
+                                            <div class="input-group-btn">
+                                                <button tabindex="-1" class="btn btn-primary btn-md" type="button" data-toggle="modal" data-target="#SEARCH_STUDENT">Search</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_NAME">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Student Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
+                                        <input type="text" readonly class="form-control" placeholder="Enter Student Name" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_PROGRAM">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Program</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Student Program" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STUD_LEVEL">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Level</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Student Level" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group-inner" id="STAFF_ID" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Staff ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Enter Staff ID" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STAFF_NAME" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Staff Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Enter Staff Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="STAFF_POSITION" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Position</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Staff Position" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group-inner" id="FACULTY_ID" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Faculty ID</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="Enter Faculty ID" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="FACULTY_NAME" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Faculty Name</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Faculty Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-inner" id="FACULTY_POSITION" style="display: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="login2 pull-right">Position</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" readonly class="form-control" placeholder="Faculty Position" />
                                     </div>
                                 </div>
                             </div>
@@ -267,36 +343,11 @@ if(!isset($_SESSION['UserEmail'])){
                             <!-- <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right pull-right-pro">Referred By</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id="ref_id" type="text" name="reffered_by" class="form-control" placeholder="Enter your Student ID" />
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <div class="form-group-inner data-custon-pick" id="data_2">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
-                                        <label class="login2 pull-right" style="font-weight: bold;">Date</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <div class="input-group ">
-                                            <!-- <span class="input-group-addon"><i class="fa fa-calendar"></i></span> -->
-                                            <input type="date" name="reffered_date" class="form-control" value="<?= date('d/m/Y') ?>" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Nature</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
-                                            <select id= "nature" name="nature" class="form-control custom-select-value" name="account">
+                                            <select class="form-control custom-select-value" name="account">
                                                 <option>Academic</option>
                                                 <option>Career</option>
                                                 <option>Personal</option>
@@ -305,24 +356,72 @@ if(!isset($_SESSION['UserEmail'])){
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+
+                            <div class="form-group-inner">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label class="login2 pull-right pull-right-pro">Nature </label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                        <div class="bt-df-checkbox pull-left">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="i-checks pull-left">
+                                                        <label>
+                                                            <input type="checkbox" value=""> <i></i> Academic </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="i-checks pull-left">
+                                                        <label>
+                                                            <input type="checkbox" value=""> <i></i> Career </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="i-checks pull-left">
+                                                        <label>
+                                                            <input type="checkbox" value=""> <i></i> Personal </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="i-checks pull-left">
+                                                        <label>
+                                                            <input type="checkbox" value=""> <i></i> Crisis </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Reason</label>
                                     </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input id= "reason" name="reason" type="text" class="form-control" placeholder="Enter Reason for Referral" />
-                                    </div>
+                                    <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                        <textarea name="description" placeholder="Description"></textarea>
+                                    </div> 
                                 </div>
                             </div>
+
                             <div class="form-group-inner">
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label class="login2 pull-right">Action/s</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="actions" class="form-control" placeholder="Action/s Taken before Referral" required/>
+                                        <input type="text" class="form-control" placeholder="Action/s Taken before Referral" />
                                     </div>
                                 </div>
                             </div>
@@ -332,20 +431,22 @@ if(!isset($_SESSION['UserEmail'])){
                                         <label class="login2 pull-right">Remarks</label>
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input type="text" name="remarks" class="form-control" placeholder="Enter Remarks"/>
+                                        <input type="text" class="form-control" placeholder="Enter Remarks" />
                                     </div>
                                 </div>
                             </div>
 
+                        </div>
+                    </form>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                        <button id= "submit" type="submit" name="add_refferal" class="btn btn-primary btn-md">Upload</button>
+                        <button type="submit" name="save_referral_data" class="btn btn-primary btn-md">Add Referral</button>
                     </div>
-                    </form>
-                </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Add new Referral -->
@@ -400,7 +501,7 @@ if(!isset($_SESSION['UserEmail'])){
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
                                             <select class="form-control custom-select-value" name="source" required>
-                                                <option value="" selected disabled hidden>Select Source</option>
+                                                <option value="" selected readonly hidden>Select Source</option>
                                                 <option>Guidance Counselor</option>
                                                 <option>Faculty</option>
                                                 <option>Staff</option>
@@ -446,7 +547,7 @@ if(!isset($_SESSION['UserEmail'])){
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-select-list">
                                             <select class="form-control custom-select-value" name="nature" required>
-                                                <option value="" selected disabled hidden>Select Nature</option>
+                                                <option value="" selected readonly hidden>Select Nature</option>
                                                 <option>Academic</option>
                                                 <option>Career</option>
                                                 <option>Personal</option>
