@@ -78,7 +78,6 @@ include('includes/staff___mobile_menu.php');
 
                         <li class="active"><a href="#description">Offense Monitoring</a></li>
                         <li><a href="#reviews"> Counseling Info</a></li>
-                        <li><a href="#INDIVIDUAL_INVENTORY">Inventory Form</a></li>
 
                     </ul>
                     <div id="myTabContent" class="tab-content custom-product-edit">
@@ -191,36 +190,6 @@ include('includes/staff___mobile_menu.php');
                             </div>
                         </div>
                         
-                        <div class="product-tab-list tab-pane fade" id="INDIVIDUAL_INVENTORY">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="review-content-section">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-
-                                                <div class="form-group">
-                                                    <label>Individual Inventory Form</label>
-                                                    <input name="email" type="text" class="form-control" placeholder="Email">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="">Password</label>
-                                                    <input type="text" class="form-control" placeholder="Password">
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="payment-adress mg-t-15">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
