@@ -283,7 +283,7 @@
                   </thead>
                   <tbody>
                   <?php
-                    $connection = mysqli_connect('localhost', 'root', '', 'content');
+                    $connection = mysqli_connect('localhost', 'root', '', 'guidance_and_counseling');
 
                     $query = "SELECT * FROM appointment_tbl";
                     $query_run = mysqli_query($connection, $query);
