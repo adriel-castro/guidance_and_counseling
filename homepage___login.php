@@ -22,7 +22,7 @@ include('includes/homepage___header.php');
 
                             <div class="p-5" >
                                 <div class="col-lg-10 offset-lg-1">
-                                    <center><img src="images/STI4.png" /></center>
+                                    <center><img src="images/sti_logo.png" /></center>
                                 </div>
                                 <br>
                                 <div class="text-center">

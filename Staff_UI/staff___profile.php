@@ -46,7 +46,7 @@ include('includes/staff___mobile_menu.php');
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Student ID</b><br /> 124124142</p>
+                                    <p><b>Staff ID</b><br /> 124124142</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
@@ -58,12 +58,12 @@ include('includes/staff___mobile_menu.php');
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Program</b><br /> BSIT</p>
+                                    <p><b>Department</b><br /> Academics</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Level</b><br /> 4A</p>
+                                    <p><b>Position</b><br /> Instructor</p>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +76,10 @@ include('includes/staff___mobile_menu.php');
                 <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
                     <ul id="myTabedu1" class="tab-review-design">
 
-                        <li class="active"><a href="#description">Offense Monitoring</a></li>
-                        <li><a href="#reviews"> Counseling Info</a></li>
-                        <li><a href="#INDIVIDUAL_INVENTORY">Inventory Form</a></li>
+                        <!-- <li class="active"><a href="#description">Offense Monitoring</a></li> -->
+                        <li class="active"><a href="#reviews"> Counseling Info</a></li>
+                        <li><a href="#INFORMATION">Update Details</a></li>
+
 
                     </ul>
                     <div id="myTabContent" class="tab-content custom-product-edit">
@@ -94,7 +95,7 @@ include('includes/staff___mobile_menu.php');
                                                     <span class="message-date"> Mon / Jan 26 2015 - 12:00pm </span>
                                                     <span class="message-content">Nambully ng student</span>
                                                     <a class="btn btn-s btn-danger"><i></i> Sanction: 15hrs left </a>
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="chat-message">
@@ -106,7 +107,7 @@ include('includes/staff___mobile_menu.php');
                                                     </span>
 
                                                     <a class="btn btn-s btn-danger"><i></i> Sanction: 15hrs left </a>
-                                                   
+
                                                 </div>
                                             </div>
                                             <!-- <div class="chat-message">
@@ -190,37 +191,105 @@ include('includes/staff___mobile_menu.php');
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="product-tab-list tab-pane fade" id="INDIVIDUAL_INVENTORY">
+                        <div class="product-tab-list tab-pane fade" id="INFORMATION">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="review-content-section">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-
-                                                <div class="form-group">
-                                                    <label>Individual Inventory Form</label>
-                                                    <input name="email" type="text" class="form-control" placeholder="Email">
+                                        <form action="" method="post">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="First Name" name="first_name" value="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Middle Name" name="middle_name" value="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="date" class="form-control" placeholder="Date of Birth" name="birthday" value="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Position" name="position" value="">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="">Password</label>
-                                                    <input type="text" class="form-control" placeholder="Password">
-                                                </div>
+                                                <div class="col-lg-6">
 
+                                                    <div class="form-group">
+                                                        <select class="form-control" name="gender">
+                                                            <option value="" disabled>Select Gender</option>
+                                                            <option>Male</option>
+                                                            <option>Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Address" name="address" value="">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <!-- <select id="country" class="form-control" onchange="disabledstate">
+                                                                                <option value="" >Select City</option>
+                                                                                <option value="0">San Fernando</option>
+                                                                                <option value="1">Mabalacat</option>
+                                                                                <option value="2">Angeles</option>
+                                                                            </select> -->
+                                                        <!-- <div id="0" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="">Select state</option>
+                                                                                        <option value="0">San Luis</option>
+                                                                                        <option value="1">San Simon</option>
+                                                                                        <option value="2">Santa Ana</option>
+                                                                                        <option value="3">Santa Rita</option>
+                                                                                        <option value="4">Santo tomas</option>
+                                                                                        <option value="5">Sasmuan</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                        <!-- <div id="1" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="true">Select state</option>
+                                                                                        <option value="0">Macabebe</option>
+                                                                                        <option value="1">Magalang</option>
+                                                                                        <option value="2">Masantol</option>
+                                                                                        <option value="3">Mexico</option>
+                                                                                        <option value="4">Minalin</option>
+                                                                                        <option value="5">Porac</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                        <!-- <div id="2" class="group">
+                                                                                <div class="form-group">
+                                                                                    <select name="state" class="form-control">
+                                                                                        <option value="none" selected="" disabled="true">Select state</option>
+                                                                                        <option value="0">Apalit</option>
+                                                                                        <option value="1">Arayat</option>
+                                                                                        <option value="2">Bacolor</option>
+                                                                                        <option value="3">Candaba</option>
+                                                                                        <option value="4">Floridablanca</option>
+                                                                                        <option value="5">Guagua</option>
+                                                                                        <option value="6">Lubao</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> -->
+                                                    </div>
+                                                    <input type="tel" class="form-control" placeholder="Contact Number" name="contact" value="">
+                                                </div>
                                             </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="payment-adress mg-t-15">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="payment-adress mg-t-15">
+                                                        <button type="submit" name="update_details" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

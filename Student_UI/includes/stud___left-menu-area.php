@@ -2,8 +2,8 @@
 <div class="left-sidebar-pro">
     <nav id="sidebar" class="">
         <div class="sidebar-header">
-            <a href="stud___dashboard.php"><img class="main-logo" src="img/sti_angeles_logo.png" width="100px" height="120px" /></a>
-            <strong><a href="gc___dashboard.php"><img src="img/sti_angeles_logo.png" alt="" /></a></strong>
+            <a href="stud___dashboard.php"><img class="main-logo" src="img/sti_logo.png" width="100px" height="120px" /></a>
+            <strong><a href="gc___dashboard.php"><img src="img/sti_logo.png" alt="" /></a></strong>
         </div>
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
