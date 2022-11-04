@@ -12,6 +12,8 @@
 
     $con = connection();
 
+    
+
     $offense = "SELECT * FROM offense_monitoring";
     $get_offense = $con->query($offense) or die($con->error);
     $row = $get_offense->fetch_assoc();
@@ -23,12 +25,20 @@
     $endDate = $row['end_date'];
     $currentDate = date("Y-m-d");
 
+    // End date + 1 day
+    $endDate_original = strtotime($endDate);
+    $date_add      = $endDate_original + (3600*24);
+    $date_plus_one = date("Y-m-d", $date_add);
+
     if($startDate > $currentDate) {
       $diff = abs(strtotime($endDate) - strtotime($startDate));
       $years = floor($diff / (365*60*60*24));
       $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
       $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
       $sanction_info = ($days + 1) . " days left";
+    } elseif($date_plus_one > $endDate) {
+      // $sanction_info = "0 days left";
+      $sanction_info = "Sanction Ended";
     } else {
       $diff = abs(strtotime($endDate) - strtotime($currentDate));
       $years = floor($diff / (365*60*60*24));
