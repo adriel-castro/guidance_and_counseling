@@ -143,7 +143,7 @@ if (!isset($_SESSION['UserEmail'])) {
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
         <!----------------------------------------- THIS IS THE MODAL FORM FOR SEARCHING STUDENT ---------------------------------------------->
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -434,7 +434,7 @@ if (!isset($_SESSION['UserEmail'])) {
 
                                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#REJECTION_FORM">Reject</button>
 
-                                                                <a class="btn btn-success" style="margin-left: 10px; color: white;" href="gc___calendar.php?ref_id=<?= $row['ref_id'] ?>&firstName=<?= $row['first_name'] ?>&lastName=<?= $row['last_name'] ?>">Set Appointment</a>
+                                                                <a class="btn btn-success" style="margin-left: 10px; color: white;" href="gc___calendar.php?ref_id=<?= $row['ref_id'] ?>">Set Appointment</a>
                                                             <?php "</div>";
                                                             } else echo null; ?>
 

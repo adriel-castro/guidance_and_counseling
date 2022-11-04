@@ -11,22 +11,70 @@ if (!isset($_SESSION['UserEmail'])) {
 
     $con = connection();
 
-    function build_calendar($month, $year)
-    {
-        // $con = new mysqli('localhost', 'root', '', 'db_guidancems');
+    if(isset($_GET['ref_id'])) {
+        $ref_id = $_GET['ref_id'];
+
+        $ref_query = "SELECT * FROM refferals WHERE ref_id = '$ref_id'";
+        $ref_con = $con->query($ref_query) or die($con->error);
+        $row_ref = $ref_con->fetch_assoc();
+
+        $ref_user = $row_ref['reffered_user'];
+        $ref_reason = $row_ref['reason'];
+        $ref_actions = $row_ref['actions'];
+        $ref_remarks = $row_ref['remarks'];
+
+        $user_query = "SELECT * FROM users WHERE user_id = '$ref_user'";
+        $user_con = $con->query($user_query) or die($con->error);
+        $row_user = $user_con->fetch_assoc();
+
+        $id_number = $row_user['id_number'];
+        $lName = $row_user['last_name'];
+        $fName = $row_user['first_name'];
+        $mName = $row_user['middle_name'];
+        $program = $row_user['program'];
+        $level = $row_user['level'];
+        $position = $row_user['position'];
+
+    }
+
+    if (isset($_POST['add_appointment'])) {
+        $date = $_POST['app_date'];
+        $app_timeslot = $_POST['app_timeslot'];
+        $app_type = $_POST['app_type'];
+        
+        $student_id = $_POST['student_id'];
+        $app_subject = $_POST['app_subject'];
+        $type = $_POST['type'];
+        $app_info = $_POST['app_info'];
+        $status = "In Review";
+    
+        $query = "INSERT INTO `appointments`(`timeslot`, `date`, `user_type`, `ref_id`, `id_number`, `subject`, `appointment_type`, `info`, `app_status`) " .
+                    "VALUES ('$app_timeslot','$date','$app_type','$ref_id','$student_id','$app_subject','$type','$app_info','$status')";
+        $get_app = $con->query($query) or die ($con->error);
+        // $row_get_app = $get_app->fetch_assoc();
+    
+        if ($get_app) {
+            $update_ref_status_query = "UPDATE `refferals` SET `ref_status`='$status' WHERE ref_id = '$ref_id'";
+            $update_con = $con->query($update_ref_status_query) or die ($con->error);
+            // $update_row = $update_con->fetch_assoc();
+        }
+
+        if ($update_con) {
+            // echo "Saved";
+            $_SESSION['status'] = "Appointment Added";
+            $_SESSION['status_code'] = "success";
+            header("Location: gc___all_appointment.php");
+        } else {
+            // echo "Not saved";
+            $_SESSION['status'] = "Appointment Not Added";
+            $_SESSION['status_code'] = "error";
+            header("Location: gc___all_appointment.php");
+        }
+    }
+
+    function build_calendar($month, $year) {
+        
         $con = connection();
-        // $stmt = $con->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date)=?");
-        // $stmt->bind_param('ss', $month, $year);
-        // $bookings = array();
-        // if ($stmt->execute()) {
-        //     $result = $stmt->get_result();
-        //     if ($result->num_rows > 0) {
-        //         while ($row = $result->fetch_assoc()) {
-        //             $bookings[] = $row['date'];
-        //         }
-        //         $stmt->close();
-        //     }
-        // }
 
         // Create array containing abbreviations of days of week.
         $daysOfWeek = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
@@ -114,17 +162,17 @@ if (!isset($_SESSION['UserEmail'])) {
 
                 // this is where in calendar mared na yung date if nakuha na lahat ng appointment timeslots
                 $totalbookings = checkSlot($con, $date);
-                // yung 12 dito is yung total timeslots sa isang date
+                // yung 18 dito is yung total timeslots sa isang date
                 if ($totalbookings == 18) {
                     $calendar .= "<td class='$today'><h4>$currentDay</h4> <a href='#' class='btn btn-danger btn-xs'>Fully Booked</a>";
                 } else {
                     $availableslots = 18 - $totalbookings;
-                    if (!isset($_GET['ref_id'])) {
-
-                        $calendar .= "<td class='$today'><h4>$currentDay</h4> <button  data-toggle='modal' data-target='#ADD_APPOINTMENT' class='btn btn-success btn-xs'" . $date . " >Book</button>";
-                    } else {
-                        $calendar .= "<td class='$today'><h4>$currentDay</h4> <button class='btn btn-success btn-xs'" . $date . "&ref_id=" . $_GET['ref_id'] . "&firstName=" . $_GET['firstName'] . "&lastName=" . $_GET['lastName'] . "' class='btn btn-success btn-xs'>Book</button> <small><i>$availableslots slots left</i></small>";
-                    }
+                        $calendar .= "<td class='$today'>
+                                    <h4>$currentDay</h4>
+                                    
+                                    <button data-toggle='modal' data-target='#ADD_APPOINTMENT' value='$date' class='bookingDate btn btn-success btn-xs'>
+                                        Book
+                                    </button>";
                 }
             }
 
@@ -388,20 +436,21 @@ if (!isset($_SESSION['UserEmail'])) {
 
                         <form action="" method="post">
                             <div class="modal-body">
-
-                                <div class="form-group-inner data-custon-pick" id="data_2">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
-                                            <label class="login2 pull-right" style="font-weight: bold;">Date</label>
+                                
+                                <div class="form-group-inner">
+                                    <div class=" row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <label class="login2 pull-right">Date</label>
                                         </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <div class="input-group date ">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
+                                            <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" name="date" class="form-control" value="pashow po nung napiling date sa calendar">
+                                                <input type="date" name="app_date" class="form-control" id="app_date" readonly />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group-inner">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -409,80 +458,59 @@ if (!isset($_SESSION['UserEmail'])) {
                                         </div>
                                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                             <div class="form-select-list">
-                                                <select id="selectTimeslot" class="form-control custom-select-value" id="timeslot" name="timeslot">
-                                                    <option value="3pm">9:00 am</option>
-                                                    <option value="3pm">10:00 am</option>
-                                                    <option value="3pm">11:00 am</option>
-                                                    <option value="1pm">1:00 pm</option>
-                                                    <option value="2pm">2:00 pm</option>
-                                                    <option value="3pm">3:00 pm</option>
-                                                    <option value="3pm">4:00 pm</option>
+                                                <select class="form-control custom-select-value" id="time_slot" name="app_timeslot" onchange="timeSlot(this.value)">
+                                                    <option disabled selected>Select Time Slot</option>
+                                                    <option value="9:00 am" >9:00 am</option>
+                                                    <option value="10:00 am">10:00 am</option>
+                                                    <option value="11:00 am">11:00 am</option>
+                                                    <option value="1:00 pm">1:00 pm</option>
+                                                    <option value="2:00 pm">2:00 pm</option>
+                                                    <option value="3:00 pm">3:00 pm</option>
+                                                    <option value="4:00 pm">4:00 pm</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Time Slot</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" id="timeslot" name="timeslot">
-                                        </div>
-                                    </div>
-                                </div> -->
-
-                                <!-- <div class="form-group-inner data-custon-pick">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
-                                            <label class="login2 pull-right" style="font-weight: bold;">Date</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" value="<?php echo date('m/d/Y', strtotime($date)); ?>" name="date">
-                                        </div>
-                                    </div>
-                                </div> -->
-
-
-
-                                <!-- <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Name</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input required type="text" class="form-control" name="name">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group-inner">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label class="login2 pull-right">Email</label>
-                                    </div>
-                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                        <input required type="email" class="form-control" name="email">
-                                    </div>
-                                </div>
-                            </div> -->
-
-                                <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">User Type</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <div class="form-select-list">
-                                                <select id="mySelect" class="form-control custom-select-value" name="account" onchange="changeDropdown(this.value);">
-                                                    <option value="student">Student</option>
-                                                    <option value="staff">Staff</option>
-                                                </select>
+                                <?php if(!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">User Type</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <div class="form-select-list">
+                                                    <select id="select_usertype" class="form-control custom-select-value" name="app_type" onchange="changeDropdown(this.value);">
+                                                        <option disabled selected>Select User Type</option>
+                                                        <option value="Student">Student</option>
+                                                        <option value="Staff">Staff</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } else {
+                                    $selected_stud = ($position == "student") || ($position == "Student") ? "selected" : "";
+                                    $selected_staff = ($position != "student") || ($position != "Student") ? "selected" : "";
+                                ?>
+                                    <div class="form-group-inner">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">User Type</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <div class="form-select-list">
+                                                    <select id="select_usertype" class="form-control custom-select-value" name="app_type" onchange="changeDropdown(this.value);">
+                                                        <option disabled>Select User Type</option>
+                                                        <option value="Student" <?php $selected_stud ?> >Student</option>
+                                                        <option value="Staff" <?php $selected_staff ?> >Staff</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
                                 <!-- <div class="form-group-inner">
                                     <div class="row">
@@ -497,57 +525,120 @@ if (!isset($_SESSION['UserEmail'])) {
                                                 <?php } else {  ?>
                                                     <input type="text" class="form-control" placeholder="Search Student ID" name="id_number" required />
                                                 <?php } ?>
-                                              
+                                            
                                             </div>
                                         </div>
                                     </div> -->
 
-                                <div class="form-group-inner" id="STUD_ID">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                                            <label class="login2 pull-right pull-right-pro">Student ID</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Search Student">
-                                                <div class="input-group-btn">
-                                                    <a href="gc___search-students.php"><button tabindex="-1" class="btn btn-primary btn-md" type="button" >Search</button></a>
+                                <?php if(!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner" id="STUD_ID">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="login2 pull-right pull-right-pro">Student ID</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="student_id" onchange="studentId(this.value)" placeholder="Search Student">
+                                                    <div class="input-group-btn">
+                                                        <!-- <a href="gc___search-students.php"><button tabindex="-1" class="btn btn-primary btn-md" type="button" >Search</button></a> -->
+                                                        <a href="#" id="search_id"><button tabindex="-1" class="btn btn-primary btn-md" type="button" >Search</button></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group-inner" id="STUD_NAME" style="display: none;">
-                                    <div class=" row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Student Name</label>
+                                <?php } else { ?>
+                                    <div class="form-group-inner" id="STUD_ID">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="login2 pull-right pull-right-pro">Student ID</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                                <!-- <div class="input-group"> -->
+                                                    <input type="text" class="form-control" readonly name="student_id" onchange="studentId(this.value)" placeholder="Search Student" value="<?= $id_number ?>" >
+                                                    <!-- <div class="input-group-btn">
+                                                        <a href="#" id="search_id"><button tabindex="-1" class="btn btn-primary btn-md" type="button" >Search</button></a>
+                                                    </div> -->
+                                                <!-- </div> -->
+                                            </div>
                                         </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
-                                            <input type="text" readonly class="form-control" placeholder="Enter Student Name" />
-                                        </div>
+                                    </div>
+                                <?php } ?>
 
-                                    </div>
-                                </div>
-                                <div class="form-group-inner" id="STUD_PROGRAM" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Program</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" readonly class="form-control" placeholder="Student Program" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group-inner" id="STUD_LEVEL" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Level</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" readonly class="form-control" placeholder="Student Level" />
+                                <?php if(!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner" id="STUD_NAME" style="display: none;">
+                                        <div class=" row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Student Name</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
+                                                <input type="text" readonly class="form-control" placeholder="Enter Student Name" name="student_name" />
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
+                                <?php } else { ?>
+                                    <div class="form-group-inner" id="STUD_NAME" >
+                                        <div class=" row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Student Name</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-10">
+                                                <input type="text" readonly class="form-control" placeholder="Enter Student Name" name="student_name" value="<?= $lName ?>, <?= $fName ?> <?= $mName ?>" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+
+                                <?php if(!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner" id="STUD_PROGRAM" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Program</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" readonly class="form-control" name="program" placeholder="Student Program" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="form-group-inner" id="STUD_PROGRAM">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Program</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" readonly class="form-control" name="program" placeholder="Student Program" value="<?= $program ?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if(!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner" id="STUD_LEVEL" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Level</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" readonly class="form-control" name="level" placeholder="Student Level" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="form-group-inner" id="STUD_LEVEL">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Level</label>
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" readonly class="form-control" name="level" placeholder="Student Level" value="<?= $level ?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
 
                                 <div class="form-group-inner" id="STAFF_ID" style="display: none;">
@@ -598,74 +689,16 @@ if (!isset($_SESSION['UserEmail'])) {
                                     </div>
                                 </div>
 
-                                <!-- <div class="form-group-inner" id="FACULTY_ID" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Faculty ID</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Search Faculty" name="faculty_id">
-                                                <div class="input-group-btn">
-                                                    <button tabindex="-1" class="btn btn-primary btn-md" type="button" data-toggle="modal" data-target="#SEARCH_FACULTY">Search</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group-inner" id="FACULTY_NAME" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Faculty Name</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" readonly class="form-control" placeholder="Faculty Name" name="faculty_name" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group-inner" id="FACULTY_POSITION" style="display: none;">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Position</label>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" readonly class="form-control" placeholder="Faculty Position" name="faculty_position" />
-                                        </div>
-                                    </div>
-                                </div> -->
-
-
                                 <div class="form-group-inner">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                             <label class="login2 pull-right">Subject</label>
                                         </div>
                                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" placeholder="Enter Appointment Subject" name="subject" />
+                                            <input type="text" class="form-control" placeholder="Enter Appointment Subject" name="app_subject" />
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                            <label class="login2 pull-right pull-right-pro"><span class="basic-ds-n">Type</span></label>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
-                                            <div class="bt-df-checkbox">
-                                                <label for="APPOINT_OP1" style="margin-right: 15px;">
-                                                    <input class="pull-left radio-checked" type="radio" value="Walk-in" name="type" <?php echo ($type == 'Walk-in') ? 'checked' : '' ?>>
-                                                    Walk-In
-                                                </label>
-
-                                                <label for="APPOINT_OP2">
-                                                    <input class="pull-left radio-checked" type="radio" value="Online" name="type" <?php echo ($type == 'Online') ? 'checked' : '' ?>>
-                                                    Online
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
 
                                 <div class="form-group-inner">
                                     <div class="row">
@@ -675,37 +708,47 @@ if (!isset($_SESSION['UserEmail'])) {
                                         <div class="col-lg-6 col-md-12 col-sm-9 col-xs-9">
                                             <div class=" bt-df-checkbox">
                                                 <label for="APPOINT_OP1" style="margin-right: 15px;">
-                                                    <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="appoint1">
+                                                    <input class="pull-left radio-checked" type="radio" value="Walk-in" id="APPOINT_OP1" name="type" checked >
                                                     Walk-In
                                                 </label>
 
                                                 <label for="APPOINT_OP2">
-                                                    <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="appoint2">
+                                                    <input class="pull-left radio-checked" type="radio" value="Online" id="APPOINT_OP2" name="type">
                                                     Online
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group-inner">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <label class="login2 pull-right">Information</label>
-                                        </div>
-                                        <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                            <?php if (isset($_GET['ref_id'])) { ?>
-                                                <textarea placeholder="Description of Appointment" readonly><?= $reason ?>, <?= $actions ?>, <?= $remarks ?></textarea>
-                                                <textarea style="display: none;" placeholder="Description of Appointment" name="info"><?= $reason ?>, <?= $actions ?>, <?= $remarks ?></textarea>
-                                            <?php } else {  ?>
-                                                <textarea placeholder="Description of Appointment" name="info" required></textarea>
-                                            <?php } ?>
+                                
+                                <?php if (!isset($_GET['ref_id'])) { ?>
+                                    <div class="form-group-inner">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Information</label>
+                                            </div>
+                                            <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <textarea placeholder="Description of Appointment" name="app_info" required ></textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } else { ?>
+                                    <div class="form-group-inner">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                <label class="login2 pull-right">Information</label>
+                                            </div>
+                                            <div class="form-group res-mg-t-15 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                                <textarea name="app_info" readonly ><?= $ref_reason ?>, <?= $ref_actions ?>, <?= $ref_remarks ?></textarea>
+                                                <!-- <textarea style="display: none;" placeholder="Description of Appointment" name="info"><?= $reason ?>, <?= $actions ?>, <?= $remarks ?></textarea> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
-                                    <button type="submit" name="submit" class="btn btn-primary btn-md">Save</button>
+                                    <button type="submit" name="add_appointment" class="btn btn-primary btn-md">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -737,12 +780,39 @@ if (!isset($_SESSION['UserEmail'])) {
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".bookingDate").click(function(){
+                    // alert($(this).val());
+                    var date = $(this).val();
+                    // var date = moment($(this).val()).format('DD/MM/YYYY');
+                    console.log(date);
+                    localStorage.setItem("appointment_date", date);
+                    document.getElementById("app_date").value = date;
+                });
+            });
+            </script>
+            <script>
+                function studentId(val) {
+                    var search = document.getElementById("search_id").href = "gc___search-students.php?id_number=" + val;
+                    console.log(search);
+                }
+                function timeSlot(val) {
+                    var time = document.getElementById("time_slot").value;
+                    if (time != val){
+                        localStorage.setItem("appointment_time", "9:00 am");
+                    } else {
+                        localStorage.setItem("appointment_time", time);
+                    }
+                }
+            </script>
 
         <script>
             function changeDropdown() {
-                var state = document.getElementById("mySelect").value;
+                var state = document.getElementById("select_usertype").value;
                 // alert(state);
-                if (state == "student") {
+                if (state == "Student") {
                     document.getElementById("STUD_ID").style.display = "block";
                     document.getElementById("STUD_NAME").style.display = "block";
                     document.getElementById("STUD_PROGRAM").style.display = "block";
@@ -752,8 +822,9 @@ if (!isset($_SESSION['UserEmail'])) {
                     document.getElementById("STAFF_NAME").style.display = "none";
                     document.getElementById("STAFF_DEPARTMENT").style.display = "none";
                     document.getElementById("STAFF_POSITION").style.display = "none";
+                    localStorage.setItem("appointment_type", state);
 
-                } else if (state == "staff") {
+                } else if (state == "Staff") {
                     document.getElementById("STUD_ID").style.display = "none";
                     document.getElementById("STUD_NAME").style.display = "none";
                     document.getElementById("STUD_PROGRAM").style.display = "none";
@@ -763,6 +834,7 @@ if (!isset($_SESSION['UserEmail'])) {
                     document.getElementById("STAFF_NAME").style.display = "block";
                     document.getElementById("STAFF_DEPARTMENT").style.display = "block";
                     document.getElementById("STAFF_POSITION").style.display = "block";
+                    localStorage.setItem("appointment_type", state);
 
                 } else {
                     document.getElementById("STUD_ID").style.display = "none";
@@ -774,7 +846,7 @@ if (!isset($_SESSION['UserEmail'])) {
                     document.getElementById("STAFF_NAME").style.display = "none";
                     document.getElementById("STAFF_DEPARTMENT").style.display = "none";
                     document.getElementById("STAFF_POSITION").style.display = "none";
-
+                    localStorage.setItem("appointment_type", state);
                 }
             }
         </script>

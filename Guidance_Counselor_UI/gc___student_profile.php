@@ -342,6 +342,36 @@ if (!isset($_SESSION['UserEmail'])) {
         }
     </style>
 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div id="RESET_PASSWORD" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header header-color-modal bg-color-1">
+                        <h4 class="modal-title">Reset Password</h4>
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+                    </div>
+
+                    <form action="reset_password.php?id=<?= $id ?>" method="POST">
+                        <div class="modal-body">
+                            <div class="form-group-inner">
+                                <div class="row">
+                                <p style="font-size: 15px">Are you sure do you want to reset <span style="font-weight: bold"><?= $row['email'] ?></span>'s password?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="reset_button" class="btn btn-primary btn-md">Confirm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="breadcome-area">
         <div class="container-fluid">
             <div class="row">
@@ -367,7 +397,8 @@ if (!isset($_SESSION['UserEmail'])) {
             </div>
         </div>
     </div>
-    </div>
+    
+</div>
     <!-- Single pro tab review Start-->
     <div class="single-pro-review-area mt-t-30 mg-b-15">
         <div class="container-fluid">
@@ -413,7 +444,7 @@ if (!isset($_SESSION['UserEmail'])) {
 
                             <li class="active"><a href="#description">Offense Monitoring</a></li>
                             <li><a href="#reviews"> Counseling Info</a></li>
-                            <li><a href="#INFORMATION">Edit Account</a></li>
+                            <li><a href="#reset">Reset Password</a></li>
                             <li><a href="#INDIVIDUAL_INVENTORY">Inventory Form</a></li>
 
                         </ul>
@@ -546,21 +577,24 @@ if (!isset($_SESSION['UserEmail'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="product-tab-list tab-pane fade" id="INFORMATION">
+                            <div class="product-tab-list tab-pane fade" id="reset">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
                                             <div class="row">
                                                 <div class="col-lg-12">
 
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="text-align: center; margin-top: 30px; margin-bottom: 70px">
+                                                        <p style="font-size: 15px">Reset <span style="font-weight: bold"><?= $row['email'] ?></span>'s password?</p>
+                                                    </div>
+                                                    <!-- <div class="form-group">
                                                         <label>Email</label>
                                                         <input name="email" type="text" class="form-control" placeholder="Email">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="">Password</label>
                                                         <input type="text" class="form-control" placeholder="Password">
-                                                    </div>
+                                                    </div> -->
 
                                                 </div>
 
@@ -568,7 +602,8 @@ if (!isset($_SESSION['UserEmail'])) {
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="payment-adress mg-t-15">
-                                                        <button type="submit" class="btn btn-primary waves-effect waves-light mg-b-15">Submit</button>
+                                                        <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#RESET_PASSWORD">Reject</button> -->
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light mg-b-15" data-toggle="modal" data-target="#RESET_PASSWORD">Reset Password</button>
                                                     </div>
                                                 </div>
                                             </div>
