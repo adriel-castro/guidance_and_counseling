@@ -4,7 +4,7 @@ session_start();
 
 include_once("../connections/connection.php");
 
-if (!isset($_SESSION['UserEmail'])) {
+if(!isset($_SESSION['UserEmail'])) {
 
     echo "<script>window.open('../homepage___login.php','_self')</script>";
 } else {
