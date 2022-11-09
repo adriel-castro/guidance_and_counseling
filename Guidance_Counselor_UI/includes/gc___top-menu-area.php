@@ -184,7 +184,7 @@
                                                         <li><a href="gc___staff_profile.php?id=<?= $_SESSION['UserId']; ?>">My Profile</a>
                                                         </li>
                                                         <!-- <li><a href="#">Settings</a> -->
-                                                        </li>
+                                                        <!-- </li> -->
                                                         <li>
                                                             
                                                             <?php if(isset($_SESSION['UserEmail'])) { ?>
