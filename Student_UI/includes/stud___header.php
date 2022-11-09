@@ -7,9 +7,22 @@
     <title>Guidance and Counseling - STI College Angeles</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- logo angeles_sti
         ============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/sti_logo.png">
+
+      <!-- calendar plugins
+        ============================================ -->
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" rel="stylesheet">
+
+        <script> src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"</script>
+        <script> src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"</script>
+        <script> src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"</script>
+        <script> src= "https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"</script>
+
     <!-- Google Fonts
         ============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">

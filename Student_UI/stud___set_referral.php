@@ -610,22 +610,28 @@ if (!isset($_SESSION['UserEmail'])) {
                                                         <td><?php echo $row['remarks'] ?></td>
 
                                                         <td>
-                                                            <button class="btn btn-xs <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
-                                                                                            echo "btn-warning";
-                                                                                        } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
-                                                                                            echo "btn-primary";
-                                                                                        } elseif ($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
-                                                                                            echo "btn-danger";
-                                                                                        } elseif ($row['ref_status'] == "Disapproved" || $row['ref_status'] == "disapproved") {
-                                                                                            echo "btn-danger";
-                                                                                        } else {
-                                                                                            echo "btn-success";
-                                                                                        } ?>"><?php echo $row['ref_status'] ?></button>
+                                                            <?php echo $row['ref_status'] ?>
+                                                            <!-- <button class="btn btn-xs 
+                                                                <?php if ($row['ref_status'] == "pending" || $row['ref_status'] == "Pending") {
+                                                                        echo "btn-warning";
+                                                                    } elseif ($row['ref_status'] == "For Approval" || $row['ref_status'] == "for approval") {
+                                                                        echo "btn-primary";
+                                                                    } elseif ($row['ref_status'] == "Cancelled" || $row['ref_status'] == "cancelled") {
+                                                                        echo "btn-danger";
+                                                                    } elseif ($row['ref_status'] == "Disapproved" || $row['ref_status'] == "disapproved") {
+                                                                        echo "btn-danger";
+                                                                    } else {
+                                                                        echo "btn-success";
+                                                                    } ?>">
+                                                                <?php echo $row['ref_status'] ?>
+                                                            </button> -->
                                                         </td>
                                                         <td>
                                                             <div style="display: flex;">
+                                                            <?php if ($row['ref_status'] == "completed" || $row['ref_status'] == "Completed" || $row['ref_status'] == "done" || $row['ref_status'] == "Done") { echo null; } else { ?>
                                                                 <a class="btn btn-primary" style="color: white; padding: 5px 8px; border: 1px solid #337ab7; margin: auto;" href="edit_refferal.php?id=<?= $row['ref_id'] ?>"><i class="fa fa-pencil"></i></a>
                                                                 <a class="btn btn-danger" style="margin-left: 10px; color: white;" href="stud___set_referral.php?id=<?= $row['ref_id'] ?>">Cancel</a>
+                                                            <?php } ?>
                                                             </div>
                                                         </td>
                                                     </tr>

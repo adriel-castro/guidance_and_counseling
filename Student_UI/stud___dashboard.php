@@ -10,6 +10,7 @@ if(!isset($_SESSION['UserEmail'])){
     
 }else{
 
+    // $con = connection();
 
 include('includes/stud___header.php');
 include('includes/stud___left-menu-area.php');
@@ -56,7 +57,7 @@ include('includes/stud___mobile_menu.php');
                     <div class="portlet-title">
                         <div class="row">
                             <div class="col-lg-12">
-                            <div id='calendar'></div>
+                            <div id='stud__calendar'></div>
                                             
                             </div>
                         </div>

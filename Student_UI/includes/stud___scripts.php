@@ -111,6 +111,7 @@
    <!-- tawk chat JS
         ============================================ -->
    <script src="js/tawk-chat.js"></script>
+   <script src="includes/try_calendar.js"></script>
 
    <!-- for the modal -->
 

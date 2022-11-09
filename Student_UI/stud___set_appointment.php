@@ -1,3 +1,33 @@
+<?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+if (!isset($_SESSION['UserEmail'])) {
+
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+} else {
+
+  $con = connection();
+
+  $user_id = $_SESSION['UserId'];
+
+  $user_query = "SELECT * FROM users WHERE user_id = '$user_id'";
+  $get_user = $con->query($user_query) or die($con->error);
+  $row_user = $get_user->fetch_assoc();
+
+  if($row_user) {
+    $id_number = $row_user['id_number'];
+  }
+
+    $app_query = "SELECT * FROM appointments WHERE id_number = '$id_number'";
+    $get_app = $con->query($app_query) or die($con->error);
+    $row_app = $get_app->fetch_assoc();
+
+?>
+
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -273,42 +303,50 @@
                 <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                   <thead>
                     <tr>
-                      <th data-field="appoint_reason">Appointment Subject</th>
+                      <th data-field="appoint_subject">Appointment Subject</th>
                       <th data-field="appoint_reason">Appointment Reason</th>
-                      <th data-field="appoint_concern">Concern</th>
+                      <!-- <th data-field="appoint_concern">Concern</th> -->
                       <th data-field="appoint_date">Date</th>
                       <th data-field="appoint_time">Time</th>
                       <th data-field="appoint_type">Type</th>
                       <th data-field="appoint_link">Meeting Link</th>
                       <th data-field="appoint_status">Status</th>
                       <th data-field="appoint_delete">Cancel</th>
-
-
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
 
-                      <td>Bullying</td>
-                      <td>Urgent</td>
-                      <td>September 5, 2022</td>
-                      <td>5:00pm</td>
-                      <td>Walk-in</td>
-                      <td></td>
+                  <?php if ($row_app == 0) {
+                      echo null;
+                  } else {
+                      do { ?>
+                    <tr>
+                      <td><?= $row_app['subject'] ?></td>
+                      <td><?= $row_app['info'] ?></td>
+                      <!-- <td><?= $row_app['info'] ?></td> -->
+                      <td><?= $row_app['date'] ?></td>
+                      <td><?= $row_app['timeslot'] ?></td>
+                      <td><?= $row_app['appointment_type'] ?></td>
+                      <td>https://meetinglink101.com</td>
                       <td>
-                        <button class="btn btn-xs btn-success">Approved</button>
+                        <button class="btn btn-xs btn-success"><?= $row_app['app_status'] ?></button>
                       </td>
 
                       <td>
-                        <form action="thecode.php" method="post">
-                          <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
-                          <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
-                        </form>
+                        <?php if($row_app['app_status'] == "completed" || $row_app['app_status'] == "Completed") { echo null; } else { ?>
+                          <form action="thecode.php" method="post">
+                            <input type="hidden" name="delete_username_id" value="<?php echo $row['GC_USER_ID']; ?>">
+                            <button type="submit" name="delete_btn" class="btn btn-danger">Cancel</button>
+                          </form>
+                        <?php } ?>
                       </td>
 
                     </tr>
 
-                    <tr>
+                    <?php } while ($row_app = $get_app->fetch_assoc());
+                    } ?>
+
+                    <!-- <tr>
 
                       <td>Bullying</td>
                       <td>Urgent</td>
@@ -327,9 +365,9 @@
                         </form>
                       </td>
 
-                    </tr>
+                    </tr> -->
 
-                    <tr>
+                    <!-- <tr>
 
                       <td>Bullying</td>
                       <td></td>
@@ -348,7 +386,7 @@
                         </form>
                       </td>
 
-                    </tr>
+                    </tr> -->
 
                   </tbody>
                 </table>
@@ -441,3 +479,5 @@
 </body>
 
 </html>
+
+<?php } ?>

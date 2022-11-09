@@ -4,7 +4,7 @@
 
     include_once("../connections/connection.php");
 
-    if(!isset($_SESSION['UserEmail'])){
+    if(!isset($_SESSION['UserEmail'])) {
         
         echo "<script>window.open('../homepage___login.php','_self')</script>";
         
@@ -12,11 +12,10 @@
 
     $con = connection();
 
-    
-
     $offense = "SELECT * FROM offense_monitoring";
     $get_offense = $con->query($offense) or die($con->error);
     $row = $get_offense->fetch_assoc();
+
     $date_created = $row['date_created'];
     $newDateCreated = date("F d, Y", strtotime($date_created));  
 
@@ -45,6 +44,12 @@
       $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
       $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
       $sanction_info = ($days + 1) . " days left";
+    }
+
+    if($sanction_info == "Sanction Ended") {
+      $stat = "Inactive";
+      $update_status_query = "UPDATE offense_monitoring SET status='$stat'";
+      $stat_con = $con->query($update_status_query) or die($con->error);
     }
 
     if(isset($_POST['add_offense'])) {
