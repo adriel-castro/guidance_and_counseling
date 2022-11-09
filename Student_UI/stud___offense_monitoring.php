@@ -1,3 +1,64 @@
+<?php
+
+session_start();
+
+include_once("../connections/connection.php");
+
+if(!isset($_SESSION['UserEmail'])) {
+
+    echo "<script>window.open('../homepage___login.php','_self')</script>";
+} else {
+
+  $con = connection();
+
+  $user_id = $_SESSION['UserId'];
+
+  $user_query = "SELECT * FROM users WHERE user_id = '$user_id'";
+  $get_user = $con->query($user_query) or die($con->error);
+  $row_user = $get_user->fetch_assoc();
+
+  if($row_user) {
+    $id_number = $row_user['id_number'];
+  }
+
+    $off_query = "SELECT * FROM offense_monitoring WHERE student_id = '$id_number'";
+    $get_off = $con->query($off_query) or die($con->error);
+    $row_off = $get_off->fetch_assoc();
+
+    if($row_off) {
+      $date_created = $row_off['date_created'];
+      $newDateCreated = date("F d, Y", strtotime($date_created));  
+  
+      // Sanction Days left
+      $startDate = $row_off['start_date'];
+      $endDate = $row_off['end_date'];
+      $currentDate = date("Y-m-d");
+    
+    // End date + 1 day
+    $endDate_original = strtotime($endDate);
+    $date_add      = $endDate_original + (3600*24);
+    $date_plus_one = date("Y-m-d", $date_add);
+
+    if($startDate > $currentDate) {
+      $diff = abs(strtotime($endDate) - strtotime($startDate));
+      $years = floor($diff / (365*60*60*24));
+      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      $sanction_info = ($days + 1) . " days left";
+    } elseif($date_plus_one > $endDate) {
+      // $sanction_info = "0 days left";
+      $sanction_info = "Sanction Ended";
+    } else {
+      $diff = abs(strtotime($endDate) - strtotime($currentDate));
+      $years = floor($diff / (365*60*60*24));
+      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+      $sanction_info = ($days + 1) . " days left";
+    }
+  }
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -148,19 +209,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                    <?php if ($row_off == 0) {
+                                        echo null;
+                                    } else {
+                                        do { ?>
                                         <tr>
-                                            <td>12121212</td>
-                                            <td>Abigail Nazal</td>
-                                            <td>Offense A</td>
-                                            <td>Bullying a student</td>
-                                            <td>September 16, 2022</td>
-                                            <td>Clean toilet for 3 days</td>
-                                            <td>2 days left</td>
+                                            <td><?= $row_off['student_id'] ?></td>
+                                            <td><?= $row_off['stud_name'] ?></td>
+                                            <td><?= $row_off['offense_type'] ?></td>
+                                            <td><?= $row_off['description'] ?></td>
+                                            <td><?= $row_off['date_created'] ?></td>
+                                            <td><?= $row_off['sanction'] ?></td>
+                                            <td><?= $sanction_info ?></td>
                                             <td>
-                                                <button class="btn btn-xs btn-success">Active</button>
+                                              <?= $row_off['status'] ?>
+                                                <!-- <button class="btn btn-xs btn-success"><?= $row_off['status'] ?></button> -->
                                             </td>
                                         </tr>
-                                        <tr>
+
+                                        <?php } while ($row_off = $get_off->fetch_assoc());
+                                        } ?>
+                                        <!-- <tr>
                                             <td>12121212</td>
                                             <td>Abigail Nazal</td>
                                             <td>Offense A</td>
@@ -183,7 +253,7 @@
                                             <td>
                                                 <button class="btn btn-xs btn-danger">Cancelled</button>
                                             </td>
-                                        </tr>
+                                        </tr> -->
 
                                     </tbody>
                                 </table>
@@ -283,3 +353,5 @@
 </body>
 
 </html>
+
+<?php } ?>
