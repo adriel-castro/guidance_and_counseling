@@ -16,56 +16,71 @@
     $get_offense = $con->query($offense) or die($con->error);
     $row = $get_offense->fetch_assoc();
 
-    $date_created = $row['date_created'];
-    $newDateCreated = date("F d, Y", strtotime($date_created));  
+    function startEndDaysDiff($startDate, $endDate) {
+      // Calculating the difference in timestamps
+      $diff = strtotime($endDate) - strtotime($startDate);
+      return abs(round($diff / 86400));
+    }
 
     // Sanction Days left
+    $off_id = $row['id'];
     $startDate = $row['start_date'];
     $endDate = $row['end_date'];
+    
     $currentDate = date("Y-m-d");
+    
+    $date_start_end_diff = startEndDaysDiff($startDate, $endDate);
+    // printf("Difference between two dates: " . $date_start_end_diff . " Days ");
 
-    // End date + 1 day
-    $endDate_original = strtotime($endDate);
-    $date_add      = $endDate_original + (3600*24);
-    $date_plus_one = date("Y-m-d", $date_add);
-
-    if($startDate > $currentDate) {
-      $diff = abs(strtotime($endDate) - strtotime($startDate));
-      $years = floor($diff / (365*60*60*24));
-      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-      $sanction_info = ($days + 1) . " days left";
-    } elseif($date_plus_one > $endDate) {
-      // $sanction_info = "0 days left";
-      $sanction_info = "Sanction Ended";
+    if($startDate >= $currentDate) {
+      $sanction_info = ($date_start_end_diff + 1) . " days";
+    // } elseif($startDate < $currentDate) {
+    //   $sanction_info = "Sanction ended";
+      // $stat = "Inactive";
+      // $update_status_query = "UPDATE offense_monitoring SET status='$stat' WHERE id = '$off_id'";
+      // $stat_con = $con->query($update_status_query) or die($con->error);
     } else {
-      $diff = abs(strtotime($endDate) - strtotime($currentDate));
-      $years = floor($diff / (365*60*60*24));
-      $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-      $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-      $sanction_info = ($days + 1) . " days left";
+      $sanction_info = ($date_start_end_diff + 1) . " days";;
     }
 
-    if($sanction_info == "Sanction Ended") {
-      $stat = "Inactive";
-      $update_status_query = "UPDATE offense_monitoring SET status='$stat'";
-      $stat_con = $con->query($update_status_query) or die($con->error);
-    }
+    // if($sanction_info == "Sanction Ended") {
+    //   $stat = "Inactive";
+    //   $update_status_query = "UPDATE offense_monitoring SET status='$stat' WHERE id = '$off_id'";
+    //   $stat_con = $con->query($update_status_query) or die($con->error);
+    // }
 
     if(isset($_POST['add_offense'])) {
 
       $id_number = $_POST['id_number'];
-      $stud_name = $_POST['name'];
+      $f_name = $_POST['f_name'];
+      $l_name = $_POST['l_name'];
+
+      $user_validation_query = "SELECT * FROM users WHERE id_number = '$id_number' AND first_name LIKE '%$f_name%' AND last_name LIKE '%$l_name%'";
+      $user_validation_run = $con->query($user_validation_query) or die($con->error);
+      $row_user = $user_validation_run->fetch_assoc();
+      
+      if($row_user) {
+        $stud_id = $row_user['id_number'];
+        $stud_name = $row_user['first_name'] . " " . $row_user['last_name'];
+      }
+
       $offense_type = $_POST['offense_type'];
       $description = $_POST['description'];
       $dateToday = date("Y-m-d");
       $sanction = $_POST['sanction'];
-      $start_date = $_POST['start_date'];
-      $end_date = $_POST['end_date'];
+
+      $s_date = $_POST['start_date'];
+      $e_date = $_POST['end_date'];
+      $date_start = strtotime($s_date);
+      $date_end = strtotime($e_date);
+
+      $start_date = date("Y-m-d", $date_start);
+      $end_date = date("Y-m-d", $date_end);
+
       $status = $_POST['status'];
 
-      $offense_query = "INSERT INTO `offense_monitoring`(`student_id`,`stud_name`, `offense_type`, `description`, `date_created`, `sanction`, `sanction_info`, `status`) ".
-              "VALUES ('$id_number','$stud_name','$offense_type','$description','$dateToday','$sanction','$start_date','$end_date','$status')";
+      $offense_query = "INSERT INTO `offense_monitoring` (`student_id`,`stud_name`, `offense_type`, `description`, `date_created`, `sanction`, `start_date`, `end_date`, `status`) ".
+              "VALUES ('$stud_id','$stud_name','$offense_type','$description','$dateToday','$sanction','$start_date','$end_date','$status')";
       $query_run = $con->query($offense_query) or die($con->error);
 
       if ($query_run) {
@@ -73,13 +88,13 @@
         $_SESSION['status'] = "Offense Added";
         $_SESSION['status_code'] = "success";
         header('Location: gc___offense_monitoring.php');
-      
+      } else {
         // echo "Not saved";
         $_SESSION['status'] = "Offense Not Added";
         $_SESSION['status_code'] = "error";
         header('Location: gc___offense_monitoring.php');
       }
-    }
+  }
 
         
 ?>
@@ -227,10 +242,20 @@
               <div class="form-group-inner">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <label class="login2 pull-right">Student Name</label>
+                    <label class="login2 pull-right">Last Name</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" placeholder="Enter Student Name" name="name" />
+                    <input type="text" class="form-control" placeholder="Enter Student Last Name" name="l_name" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group-inner">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <label class="login2 pull-right">First Name</label>
+                  </div>
+                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" class="form-control" placeholder="Enter Student First Name" name="f_name" />
                   </div>
                 </div>
               </div>
@@ -295,9 +320,9 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                     <div class="input-daterange input-group" id="datepicker">
-                      <input type="text" class="form-control" name="start_date" value="<?= date("m-d-Y"); ?>" />
+                      <input type="text" class="form-control" name="start_date" value="<?= date("m-d-Y") ?>" />
                       <span class="input-group-addon">to</span>
-                      <input type="text" class="form-control" name="end_date" value="<?= date("m-d-Y"); ?>" />
+                      <input type="text" class="form-control" name="end_date" value="<?= date("m-d-Y") ?>" />
                     </div>
                   </div>
                 </div>
@@ -374,7 +399,7 @@
                       <td><?php echo $row['stud_name'] ?></td>
                       <td><?php echo $row['offense_type'] ?></td>
                       <td><?php echo $row['description'] ?></td>
-                      <td><?php echo $newDateCreated ?></td>
+                      <td><?php echo date("F d, Y", strtotime($row['date_created'])) ?></td>
                       <td><?php echo $row['sanction'] ?></td>
                       <td><?php echo $sanction_info ?></td>
                       <td><?php echo $row['status'] ?></td>

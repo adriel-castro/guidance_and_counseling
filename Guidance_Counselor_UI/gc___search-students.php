@@ -113,7 +113,7 @@ if (!isset($_SESSION['UserEmail'])) {
                         <div class="modal-header header-color-modal bg-color-1">
                             <h4 class="modal-title">Add Appointment</h4>
                             <div class="modal-close-area modal-close-df">
-                                <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                <a class="close" data-dismiss="modal" href=""><i class="fa fa-close"></i></a>
                             </div>
                         </div>
 
@@ -328,6 +328,7 @@ if (!isset($_SESSION['UserEmail'])) {
         
 
         <!-- Static Table Start -->
+        
 
         <div class="data-table-area mg-b-15">
             <div class="container-fluid">
@@ -335,6 +336,7 @@ if (!isset($_SESSION['UserEmail'])) {
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="sparkline13-list">
                             <div class="sparkline13-hd">
+                            <a href="gc___calendar.php"><button class="btn btn-primary" style="margin-bottom: 20px">Back</button></a>
                                 <div class="main-sparkline13-hd">
                                     <h1>Search <span class="table-project-n"> Students</span></h1>
                                 </div>

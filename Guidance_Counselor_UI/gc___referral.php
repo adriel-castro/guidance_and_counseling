@@ -20,7 +20,7 @@ if(!isset($_SESSION['UserEmail'])) {
         $status = "Cancelled";
         $cancel_refferal = "UPDATE `refferals` SET `ref_status`='$status' WHERE ref_id = '$ref_id'";
         $con->query($cancel_refferal) or die($con->error);
-        echo header("Location: gc___referral.php");
+        header("Location: gc___referral.php");
     }
 
 ?>

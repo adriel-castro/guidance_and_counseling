@@ -35,9 +35,36 @@ if (!isset($_SESSION['UserEmail'])) {
         $level = $row_user['level'];
         $position = $row_user['position'];
 
+        $timeslot_query = "SELECT * FROM users WHERE user_id = '$ref_user'";
+        $timeslot_con = $con->query($timeslot_query) or die($con->error);
+        $row_timeslot = $timeslot_con->fetch_assoc();
+
+    }   
+    
+        $app_date2 = $_SESSION['app_date2'];
+        $time_default = array("9:00 am", "10:00 am", "11:00 am", "1:00 am", "2:00 am", "3:00 am", "4:00 am");
+        $time_array = array();
+        $timeslot_query = "SELECT timeslot FROM `appointments` WHERE date = '$app_date2'";
+        $get_timeslot = $con->query($timeslot_query) or die ($con->error);
+        while ($row_get_timeslot = $get_timeslot->fetch_assoc()) {
+            $time_array = $row_get_timeslot;
+            
+        }
+            $available_time = array_diff($time_default, $time_array);
+            
+            print_r($available_time);
+
     }
 
     if (isset($_POST['add_appointment'])) {
+        $isDateAvailable = $_POST['app_date'];
+        
+    
+        echo $db_time = array($row_get_timeslot['timeslot']);
+       
+        echo $available_time = array_diff($db_time, $time_default);
+
+
         $date = $_POST['app_date'];
         $app_timeslot = $_POST['app_timeslot'];
         $app_type = $_POST['app_type'];
@@ -460,13 +487,17 @@ if (!isset($_SESSION['UserEmail'])) {
                                             <div class="form-select-list">
                                                 <select class="form-control custom-select-value" id="time_slot" name="app_timeslot" onchange="timeSlot(this.value)">
                                                     <option disabled selected>Select Time Slot</option>
-                                                    <option value="9:00 am" >9:00 am</option>
+                                                    <?php
+                                                    foreach($available_time as $time) { 
+                                                        echo "<option value='$time'>$time</option>";
+                                                    } ?>
+                                                    <!-- <option value="9:00 am" >9:00 am</option>
                                                     <option value="10:00 am">10:00 am</option>
                                                     <option value="11:00 am">11:00 am</option>
                                                     <option value="1:00 pm">1:00 pm</option>
                                                     <option value="2:00 pm">2:00 pm</option>
                                                     <option value="3:00 pm">3:00 pm</option>
-                                                    <option value="4:00 pm">4:00 pm</option>
+                                                    <option value="4:00 pm">4:00 pm</option> -->
                                                 </select>
                                             </div>
                                         </div>
