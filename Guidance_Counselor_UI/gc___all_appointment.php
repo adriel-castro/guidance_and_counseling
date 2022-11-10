@@ -216,7 +216,7 @@ if(!isset($_SESSION['UserEmail'])){
                             <a class="close" data-dismiss="modal" href="gc___all_appointment.php"><i class="fa fa-close"></i></a>
                         </div>
                     </div>
-                    <input type="text" value="<?php echo $id = $_GET['feedback_id']; ?>" />
+                    <!-- <input type="text" value="<?php echo $id = $_GET['feedback_id']; ?>" /> -->
                     
 
                     <form action="appointment_feedback.php" method="POST">
